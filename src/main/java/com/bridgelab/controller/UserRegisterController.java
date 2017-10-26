@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelab.model.ErrorMessage;
+import com.bridgelab.model.MailSenders;
 import com.bridgelab.model.User;
 import com.bridgelab.service.UserService;
 import com.bridgelab.validator.UserValidation;
@@ -28,14 +29,19 @@ public class UserRegisterController {
 	@Autowired
 	UserValidation userValidation;
 	
+	@Autowired
+	MailSenders mailSenders;
+	
 	@RequestMapping(value= "/register", method=RequestMethod.POST)
-	public ResponseEntity<ErrorMessage> registerUser(@RequestBody User user){	
+	public ResponseEntity<ErrorMessage> registerUser(@RequestBody User user){
+		user.setFirstLogin("false");
 		String isValid=userValidation.registerValidation(user);
 		if(isValid.equals("true")){
 			userService.saveUserData(user);
 			errorMessage.setResponseMessage("success");
 			return ResponseEntity.ok(errorMessage);
 		}else{
+			mailSenders.sendMail(user.getEmail());
 			errorMessage.setResponseMessage(isValid);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}

@@ -13,6 +13,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="todo_User")
 public class User{
@@ -22,6 +24,8 @@ public class User{
 	@GeneratedValue(strategy = GenerationType.AUTO, generator="usergen")
 	@GenericGenerator(name="usergen", strategy="native")
 	private int id;
+	
+	private String firstLogin;
 	
 	@Column(name="first_name")
 	private String firstName;
@@ -37,8 +41,17 @@ public class User{
 	private String contact;
 	
 	@OneToMany(mappedBy="user")
+	@JsonIgnore
 	private Set<Notes> notes = new HashSet<Notes>();
 	
+	public String isFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(String firstLogin) {
+		this.firstLogin = firstLogin;
+	}
+
 	public Set<Notes> getNotes() {
 		return notes;
 	}

@@ -13,6 +13,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="todo_Notes")
 public class Notes {
@@ -32,6 +34,7 @@ public class Notes {
 	private Date modifiedDate;
 	
 	@ManyToOne()
+	@JsonIgnore
 	@JoinColumn(name="user_id")
 	private User user;
 	

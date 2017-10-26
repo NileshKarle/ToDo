@@ -74,16 +74,15 @@ public class NotesDaoImpl implements NotesDao{
 		
 	}
 
+	
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	public List<Notes> listAllNotes(User userId) {
+		List<Notes> results = null;
 		Session session=this.sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Notes.class);
-		System.out.println("line1");
-		criteria.add(Restrictions.eq("user_id", userId.getId()));
-		System.out.println("line2");
-		List<Notes> results = criteria.list();
-		System.out.println(results);
+		criteria.add(Restrictions.eq("user",userId));
+		results = criteria.list();
 		return results;
 	}
 }

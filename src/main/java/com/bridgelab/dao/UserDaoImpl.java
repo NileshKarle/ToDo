@@ -51,6 +51,7 @@ public class UserDaoImpl implements UserDao {
 		return user;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public User emailValidation(String email) {
 		Session session =this.sessionFactory.openSession();
@@ -58,4 +59,5 @@ public class UserDaoImpl implements UserDao {
 		User user=(User) criteria.uniqueResult();
 		return user;
 	}
+
 }

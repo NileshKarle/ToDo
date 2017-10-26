@@ -9,5 +9,5 @@ public interface UserService {
 	public User verifyUserData(String email,String password);
 	
 	public String emailValidation(String email);
-	
+		
 }
