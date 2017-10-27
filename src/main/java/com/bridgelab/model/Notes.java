@@ -25,6 +25,12 @@ public class Notes {
 	@GenericGenerator(name="notegen", strategy="native")
 	private int id;
 	
+	@Override
+	public String toString() {
+		return "Notes [id=" + id + ", description=" + description + ", title=" + title + ", createdDate=" + createdDate
+				+ ", modifiedDate=" + modifiedDate + ", user=" + user + "]";
+	}
+
 	private String description;
 	
 	private String title;

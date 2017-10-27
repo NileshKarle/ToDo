@@ -38,8 +38,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean id="mail" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
-		<property name="username" value="harshil0279" />
-		<property name="password" value="gandhi020792" />
+		<property name="username" value="ghargesiddharth@gmail.com" />
+		<property name="password" value="thisissidgharge" />
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.smtp.auth">true</prop>
@@ -48,7 +48,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		</property>
 	</bean>
 
-	<bean id="mailSender" class="com.bridgelab.model.MailSenders">
+	<bean id="mailService" class="com.bridgelab.service.MailServiceImpl">
 		<property name="email" ref="mail"></property>
 	</bean>
 
@@ -70,7 +70,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 	<bean id="userService" class="com.bridgelab.service.UserServiceImpl" />
 
-	<context:component-scan base-package="com.bridgelab" />
+	<context:component-scan base-package="com.bridgelab"/>
 	<mvc:annotation-driven/>
 
 </beans>

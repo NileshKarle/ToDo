@@ -80,8 +80,28 @@ public class UserValidationImpl implements UserValidation {
 		}
 
 		else{
-			result=userService.emailValidation(user.getEmail());
-			return result;
+			User newUser=userService.emailValidation(user.getEmail());
+			if(newUser==null){
+				result="true";
+				return result;
+			}
+			else{
+				result="email already exists";
+				return result;
+			}		
 		}
+	}
+
+	@Override
+	public String validatePassword(String password) {
+		
+		String passwordFormat="[a-zA-Z]+[0-9]+";
+		
+		 if(!password.matches(passwordFormat)){
+			 return "Password must contain words followed numbers.";
+			}
+		 else{
+			 return "true";
+		 }
 	}
 }

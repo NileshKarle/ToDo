@@ -32,10 +32,11 @@ public class NotesDaoImpl implements NotesDao{
 		try{
 		session.persist(notes);
 		transaction.commit();
+		session.close();
 		}catch(Exception e){
 			transaction.rollback();
+			session.close();
 		}
-		session.close();
 	}
 
 	@Override
@@ -45,35 +46,37 @@ public class NotesDaoImpl implements NotesDao{
 		try{
 		session.delete(notes);
 		transaction.commit();
+		session.close();
 		}catch (Exception e){
 			transaction.rollback();
+			session.close();
 		}
-		session.close();
 	}
 
+	@SuppressWarnings("deprecation")
+	@Override
+	public Notes getNote(Notes note) {
+		Session session=this.sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(Notes.class).add(Restrictions.eq("id", note.getId()));
+		Notes notes=(Notes) criteria.uniqueResult();
+		session.close();
+		return notes;
+	}
+	
 	@Override
 	public void updateNote(Notes notes) {
 		Session session=this.sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
 		try{
-		Notes note=(Notes)session.get(Notes.class, notes.getId());
-		if(notes.getTitle()!=null){
-		note.setTitle(notes.getTitle());
-		}
-		if(notes.getDescription()!=null){
-		note.setDescription(notes.getDescription());
-		}
-		note.setModifiedDate(notes.getModifiedDate());
+			System.out.println(notes);
+		session.saveOrUpdate(notes);
 		transaction.commit();
-		session.update(note);
 		session.close();
 		}catch(Exception e){
 			transaction.rollback();
 			session.close();
-		}
-		
+		}		
 	}
-
 	
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
@@ -83,6 +86,8 @@ public class NotesDaoImpl implements NotesDao{
 		Criteria criteria = session.createCriteria(Notes.class);
 		criteria.add(Restrictions.eq("user",userId));
 		results = criteria.list();
+		session.close();
 		return results;
 	}
+
 }

@@ -13,5 +13,7 @@ public interface NotesService {
 	
 	public void updateNote(Notes note);
 	
+	public Notes getNote(Notes note);
+	
 	public List<Notes> listAllNotes(User userId);
 }

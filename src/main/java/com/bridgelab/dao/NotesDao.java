@@ -13,6 +13,8 @@ public interface NotesDao {
 	
 	public void updateNote(Notes notes);
 	
+	public Notes getNote(Notes note);
+	
 	public List<Notes> listAllNotes(User userId);
 	
 }

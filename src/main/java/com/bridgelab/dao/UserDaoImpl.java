@@ -29,12 +29,13 @@ public class UserDaoImpl implements UserDao {
 		Session session =this.sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
 		try{
-		session.persist(user);
+		session.saveOrUpdate(user);
 		transaction.commit();
+		session.close();
 		}catch(Exception e){
 			transaction.rollback();
+			session.close();
 		}
-		session.close();
 	}
 	
 	@SuppressWarnings({ "deprecation" })
@@ -57,6 +58,7 @@ public class UserDaoImpl implements UserDao {
 		Session session =this.sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(User.class).add(Restrictions.eq("email", email));
 		User user=(User) criteria.uniqueResult();
+		session.close();
 		return user;
 	}
 

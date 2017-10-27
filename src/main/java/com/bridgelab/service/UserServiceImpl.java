@@ -22,12 +22,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String emailValidation(String email) {
+	public User emailValidation(String email) {
 		User user = userDao.emailValidation(email);
 		if(user==null){
-			return "true";
+			return null;
 		}
-		return "Email Already exists.";
+		return user;
 	}
-	
+
 }

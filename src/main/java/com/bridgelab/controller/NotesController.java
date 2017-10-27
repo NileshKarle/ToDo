@@ -23,7 +23,6 @@ import com.bridgelab.service.NotesService;
 
 @RestController
 public class NotesController {
-
 	@Autowired
 	NotesService notesService;
 	@Autowired
@@ -52,15 +51,24 @@ public class NotesController {
 		return ResponseEntity.ok(errorMessage.getResponseMessage());
 	}
 
-	@RequestMapping(value = "/Update/{id}", method = RequestMethod.POST)
-	public ResponseEntity<String> updateNode(@PathVariable("id") int id, @RequestBody Notes note) {
-		Date date = new Date();
-		note.setId(id);
-		note.setModifiedDate(date);
-		notesService.updateNote(note);
-		errorMessage.setResponseMessage("note updated.");
+	@RequestMapping(value = "/Update", method = RequestMethod.POST)
+	public ResponseEntity<String> updateNote( @RequestBody Notes note, HttpSession session) {
+		Notes oldNote = notesService.getNote(note);
+		System.out.println("--->"+note.getTitle());
+		if(oldNote!=null){
+			Date date = new Date();
+			note.setModifiedDate(date);
+			note.setCreatedDate(oldNote.getCreatedDate());
+			User user=(User) session.getAttribute("currentUser");
+			note.setUser(user);
+			notesService.updateNote(note);
+			errorMessage.setResponseMessage("note updated.");
+			errorMessage.setAllNotes(null);
+			return ResponseEntity.ok(errorMessage.getResponseMessage());
+		}
+		errorMessage.setResponseMessage("no note found.");
 		errorMessage.setAllNotes(null);
-		return ResponseEntity.ok(errorMessage.getResponseMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.getResponseMessage());
 	}
 
 	@SuppressWarnings("rawtypes")

@@ -1,9 +1,11 @@
-package com.bridgelab.model;
+package com.bridgelab.service;
 
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.scheduling.annotation.Async;
 
-public class MailSenders {
+@Async
+public class MailServiceImpl implements MailService {
 
 	private MailSender email;
 
@@ -16,8 +18,9 @@ public class MailSenders {
 	}
 	
 	public void sendMail(String to){
+		System.out.println("in mail");
 		SimpleMailMessage message=new SimpleMailMessage();
-		message.setFrom("harshil0279@gmail.com");
+		message.setFrom("ghargesiddharth@gmail.com");
 		message.setTo(to);
 		message.setSubject("welcome");
 		message.setText("register success");

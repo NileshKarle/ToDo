@@ -36,9 +36,27 @@ public class UserLoginController {
 			errorMessage.setResponseMessage("Enter valid data.");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
-		System.out.println("logined user is " + userLogined.getEmail());
 		session.setAttribute("currentUser", userLogined);
 		errorMessage.setResponseMessage("success");
+		return ResponseEntity.ok(errorMessage);
+	}
+	
+	@RequestMapping(value="/changePassword", method=RequestMethod.POST)
+	public ResponseEntity<ErrorMessage> collectEmail(@RequestBody User user, HttpSession session) throws Exception {
+		User userLogined = userService.emailValidation(user.getEmail());
+		if (userLogined == null) {
+			errorMessage.setResponseMessage("such email dose not exists.");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+		}
+		String validatePassword = userValidation.validatePassword(user.getPassword());
+		if(validatePassword.equals("Password must contain words followed numbers.")){
+			errorMessage.setResponseMessage(validatePassword);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+		}
+		userLogined.setPassword(user.getPassword());
+		userService.saveUserData(userLogined);
+		session.setAttribute("currentUser", userLogined);
+		errorMessage.setResponseMessage("Password updated");
 		return ResponseEntity.ok(errorMessage);
 	}
 	

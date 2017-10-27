@@ -34,4 +34,10 @@ public class NotesServiceImpl implements NotesService{
 		return allNotes;
 	}
 
+	@Override
+	public Notes getNote(Notes note) {
+		Notes notes=notesDao.getNote(note);
+		return notes;
+	}
+
 }
