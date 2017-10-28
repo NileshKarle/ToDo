@@ -39,7 +39,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
 		<property name="username" value="ghargesiddharth@gmail.com" />
-		<property name="password" value="thisissidgharge" />
+		<property name="password" value="sidgharge" />
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.smtp.auth">true</prop>
