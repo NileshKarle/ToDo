@@ -18,7 +18,8 @@ public class MailServiceImpl implements MailService {
 	}
 	
 	public void sendMail(String to){
-		System.out.println("in mail");
+		
+		//System.out.println("in mail");
 		SimpleMailMessage message=new SimpleMailMessage();
 		message.setFrom("ghargesiddharth@gmail.com");
 		message.setTo(to);
@@ -26,4 +27,5 @@ public class MailServiceImpl implements MailService {
 		message.setText("register success");
 		email.send(message);
 	}
+	
 }

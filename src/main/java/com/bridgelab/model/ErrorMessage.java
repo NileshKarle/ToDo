@@ -11,15 +11,17 @@ public class ErrorMessage {
 	public List<Notes> getAllNotes() {
 		return allNotes;
 	}
+	
 	public void setAllNotes(List<Notes> allNotes) {
 		this.allNotes = allNotes;
 	}
+	
 	public void setResponseMessage(String responseMessage) {
 		this.responseMessage = responseMessage;
 	}
+	
 	public String getResponseMessage() {
 		return responseMessage;
 	}
 	
-
 }

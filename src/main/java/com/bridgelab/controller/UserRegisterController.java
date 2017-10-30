@@ -34,22 +34,28 @@ public class UserRegisterController {
 	
 	@RequestMapping(value= "/register", method=RequestMethod.POST)
 	public ResponseEntity<ErrorMessage> registerUser(@RequestBody User user){
+		
 		user.setFirstLogin("false");
 		String isValid=userValidation.registerValidation(user);
+		
 		if(isValid.equals("true")){
+			
 			userService.saveUserData(user);
 			mailService.sendMail(user.getEmail());
 			errorMessage.setResponseMessage("success");
 			return ResponseEntity.ok(errorMessage);
 		}else{
+			
 			errorMessage.setResponseMessage(isValid);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
+		
 	}
 	
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(value = Exception.class)
 	public String handleException(Exception e) {
+		
 		return "Exception "+e;
 	}
 	

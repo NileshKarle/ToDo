@@ -29,6 +29,7 @@ public class NotesDaoImpl implements NotesDao{
 	public void addUserNotes(Notes notes){
 		Session session =this.sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
+		
 		try{
 		session.persist(notes);
 		transaction.commit();
@@ -37,12 +38,14 @@ public class NotesDaoImpl implements NotesDao{
 			transaction.rollback();
 			session.close();
 		}
+		
 	}
 
 	@Override
 	public void deleteNote(Notes notes) {
 		Session session =this.sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
+		
 		try{
 		session.delete(notes);
 		transaction.commit();
@@ -51,22 +54,27 @@ public class NotesDaoImpl implements NotesDao{
 			transaction.rollback();
 			session.close();
 		}
+		
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public Notes getNote(Notes note) {
+		
 		Session session=this.sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Notes.class).add(Restrictions.eq("id", note.getId()));
 		Notes notes=(Notes) criteria.uniqueResult();
 		session.close();
 		return notes;
+	
 	}
 	
 	@Override
 	public void updateNote(Notes notes) {
+		
 		Session session=this.sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
+		
 		try{
 			System.out.println(notes);
 		session.saveOrUpdate(notes);
@@ -76,11 +84,13 @@ public class NotesDaoImpl implements NotesDao{
 			transaction.rollback();
 			session.close();
 		}		
+	
 	}
 	
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	public List<Notes> listAllNotes(User userId) {
+		
 		List<Notes> results = null;
 		Session session=this.sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Notes.class);
