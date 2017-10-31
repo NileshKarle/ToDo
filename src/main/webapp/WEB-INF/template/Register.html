@@ -1,0 +1,54 @@
+
+	<div class="row">
+		<div id="d1" class="col-sm-4 col-lg-4 col-md-6 col-xs-12">
+
+			<h1>Create an Account</h1>
+			<form class="" method="post" name="frm" id="nameId" onsubmit="return validateForm()" action="RegisterUser">
+				
+				<div class="form-group">
+					<hr>
+					<label for="firstName">Enter your Name</label><br> 
+					<input type="text" id="text" ng-model=User.firstName class="form-control" required="required">
+				</div>
+				
+				<div class="form-group">
+					<label for="lastName">Enter your Name</label><br> 
+					<input type="text" id="text" ng-model=User.lastName class="form-control" required="required">
+				</div>
+
+				<div class="form-group">
+					<label for="email">Enter your Email</label><br> 
+					<input type="text" id="email" ng-model="User.email" class="form-control" required>
+				</div>
+				
+				<div class="form-group">
+					<label for="password">Enter your Password</label><br> 
+					<input type="password" id="pwd" ng-model="User.password" class="form-control" required="required">
+				</div>
+				
+				<div class="form-group">
+					<label for="conformPassword">Confirm Password</label><br> 
+					<input type="password" id="cpwd" ="confirmPassword" class="form-control" required="required">
+				</div>
+				
+				<div class="form-group">
+					<label for="contact">Contact Number</label><br> 
+					<input type="tel" id="tel" name="contact" class="form-control" required="required" minlength="10" maxlength="10">
+				</div>
+				
+				<p class="dotted">
+					By Clicking On the "Create an account button" bellow, you certify
+					that you have read and agree to our <a href="hello.html">terms
+						of use </a>and <a href="policy.html">Privacy policy</a>
+				</p>
+				
+				<button type="submit" class="btn btn-success btn-block"
+					onClick="return validateForm()">Create an account</button>
+				Create an account?<a
+					href="login">Sign
+					in</a>
+					
+			</form>
+		</div>
+	</div>
+

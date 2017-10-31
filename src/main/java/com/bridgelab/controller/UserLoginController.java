@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgelab.model.ErrorMessage;
 import com.bridgelab.model.User;
 import com.bridgelab.service.UserService;
-/*import com.bridgelab.token.TokenGenerator;
-import com.bridgelab.token.VerifyToken;*/
+import com.bridgelab.token.TokenGenerator;
+import com.bridgelab.token.VerifyToken;
 import com.bridgelab.validator.UserValidation;
 
 @RestController

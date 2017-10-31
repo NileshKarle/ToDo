@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+
+p.dotted {
+	border-style: dotted;
+}
+
+body {
+	background-color: #66ffff;
+}
+
+#d1 {
+	background-color: #ffffff;
+	margin: 0 auto;
+	float: none;
+	line-height: 2;
+	padding: 10px;
+}

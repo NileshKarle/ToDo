@@ -72,5 +72,10 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 	<context:component-scan base-package="com.bridgelab"/>
 	<mvc:annotation-driven/>
+	
+	<mvc:resources location="/templates/" mapping="/templates/**" />
+	<mvc:resources location="/styles/" mapping="/styles/**" />
+	<mvc:resources location="/controllers/" mapping="/controllers/**" />
+	<mvc:resources location="/services/" mapping="/services/**" />
 
 </beans>

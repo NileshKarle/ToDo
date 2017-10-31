@@ -16,8 +16,7 @@ public class VerifyToken {
 	       .setSigningKey(keyvariable)
 	       .parseClaimsJws(jwt).getBody();
 	    System.out.println("ID: " + claims.getId());
-	    System.out.println("Subject: " + claims.getSubject());
-	    System.out.println("Issuer: " + claims.getIssuer());
+	    System.out.println("Issued At: " + claims.getIssuedAt());
 	    System.out.println("Expiration: " + claims.getExpiration());
 	   
 		} catch (MissingClaimException e) {

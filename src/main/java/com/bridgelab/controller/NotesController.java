@@ -20,7 +20,7 @@ import com.bridgelab.model.ErrorMessage;
 import com.bridgelab.model.Notes;
 import com.bridgelab.model.User;
 import com.bridgelab.service.NotesService;
-//import com.bridgelab.token.VerifyToken;
+import com.bridgelab.token.VerifyToken;
 
 @RestController
 public class NotesController {
@@ -93,10 +93,10 @@ public class NotesController {
 	@RequestMapping(value = "/AllNodes", method = RequestMethod.GET)
 	public ResponseEntity<List> listAllUsers(HttpSession session) {
 		
-		//boolean tokenvarification=false;
-		//try{
+		/*boolean tokenvarification=false;
+		try{
 			
-			/*VerifyToken verifyToken=new VerifyToken();
+			VerifyToken verifyToken=new VerifyToken();
 			String compactToken=(String) session.getAttribute("token");
 			 tokenvarification=verifyToken.parseJWT(compactToken);*/
 		
