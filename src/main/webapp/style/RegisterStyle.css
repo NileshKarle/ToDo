@@ -4,11 +4,11 @@ p.dotted {
 	border-style: dotted;
 }
 
-body {
+#b1{
 	background-color: #66ffff;
 }
 
-#d1 {
+#d2 {
 	background-color: #ffffff;
 	margin: 0 auto;
 	float: none;

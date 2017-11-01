@@ -41,7 +41,7 @@ public class UserRegisterController {
 		if(isValid.equals("true")){
 			
 			userService.saveUserData(user);
-			mailService.sendMail(user.getEmail());
+			//mailService.sendMail(user.getEmail());
 			errorMessage.setResponseMessage("success");
 			return ResponseEntity.ok(errorMessage);
 		}else{
