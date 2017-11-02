@@ -38,9 +38,11 @@
 <script type="text/javascript" src="service/RegisterService.js"></script>
 <script type="text/javascript" src="service/LoginService.js"></script>
 
+<script type="text/javascript" src="Directives/CustomiseDirective.js"></script>
 
 <link rel="stylesheet" href="style/RegisterStyle.css">
 <link rel="stylesheet" href="style/LoginStyle.css">
+<link rel="stylesheet" href="style/TopNavigationBar.css">
   
 
 <style type="text/css"></style>

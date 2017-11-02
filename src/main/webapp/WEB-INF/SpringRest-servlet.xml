@@ -78,6 +78,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<mvc:resources location="/controller/" mapping="/controller/**" />
 	<mvc:resources location="/service/" mapping="/service/**" />
 	<mvc:resources location="/script/" mapping="/script/**" />
+	<mvc:resources location="/Directives/" mapping="/Directives/**" />
 	
 
 </beans>
