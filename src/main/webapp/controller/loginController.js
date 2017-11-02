@@ -1,11 +1,13 @@
 var toDo = angular.module('toDo');
 
-toDo.controller('loginController',['$scope', function($scope, loginService, $location) {
+/*toDo.controller('loginController',['$scope', function($scope, loginService, $location) {
 
-	$scope.loginUser = function() {
+	$scope.user = function() {
+		console.log("line1  ");
 		var httpLoginUser = loginService.loginUser($scope.user);
-
+		console.log("line2..");
 		httpLoginUser.then(function(response) {
+			console.log(response.data);
 			console.log("home page");
 			$location.path("home");
 		}, function(response) {
@@ -13,4 +15,19 @@ toDo.controller('loginController',['$scope', function($scope, loginService, $loc
 			$location.path("login");
 		});
 	}
-}]);
+	
+}]);*/
+
+toDo.controller('loginController', function($scope, loginService,$location){
+	$scope.loginUser = function(){
+		//console.log($scope.user);
+		var a=loginService.loginUser($scope.user,$scope.error);
+			a.then(function(response) {
+				//alert(response.data.responseMessage);
+				$location.path('/home')
+			},function(response){
+				$scope.error=response.data.responseMessage;
+			//alert(response.data.responseMessage);	
+			});
+	}
+});

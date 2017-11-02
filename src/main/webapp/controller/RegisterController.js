@@ -4,11 +4,12 @@ toDo.controller('registerController', function($scope, registerService, $locatio
 			
 		$scope.registerUser = function() {
 				
-				var httpRegisterUser = registerService.registerUser($scope.user);
+				var httpRegisterUser = registerService.registerUser($scope.user,$scope.errorMessage);
 				httpRegisterUser.then(function(response) {
 					$location.path("login");
 				}, function(response) {
-					$location.path("register");
+					$scope.errorMessage=response.data.responseMessage;
+					//alert(response.data.responseMessage);
 				});
 			}
 		});

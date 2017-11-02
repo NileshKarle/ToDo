@@ -37,7 +37,7 @@ public class UserLoginController {
 		User userLogined = userService.verifyUserData(user.getEmail(), user.getPassword());
 		
 		if (userLogined == null) {
-			errorMessage.setResponseMessage("Enter valid data.");
+			errorMessage.setResponseMessage("Email or Password invalid try again later.");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
 		

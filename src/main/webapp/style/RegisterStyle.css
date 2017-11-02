@@ -8,6 +8,10 @@ p.dotted {
 	background-color: #66ffff;
 }
 
+#error1{
+	color: red;
+}
+
 #d2 {
 	background-color: #ffffff;
 	margin: 0 auto;
@@ -15,3 +19,7 @@ p.dotted {
 	line-height: 2;
 	padding: 10px;
 }
+
+input.ng-invalid.ng-dirty{border:1px solid red;}
+input.ng-touched{border:1px solid blue;}
+input.ng-valid{border:1px solid green;}

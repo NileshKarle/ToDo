@@ -3,31 +3,54 @@
 		<div id="d2" class="col-sm-4 col-lg-4 col-md-6 col-xs-12">
 
 			<h1>Create an Account</h1>
-				
+				<form name="registerForm">
 				<div class="form-group">
 					<hr>
+					<h3 ng-bind="errorMessage" id="error1"> </h3>
+					
 					<label for="firstName">Enter your First Name</label> 
-					<input type="text" ng-model=user.firstName class="form-control" required="required">
+					<input type="text" name="fstname" ng-model="user.firstName" class="form-control" required ng-minlength="2" ng-maxlength="15">
+					<span ng-show="registerForm.fstname.$dirty && registerForm.fstname.$error.required">Required</span>
+					<span ng-show="registerForm.fstname.$touched && registerForm.fstname.$invalid">Must be filled</span>
+					<span ng-show="registerForm.fstname.$dirty && registerForm.fstname.$error.minlength">First Name Too Short</span>
+					<span ng-show="registerForm.fstname.$dirty && registerForm.fstname.$error.maxlength">First Name Too Long</span>
 				</div>
 				
 				<div class="form-group">
 					<label for="lastName">Enter your Last Name</label> 
-					<input type="text" ng-model=user.lastName class="form-control" required="required">
+					<input type="text" name="lstname" ng-model="user.lastName" class="form-control" required ng-minlength="2" ng-maxlength="15">
+					<span ng-show="registerForm.lstname.$dirty && registerForm.lstname.$error.required">Required</span>
+					<span ng-show="registerForm.lstname.$touched && registerForm.lstname.$invalid">Must be filled</span>
+					<span ng-show="registerForm.lstname.$dirty && registerForm.lstname.$error.minlength">Last Name Too Short</span>
+					<span ng-show="registerForm.lstname.$dirty && registerForm.lstname.$error.maxlength">Last Name Too Long</span>
 				</div>
 
 				<div class="form-group">
 					<label for="email">Enter your Email</label> 
-					<input type="text" ng-model="user.email" class="form-control" required>
+					<input type="email" name="eml" ng-model="user.email" class="form-control" required>
+					<span ng-show="registerForm.eml.$dirty && registerForm.eml.$error.required">Required</span>
+					<span ng-show="registerForm.eml.$touched && registerForm.eml.$invalid">Must be filled</span>
+					<span ng-show="registerForm.eml.$dirty && registerForm.eml.$error.email">Must be in a proper format (contain @ and .) </span>
 				</div>
 				
 				<div class="form-group">
 					<label for="password">Enter your Password</label> 
-					<input type="password" ng-model="user.password" class="form-control" required>
+					<input type="password" name="pwd" ng-model="user.password" class="form-control" required ng-minlength="5" ng-maxlength="20">
+					<span ng-show="registerForm.pwd.$dirty && registerForm.pwd.$error.required">Required</span>
+					<span ng-show="registerForm.pwd.$touched && registerForm.pwd.$invalid">Must be filled</span>
+					<span ng-show="registerForm.pwd.$untouched">Must contain words followed by number</span>
+					<span ng-show="registerForm.pwd.$dirty && registerForm.pwd.$error.minlength">Password Too Short</span>
+					<span ng-show="registerForm.pwd.$dirty && registerForm.pwd.$error.maxlength">Password Too Long</span>
 				</div>
 
 				<div class="form-group">
 					<label for="contact">Contact Number</label>
-					<input type="tel" ng-model="user.contact" class="form-control" minlength="10" maxlength="10" required>
+					<input type="number" ng-model="user.contact" name="num" class="form-control" ng-minlength="10" ng-maxlength="10" required>
+					<span ng-show="registerForm.num.$dirty && registerForm.num.$error.required">Required</span>
+					<span ng-show="registerForm.num.$dirty && registerForm.num.$error.number">Must be a number</span>
+					<span ng-show="registerForm.num.$dirty && registerForm.num.$error.minlength">Number is Too Short</span>
+					<span ng-show="registerForm.num.$touched && registerForm.num.$invalid">Must be filled</span>
+					<span ng-show="registerForm.num.$dirty && registerForm.num.$error.maxlength">Number is Too Long</span>
 				</div>
 				
 				<p class="dotted">
@@ -35,9 +58,9 @@
 					that you have read and agree to our terms of use andPrivacy policy
 				</p>
 				
-				<button type="submit" class="btn btn-success btn-block" ng-click="registerUser()">Create an account</button>
+				<button class="btn btn-success btn-block" ng-disabled="registerForm.$invalid" ng-click="registerUser()">Create an account</button>
 				 Already registered ? <a href="#!/login">Sign in</a>
-					
+			</form>
 		</div>
 	</div>
 
