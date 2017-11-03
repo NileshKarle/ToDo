@@ -5,6 +5,7 @@ app.directive("topNavigationBar", function() {
     	templateUrl :'template/TopNavigationBar.html'
     };
 });
+
 app.directive("sideNavigationBar", function() {
         return {
         	templateUrl :'template/SideNavigationBar.html'

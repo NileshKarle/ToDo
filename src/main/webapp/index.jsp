@@ -15,25 +15,11 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<!-- <script type="text/javascript">
-	var toDo = angular.module('toDo', ['ui.router']);
-
-	toDo.config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider){
-		$stateProvider.state('register',{
-			url:'/register',
-			templateUrl: 'template/Register.html',
-	    	controller: 'registerController'
-		});
-	 $urlRouterProvider.otherwise('register');
- 	 }]);
-
-
-</script> -->
-
 <script type="text/javascript" src="script/app.js"></script>
 
 <script src="controller/RegisterController.js"></script>
 <script src="controller/loginController.js"></script>
+<script src="controller/HomePageController.js"></script>
 
 <script type="text/javascript" src="service/RegisterService.js"></script>
 <script type="text/javascript" src="service/LoginService.js"></script>
@@ -43,16 +29,13 @@
 <link rel="stylesheet" href="style/RegisterStyle.css">
 <link rel="stylesheet" href="style/LoginStyle.css">
 <link rel="stylesheet" href="style/TopNavigationBar.css">
-  
+<link rel="stylesheet" href="style/SideNavigationBar.css">
 
 <style type="text/css"></style>
-
 
 </head>
 
 <body ng-app="toDo">
-
 	<div ui-view></div>
-	
 </body>
 </html>
