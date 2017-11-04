@@ -44,7 +44,7 @@ public class User{
 	@JsonIgnore
 	private Set<Notes> notes = new HashSet<Notes>();
 	
-	public String isFirstLogin() {
+	public String getFirstLogin() {
 		return firstLogin;
 	}
 

@@ -2,28 +2,31 @@ package com.bridgelab.token;
 
 import java.util.Date;
 
-import com.bridgelab.model.User;
+import org.springframework.stereotype.Controller;
 
 import io.jsonwebtoken.CompressionCodecs;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+@Controller
 public class TokenGenerator {
 
 	String keyvariable="thesecreatKey";
 	 String compactJws=null;
 	
-	public String createJWT(User user) {
+	public String createJWT(int UserId) {
 	    //The JWT signature algorithm we will be using to sign the token
 	    long nowMillis = System.currentTimeMillis();
 	    Date now = new Date(nowMillis);
-	   long ttlMillis=1000*60;
+	   long ttlMillis=1000*60*60;
 	    
 	    long expMillis = nowMillis + ttlMillis;
-        Date exp = new Date(expMillis); 
+        Date exp = new Date(expMillis);
+        
+        //System.out.println(UserId+"<----this is user id while token generation");
 	    //Let's set the JWT Claims
 	    compactJws =  Jwts.builder()
-	    	    .setId(Integer.toString(user.getId()))
+	    	    .setId(Integer.toString(UserId))
 	    	    .setIssuedAt(now)
 	    	    .compressWith(CompressionCodecs.DEFLATE)
 	    	    .signWith(SignatureAlgorithm.HS512, keyvariable)

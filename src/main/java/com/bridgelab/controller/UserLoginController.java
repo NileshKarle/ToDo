@@ -41,16 +41,11 @@ public class UserLoginController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
 		
-		session.setAttribute("currentUser", userLogined);
-		
-		/*TokenGenerator token=new TokenGenerator();
-		String compactToken=token.createJWT(userLogined);
-		session.setAttribute("token", compactToken);
-		System.out.println(compactToken+"<------");
-		VerifyToken verifyToken=new VerifyToken();
-		boolean tokenvarification=verifyToken.parseJWT(compactToken);
-		System.out.println("------>"+tokenvarification);*/
-		
+		if(userLogined.getFirstLogin().equals("false")){
+			errorMessage.setResponseMessage("User must login from mail for the first time.");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+		}
+						
 		errorMessage.setResponseMessage("success");
 		return ResponseEntity.ok(errorMessage);
 	}

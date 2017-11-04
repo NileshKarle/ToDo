@@ -30,4 +30,10 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	@Override
+	public void userValidated(int UserId) {
+		userDao.userValidated(UserId);
+		
+	}
+
 }

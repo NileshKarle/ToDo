@@ -59,13 +59,28 @@ public class UserDaoImpl implements UserDao {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public User emailValidation(String email) {
-		
+	public User emailValidation(String email) {		
 		Session session =this.sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(User.class).add(Restrictions.eq("email", email));
 		User user=(User) criteria.uniqueResult();
 		session.close();
 		return user;	
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public void userValidated(int UserId) {
+		Session session =this.sessionFactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		try{
+		Criteria criteria = session.createCriteria(User.class).add(Restrictions.eq("id", UserId));
+		User user=(User) criteria.uniqueResult();
+		user.setFirstLogin("true");
+		session.saveOrUpdate(user);
+		transaction.commit();
+		}catch(Exception e){
+			transaction.rollback();
+		}
 	}
 
 }

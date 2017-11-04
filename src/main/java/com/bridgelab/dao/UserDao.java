@@ -10,4 +10,5 @@ public interface UserDao {
 	
 	public User emailValidation(String email);
 	
+	public void userValidated (int UserId);
 }
