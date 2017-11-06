@@ -20,35 +20,61 @@ import com.bridgelab.model.ErrorMessage;
 import com.bridgelab.model.Notes;
 import com.bridgelab.model.User;
 import com.bridgelab.service.NotesService;
+import com.bridgelab.service.UserService;
 import com.bridgelab.token.VerifyToken;
 
 @RestController
 public class NotesController {
 	@Autowired
 	NotesService notesService;
+	
 	@Autowired
 	ErrorMessage errorMessage;
 
+	@Autowired
+	VerifyToken verifyToken; 
+	
+	@Autowired
+	UserService userService;
+	
+	
 	@RequestMapping(value = "/AddNotes", method = RequestMethod.POST)
-	public ResponseEntity<String> addNotes(@RequestBody Notes notes, HttpSession session) {
+	public ResponseEntity<ErrorMessage> addNotes(@RequestBody Notes notes, HttpSession session) {
 		
-		User currentUser = (User) session.getAttribute("currentUser");
+		String token=(String) session.getAttribute("AccessToken");
+		int userId=verifyToken.parseJWT(token);
+		User user=userService.userValidated(userId);
+		System.out.println("user in add notes "+user);
+		
+		if(user==null){
+			errorMessage.setResponseMessage("invalid ...!!");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+		}
+		
 		Date date = new Date();
-		
 		notes.setCreatedDate(date);
 		notes.setModifiedDate(date);
-		notes.setUser(currentUser);
+		notes.setUser(user);
 		
-		notesService.addUserNotes(notes);
-		
+		notesService.addUserNotes(notes);		
 		errorMessage.setAllNotes(null);
 		errorMessage.setResponseMessage("Successfully added the node.");
 		
-		return ResponseEntity.ok(errorMessage.getResponseMessage());
+		return ResponseEntity.ok(errorMessage);
 	}
 
 	@RequestMapping(value = "/DeleteNotes/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteNotes(@PathVariable("id") int id) {
+	public ResponseEntity<ErrorMessage> deleteNotes(@PathVariable("id") int id,HttpSession session) {
+		
+		String token=(String) session.getAttribute("AccessToken");
+		int userId=verifyToken.parseJWT(token);
+		User user=userService.userValidated(userId);
+		System.out.println("user in add notes "+user);
+		
+		if(user==null){
+			errorMessage.setResponseMessage("invalid ...!!");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+		}
 		
 		Notes note = new Notes();
 		note.setId(id);
@@ -58,15 +84,23 @@ public class NotesController {
 		errorMessage.setResponseMessage("Successfully deleted the note.");
 		errorMessage.setAllNotes(null);
 		
-		return ResponseEntity.ok(errorMessage.getResponseMessage());
+		return ResponseEntity.ok(errorMessage);
 	}
 
 	@RequestMapping(value = "/Update", method = RequestMethod.POST)
-	public ResponseEntity<String> updateNote( @RequestBody Notes note, HttpSession session) {
+	public ResponseEntity<ErrorMessage> updateNote( @RequestBody Notes note, HttpSession session) {
+		
+		String token=(String) session.getAttribute("AccessToken");
+		int userId=verifyToken.parseJWT(token);
+		User user=userService.userValidated(userId);
+		System.out.println("user in add notes "+user);
+		
+		if(user==null){
+			errorMessage.setResponseMessage("invalid ...!!");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+		}
 		
 		Notes oldNote = notesService.getNote(note);
-		//System.out.println("--->"+note.getTitle());
-		
 		if(oldNote!=null){
 			
 			Date date = new Date();
@@ -74,19 +108,18 @@ public class NotesController {
 			note.setModifiedDate(date);
 			note.setCreatedDate(oldNote.getCreatedDate());
 			
-			User user=(User) session.getAttribute("currentUser");
 			note.setUser(user);
 			
 			notesService.updateNote(note);
 			
 			errorMessage.setResponseMessage("note updated.");
 			errorMessage.setAllNotes(null);
-			return ResponseEntity.ok(errorMessage.getResponseMessage());
+			return ResponseEntity.ok(errorMessage);
 		}
 		
 		errorMessage.setResponseMessage("no note found.");
 		errorMessage.setAllNotes(null);
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.getResponseMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -100,8 +133,18 @@ public class NotesController {
 			String compactToken=(String) session.getAttribute("token");
 			 tokenvarification=verifyToken.parseJWT(compactToken);*/
 		
-		User currentUser = (User) session.getAttribute("currentUser");
-		List<Notes> allNotes = notesService.listAllNotes(currentUser);
+		String token=(String) session.getAttribute("AccessToken");
+		int userId=verifyToken.parseJWT(token);
+		User user=userService.userValidated(userId);
+		System.out.println("user in add notes "+user);
+		
+		if(user==null){
+			errorMessage.setAllNotes(null);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.getAllNotes());
+		}
+		
+		//User currentUser = (User) session.getAttribute("currentUser");
+		List<Notes> allNotes = notesService.listAllNotes(user);
 		
 		if (allNotes.isEmpty()) {
 			

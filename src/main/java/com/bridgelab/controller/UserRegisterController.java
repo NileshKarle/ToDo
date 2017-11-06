@@ -52,8 +52,8 @@ public class UserRegisterController {
 
 		if (isValid.equals("true")) {
 			userService.saveUserData(user);
-			String compactToken = tokenGenerator.createJWT(user.getId());
-			mailService.sendMail(user.getEmail(), compactToken.replaceAll("\\.", "/"));
+			String compactToken = tokenGenerator.createJWT(user.getId(),null);
+			mailService.sendMail(user.getEmail(), compactToken.replaceAll("\\.", "/"),"http://192.168.0.179:8080/ToDo/UserActivation/");
 			errorMessage.setResponseMessage("success");
 			return ResponseEntity.ok(errorMessage);
 		} else {
@@ -70,10 +70,13 @@ public class UserRegisterController {
 		String token = header +"."+payload+"."+ footer;
 		try {
 			int verifiedUserId = verifyToken.parseJWT(token);
+			User user=userService.userValidated(verifiedUserId);
 			//System.out.println(verifiedUserId+"<-----this is id");
-			if (verifiedUserId!=0) {
-				userService.userValidated(verifiedUserId);
-				response.sendRedirect("http://localhost:8080/ToDo/#!/home");
+			if (verifiedUserId!=0 || user!=null) {
+				
+				user.setFirstLogin("true");
+				userService.saveUserData(user);
+				response.sendRedirect("http://localhost:8080/ToDo/#!/login");
 			}
 			
 		} catch (IOException e) {

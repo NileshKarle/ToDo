@@ -7,30 +7,41 @@ import io.jsonwebtoken.MissingClaimException;
 
 public class VerifyToken {
 
-	String keyvariable="thesecreatKey";
-	
+	String keyvariable = "thesecreatKey";
+
 	public int parseJWT(String jwt) {
-		int Id=0;
-		try{ 
-	    //This line will throw an exception if it is not a signed JWS (as expected)
-	    Claims claims = Jwts.parser()         
-	       .setSigningKey(keyvariable)
-	       .parseClaimsJws(jwt).getBody();
-	     Id=Integer.parseInt(claims.getId());
-	   /* System.out.println("ID: " + claims.getId());
-	    System.out.println("Issued At: " + claims.getIssuedAt());
-	    System.out.println("Expiration: " + claims.getExpiration());*/
-	   
+		int Id = 0;
+
+		try {
+			Claims claims = Jwts.parser().setSigningKey(keyvariable).parseClaimsJws(jwt).getBody();
+			Id = Integer.parseInt(claims.getId());
 		} catch (MissingClaimException e) {
-
-		    System.out.println("missing claims "+e);
-		    return Id;
-
+			System.out.println("missing claims " + e);
+			return Id;
 		} catch (IncorrectClaimException e1) {
-
-			 System.out.println("Incorrect claims "+e1);
-			 return Id;
+			System.out.println("Incorrect claims " + e1);
+			return Id;
 		}
+
 		return Id;
+
 	}
+
+	public String parseString(String jwt) {
+		String word = null;
+
+		try {
+			Claims claims = Jwts.parser().setSigningKey(keyvariable).parseClaimsJws(jwt).getBody();
+			word = claims.getSubject();
+		} catch (MissingClaimException e) {
+			System.out.println("missing claims " + e);
+			return word;
+		} catch (IncorrectClaimException e1) {
+			System.out.println("Incorrect claims " + e1);
+			return word;
+		}
+		return word;
+
+	}
+
 }

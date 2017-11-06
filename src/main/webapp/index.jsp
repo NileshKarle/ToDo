@@ -20,9 +20,11 @@
 <script src="controller/RegisterController.js"></script>
 <script src="controller/loginController.js"></script>
 <script src="controller/HomePageController.js"></script>
+<script src="controller/forgotPasswordController.js"></script>
 
 <script type="text/javascript" src="service/RegisterService.js"></script>
 <script type="text/javascript" src="service/LoginService.js"></script>
+<script type="text/javascript" src="service/ForgotPasswordService.js"></script>
 
 <script type="text/javascript" src="Directives/CustomiseDirective.js"></script>
 

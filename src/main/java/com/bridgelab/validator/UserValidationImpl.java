@@ -18,7 +18,7 @@ public class UserValidationImpl implements UserValidation {
 		
 		String contactValidation="[a-zA-Z]";
 		
-		String emailFormat="[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,5}$";
+		String emailFormat="[a-zA-Z0-9\\.]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,5}$";
 		
 		String passwordFormat="[a-zA-Z]+[0-9]+";
 		

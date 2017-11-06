@@ -14,7 +14,7 @@ public class TokenGenerator {
 	String keyvariable="thesecreatKey";
 	 String compactJws=null;
 	
-	public String createJWT(int UserId) {
+	public String createJWT(int UserId,String password) {
 	    //The JWT signature algorithm we will be using to sign the token
 	    long nowMillis = System.currentTimeMillis();
 	    Date now = new Date(nowMillis);
@@ -27,6 +27,7 @@ public class TokenGenerator {
 	    //Let's set the JWT Claims
 	    compactJws =  Jwts.builder()
 	    	    .setId(Integer.toString(UserId))
+	    	    .setSubject(password)
 	    	    .setIssuedAt(now)
 	    	    .compressWith(CompressionCodecs.DEFLATE)
 	    	    .signWith(SignatureAlgorithm.HS512, keyvariable)

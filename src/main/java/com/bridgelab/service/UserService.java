@@ -10,6 +10,6 @@ public interface UserService {
 	
 	public User emailValidation(String email);
 	
-	public void userValidated(int UserId);
+	public User userValidated(int UserId);
 		
 }

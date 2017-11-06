@@ -18,12 +18,12 @@ public class MailServiceImpl implements MailService {
 		this.email = email;
 	}
 	
-	public void sendMail(String to,String text){
+	public void sendMail(String to,String text,String page){
 		SimpleMailMessage message=new SimpleMailMessage();
 		message.setFrom("nileshkarle388@gmail.com");
 		message.setTo(to);
 		message.setSubject("Activation link");
-		message.setText("http://192.168.0.179:8080/ToDo/UserActivation/"+text);
+		message.setText(/*"http://192.168.0.179:8080/ToDo/UserActivation/"*/page+text);
 		try {
 			email.send(message);
 		} catch (MailException e) {

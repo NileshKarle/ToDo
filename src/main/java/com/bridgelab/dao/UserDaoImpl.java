@@ -25,7 +25,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void saveUser(User user){
+	public void saveUserData(User user){
 		
 		Session session =this.sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
@@ -69,18 +69,13 @@ public class UserDaoImpl implements UserDao {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void userValidated(int UserId) {
+	public User userValidated(int UserId) {
 		Session session =this.sessionFactory.openSession();
-		Transaction transaction=session.beginTransaction();
-		try{
 		Criteria criteria = session.createCriteria(User.class).add(Restrictions.eq("id", UserId));
 		User user=(User) criteria.uniqueResult();
-		user.setFirstLogin("true");
-		session.saveOrUpdate(user);
-		transaction.commit();
-		}catch(Exception e){
-			transaction.rollback();
-		}
+		session.close();
+		return user;
+			
 	}
 
 }
