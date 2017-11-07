@@ -23,8 +23,8 @@ toDo.config([ '$stateProvider', '$urlRouterProvider',
 
 			$stateProvider.state('home', {
 				url : '/home',
-				templateUrl : 'template/Home.html'
-			// controller: 'loginController'
+				templateUrl : 'template/Home.html',
+					controller: 'homeController'
 			});
 
 			$urlRouterProvider.otherwise('login');

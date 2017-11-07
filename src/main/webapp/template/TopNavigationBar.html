@@ -1,16 +1,32 @@
 
- <nav class="navbar ">
-  <div class="container-fluid" id="topNavigation">
-	<!-- <form class="navbar-form navbar-center"> -->
-    <ul class="nav navbar-nav">
-    <li><i class="glyphicons glyphicons-show-lines"></i></li>
-    <li><span style="font-size:25px; cursor:pointer" >&#9776;</span></li>
-      <li><h4>Fundoo Notes</h4></li>
-    <li>
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search">
-      </div></li>
-      </ul>
-    <!-- </form> -->
-  </div>
-</nav> 
+<nav class="navbar ">
+	<div class="container-fluid" id="topNavigation">
+		<!-- <form class="navbar-form navbar-center"> -->
+		<ul class="nav navbar-nav">
+			<li><i class="glyphicons glyphicons-show-lines"></i></li>
+			<li ng-click="sidebarToggle()"><span
+				style="font-size: 25px; cursor: pointer">&#9776;</span></li>
+			<li><h4>Fundoo Notes</h4></li>
+			<li><span style="padding-top: 10px" class="glyphicon glyphicon-search"></span></li>
+			<li>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Search">
+				</div>
+			</li>
+		</ul>
+
+		<ul class="nav navbar-nav navbar-right">
+			<li>
+				<div class="dropdown">
+					<button class="btn dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu" style="background-color: white; padding-left: 10px" aria-labelledby="menu1">
+						<li style="background-color: white">logout</li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+		<!-- </form> -->
+	</div>
+</nav>

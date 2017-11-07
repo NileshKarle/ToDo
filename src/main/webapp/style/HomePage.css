@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+div#mainWrapper{
+	background-color:#e8e8e8;
+    padding-left:200px; 
+ 	position: absolute;
+	height:100%;
+	width:100%;
+}
+div#sidebarWrapper{
+	width:100%;
+	height: 100%;
+	background-color: white;
+}

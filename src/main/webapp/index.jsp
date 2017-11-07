@@ -25,6 +25,7 @@
 <script type="text/javascript" src="service/RegisterService.js"></script>
 <script type="text/javascript" src="service/LoginService.js"></script>
 <script type="text/javascript" src="service/ForgotPasswordService.js"></script>
+<script type="text/javascript" src="service/HomePageService.js"></script>
 
 <script type="text/javascript" src="Directives/CustomiseDirective.js"></script>
 
@@ -32,6 +33,8 @@
 <link rel="stylesheet" href="style/LoginStyle.css">
 <link rel="stylesheet" href="style/TopNavigationBar.css">
 <link rel="stylesheet" href="style/SideNavigationBar.css">
+<link rel="stylesheet" href="style/HomePage.css">
+<link rel="stylesheet" href="style/AddNote.css">
 
 <style type="text/css"></style>
 

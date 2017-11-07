@@ -11,3 +11,9 @@ app.directive("sideNavigationBar", function() {
         	templateUrl :'template/SideNavigationBar.html'
         };
 });
+
+app.directive("addNotes", function() {
+    return {
+    	templateUrl :'template/AddNote.html'
+    };
+});

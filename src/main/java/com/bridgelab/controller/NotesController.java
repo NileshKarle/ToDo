@@ -40,7 +40,7 @@ public class NotesController {
 	
 	@RequestMapping(value = "/AddNotes", method = RequestMethod.POST)
 	public ResponseEntity<ErrorMessage> addNotes(@RequestBody Notes notes, HttpSession session) {
-		
+		System.out.println("yes it has arrived in  add notes");
 		String token=(String) session.getAttribute("AccessToken");
 		int userId=verifyToken.parseJWT(token);
 		User user=userService.userValidated(userId);

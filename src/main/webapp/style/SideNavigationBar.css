@@ -1,18 +1,26 @@
 @CHARSET "UTF-8";
 
-div#SideNavigation ul{
-	    list-style-type:null;
-	    height: 100%;
+div#SideNavigation{
+	height: 100%;
+	background-color:#e8e8e8;
+    position: absolute;
+    z-index: 1;
 }
 
 div#SideNavigation li{
-     background-color:white;
+	 list-style-type:none;
      margin-right: 20px;
      margin-top: 10px;
      padding: 3px;
      height: 100%;
 }
+
 div#SideNavigation a{
 	color: black;
+    display: block;
+}
+
+div#SideNavigation a.hover{
+	color: white;
     display: block;
 }
