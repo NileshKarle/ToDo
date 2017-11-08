@@ -20,14 +20,13 @@ var toDo = angular.module('toDo');
 
 toDo.controller('loginController', function($scope, loginService,$location){
 	$scope.loginUser = function(){
-		//console.log($scope.user);
 		var a=loginService.loginUser($scope.user,$scope.error);
 			a.then(function(response) {
-				//alert(response.data.responseMessage);
+				console.log(response.data.responseMessage);
+				localStorage.setItem('token',response.data.responseMessage)
 				$location.path('/home')
 			},function(response){
 				$scope.error=response.data.responseMessage;
-			//alert(response.data.responseMessage);	
 			});
 	}
 });
