@@ -9,10 +9,10 @@
 	this is main <br>
 	<add-notes></add-notes>
 	<br> <br>
-	<div class="card" ng-repeat="note in userNotes">
-			<div ng-bind="note.title"></div>
+	<div class="card" ng-repeat="note in userNotes" ng-controller="homeController">
+			<div ng-bind-html-unsafe="noteTitle"></div>
 			<br>
-			<div ng-bind="note.description" translate="no"></div>
+			<div ng-bind-html-unsafe="noteDescription"></div>
 			<br>
 	</div>
 </div>

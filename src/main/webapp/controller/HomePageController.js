@@ -1,6 +1,6 @@
-var toDo = angular.module('toDo');
+var toDo = angular.module('toDo',['ngSanitize']);
 
-toDo.controller('homeController', function($scope,homePageService, $location) {
+toDo.controller('homeController', function($scope,homePageService, $sce, $location) {
 	console.log("main controller");
 $scope.showSideBar=true;
 	$scope.sidebarToggle=function() {
@@ -15,11 +15,12 @@ $scope.showSideBar=true;
 		b.then(function(response) {
 			console.log(response.data);
 			$scope.userNotes=response.data;
+			$scope.noteTitle=$scope.userNotes.title;
+			$scope.noteDescription=$scope.userNotes.description;
 		},function(response){
 		});
 	}
 		
-
 	
 	$scope.addNote=function(){
 		$scope.notes = {};
@@ -37,6 +38,12 @@ $scope.showSideBar=true;
 		},function(response){
 		});
 	}
+	
+	/*$scope.popupCard=function(){
+		document.getElementById("card").width="80%";
+		document.getElementById("card").height="50%";
+		document.getElementById("card").position="absolute"
+	}*/
 	
 	$scope.logout=function() {
 		console.log("this is logout ");
