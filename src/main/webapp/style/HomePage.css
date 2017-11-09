@@ -10,6 +10,10 @@ div#sidebarWrapper{
 	width:100%;
 	height: 100%;
 	background-color: white;
+	display: inline-block;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	padding-left: 16px;
 }
 .card{
 	min-height: 40px;
@@ -25,4 +29,33 @@ div#sidebarWrapper{
 
 .card:hover{
 	 box-shadow: 6px 6px 3px 1px #0A0A0A;
+}
+
+.card:hover #moreOptions{
+	visibility:visible;
+}
+
+.card li{
+	background-color: white;
+	text-align :center;
+	cursor: pointer;
+}
+
+.card ul{
+	background-color: white;
+	cursor: pointer;
+}
+
+.dropdown-menu{
+	text-align: center;
+	font-size: 15px;
+}
+
+div#moreOptions{
+	visibility: hidden;
+}
+
+.dropdown-menu li:hover {
+	background-color: #e8e8e8;
+	 cursor: pointer;
 }

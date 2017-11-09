@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,15 +49,20 @@ public class UserLoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<ErrorMessage> loginUser(@RequestBody User user, HttpSession session) throws Exception {
 		
-		User userLogined = userService.verifyUserData(user.getEmail(), user.getPassword());
+		User userLogined = userService.emailValidation(user.getEmail());
 		
 		if (userLogined == null) {
-			errorMessage.setResponseMessage("Email or Password invalid try again later.");
+			errorMessage.setResponseMessage("Such Email dose not exists try again later.");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
 		
 		if(userLogined.getFirstLogin().equals("false")){
 			errorMessage.setResponseMessage("User must login from mail for the first time.");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+		}
+		Boolean passwordStatus=BCrypt.checkpw(user.getPassword(), userLogined.getPassword());
+		if(!passwordStatus){
+			errorMessage.setResponseMessage("check your password and try again.");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
 		
@@ -100,7 +106,8 @@ public class UserLoginController {
 			User user=userService.userValidated(verifiedUserId);
 			
 			if (verifiedUserId!=0 || user!=null) {
-				user.setPassword(verifyToken.parseString(token));
+				String encrypt=BCrypt.hashpw(verifyToken.parseString(token), BCrypt.gensalt(10));
+				user.setPassword(encrypt);
 				userService.saveUserData(user);
 				response.sendRedirect("http://localhost:8080/ToDo/#!/login");
 			}

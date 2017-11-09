@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,13 +52,14 @@ public class UserRegisterController {
 		String isValid = userValidation.registerValidation(user);
 
 		if (isValid.equals("true")) {
+			String encrypt=BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10));
+			user.setPassword(encrypt);
 			userService.saveUserData(user);
 			String compactToken = tokenGenerator.createJWT(user.getId(),null);
 			mailService.sendMail(user.getEmail(), compactToken.replaceAll("\\.", "/"),"http://192.168.0.179:8080/ToDo/UserActivation/");
 			errorMessage.setResponseMessage("success");
 			return ResponseEntity.ok(errorMessage);
 		} else {
-
 			errorMessage.setResponseMessage(isValid);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
