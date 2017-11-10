@@ -16,7 +16,7 @@ toDo.factory('homePageService', function($http, $location) {
 		})
 	}
 	
-	abc.deleteNote = function(id){
+	abc.deleteNoteForever = function(id){
 		return $http({
 			method : "DELETE",
 			url : 'DeleteNotes/'+id,

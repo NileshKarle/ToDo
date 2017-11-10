@@ -55,7 +55,6 @@ public class NotesController {
 		notes.setCreatedDate(date);
 		notes.setModifiedDate(date);
 		notes.setUser(user);
-
 		notesService.addUserNotes(notes);
 		errorMessage.setAllNotes(null);
 		errorMessage.setResponseMessage("Successfully added the node.");

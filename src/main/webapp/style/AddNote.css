@@ -2,4 +2,21 @@
 div#addNoteForm{
 	background-color: White;
 	margin-top: 10px;
+	margin-bottom: 25px;
+	margin-left: 20%;
 }
+div#noteDescription{
+	outline:none;
+	padding-top:5px;
+	height: 28px;
+}
+
+div#notetitle{
+	outline:none;
+	padding-top:5px;
+	height: 28px;
+}
+
+[contentEditable=true]:empty:not(:focus):before{
+	color:#989faa;
+content:attr(data-ph) }

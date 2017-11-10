@@ -35,6 +35,10 @@ public class Notes {
 	
 	private String title;
 	
+	private String pin;
+	
+	private String noteStatus;
+	
 	private Date createdDate;
 	
 	private Date modifiedDate;
@@ -50,6 +54,22 @@ public class Notes {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public String getNoteStatus() {
+		return noteStatus;
+	}
+
+	public void setNoteStatus(String noteStatus) {
+		this.noteStatus = noteStatus;
+	}
+
+	public String getPin() {
+		return pin;
+	}
+
+	public void setPin(String pin) {
+		this.pin = pin;
 	}
 
 	public String getDescription() {
