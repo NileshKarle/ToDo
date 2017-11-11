@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="todo_User")
+@Table(name="TODO_USER")
 public class User{
 	
 	@Id

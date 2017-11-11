@@ -2,6 +2,7 @@ package com.bridgelab.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,6 @@ public class UserRegisterController {
 	UserService userService;
 
 	@Autowired
-	ErrorMessage errorMessage;
-
-	@Autowired
 	UserValidation userValidation;
 
 	@Autowired
@@ -46,11 +44,20 @@ public class UserRegisterController {
 	VerifyToken verifyToken;
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<ErrorMessage> registerUser(@RequestBody User user) {
+	public ResponseEntity<ErrorMessage> registerUser(@RequestBody User user, HttpServletRequest request) {
 
+		
+		//request.getContextPath() // ToDo
+		
+		//URL url = new URL( request.getRequestURL().toString());
+		//url.getProtocol() // http | https
+		//url.getHost() // 
+		//url.getPort() //
+		
 		user.setFirstLogin("false");
 		String isValid = userValidation.registerValidation(user);
 
+		ErrorMessage errorMessage = new ErrorMessage();
 		if (isValid.equals("true")) {
 			String encrypt=BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10));
 			user.setPassword(encrypt);
@@ -92,5 +99,5 @@ public class UserRegisterController {
 
 		return "Exception " + e;
 	}
-
+	
 }

@@ -5,7 +5,6 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.Async;
 
-@Async
 public class MailServiceImpl implements MailService {
 
 	private MailSender email;
@@ -18,7 +17,9 @@ public class MailServiceImpl implements MailService {
 		this.email = email;
 	}
 	
-	public void sendMail(String to,String text,String page){
+	@Async
+	public void sendMail(String to,String text,String page)
+	{
 		SimpleMailMessage message=new SimpleMailMessage();
 		message.setFrom("nileshkarle388@gmail.com");
 		message.setTo(to);

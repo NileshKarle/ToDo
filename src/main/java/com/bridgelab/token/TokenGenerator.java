@@ -11,8 +11,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Controller
 public class TokenGenerator {
 
-	String keyvariable="thesecreatKey";
-	 String compactJws=null;
+	String keyvariable = "thesecreatKey";
+	String compactJws  = null;
 	
 	public String createJWT(int UserId,String password) {
 	    //The JWT signature algorithm we will be using to sign the token

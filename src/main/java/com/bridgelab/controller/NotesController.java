@@ -29,8 +29,8 @@ public class NotesController {
 	@Autowired
 	NotesService notesService;
 
-	@Autowired
-	ErrorMessage errorMessage;
+/*	@Autowired
+	ErrorMessage errorMessage;*/
 
 	@Autowired
 	VerifyToken verifyToken;
@@ -38,14 +38,23 @@ public class NotesController {
 	@Autowired
 	UserService userService;
 
+	/**
+	 * @param notes 
+	 * @param headers
+	 * @return ResponseEntity
+	 * 
+	 * @Description Add's a new Note.
+	 * 
+	 */
 	@RequestMapping(value = "/AddNotes", method = RequestMethod.POST)
 	public ResponseEntity<ErrorMessage> addNotes(@RequestBody Notes notes,
-			@RequestHeader(value = "token") String headers, HttpSession session) {
-		System.out.println("yes it has arrived in  add notes");
+			@RequestHeader(value = "token") String headers) {
+		
+		//Collect the token(headers) from the local storage and verify the token.
 		int userId = verifyToken.parseJWT(headers);
 		User user = userService.userValidated(userId);
-		System.out.println("user in add notes " + user);
-
+		
+		ErrorMessage errorMessage = new ErrorMessage();
 		if (user == null) {
 			errorMessage.setResponseMessage("invalid ...!!");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
@@ -65,9 +74,12 @@ public class NotesController {
 	@RequestMapping(value = "/DeleteNotes/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ErrorMessage> deleteNotes(@PathVariable("id") int id,
 			@RequestHeader(value = "token") String headers, HttpSession session) {
+		
 		System.out.println("m getting note id here in api as "+id);
+		
 		int userId = verifyToken.parseJWT(headers);
 		User user = userService.userValidated(userId);
+		ErrorMessage errorMessage = new ErrorMessage();
 		if (user == null) {
 			errorMessage.setResponseMessage("invalid ...!!");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
@@ -77,15 +89,18 @@ public class NotesController {
 		notesService.deleteNote(note);
 		errorMessage.setResponseMessage("Successfully deleted the note.");
 		errorMessage.setAllNotes(null);
+		
 		return ResponseEntity.ok(errorMessage);
 	}
 
 	@RequestMapping(value = "/Update", method = RequestMethod.POST)
 	public ResponseEntity<ErrorMessage> updateNote(@RequestBody Notes note,
 			@RequestHeader(value = "token") String headers, HttpSession session) {
+		
 		System.out.println("---->user in add notes<------- "+ note);
 		int userId = verifyToken.parseJWT(headers);
 		User user = userService.userValidated(userId);
+		ErrorMessage errorMessage = new ErrorMessage();
 		if (user == null) {
 			errorMessage.setResponseMessage("invalid ...!!");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
@@ -120,7 +135,7 @@ public class NotesController {
 		
 			int userId=verifyToken.parseJWT(headers);
 			User user=userService.userValidated(userId);
-					
+			ErrorMessage errorMessage = new ErrorMessage();
 		if(user==null){
 			errorMessage.setAllNotes(null);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.getAllNotes());

@@ -31,8 +31,8 @@ public class UserLoginController {
 	@Autowired
 	UserService userService;
 
-	@Autowired
-	ErrorMessage errorMessage;
+/*	@Autowired
+	ErrorMessage errorMessage;*/
 
 	@Autowired
 	MailService mailService;
@@ -51,6 +51,7 @@ public class UserLoginController {
 		
 		User userLogined = userService.emailValidation(user.getEmail());
 		
+		ErrorMessage errorMessage = new ErrorMessage();
 		if (userLogined == null) {
 			errorMessage.setResponseMessage("Such Email dose not exists try again later.");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
@@ -77,7 +78,7 @@ public class UserLoginController {
 	public ResponseEntity<ErrorMessage> collectNewPassword(@RequestBody User user, HttpSession session) throws Exception {
 		
 		User userLogined = userService.emailValidation(user.getEmail());
-		
+		ErrorMessage errorMessage = new ErrorMessage();
 		if (userLogined == null) {
 			errorMessage.setResponseMessage("such email dose not exists.");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
@@ -109,7 +110,7 @@ public class UserLoginController {
 				String encrypt=BCrypt.hashpw(verifyToken.parseString(token), BCrypt.gensalt(10));
 				user.setPassword(encrypt);
 				userService.saveUserData(user);
-				response.sendRedirect("http://localhost:8080/ToDo/#!/login");
+				response.sendRedirect("#!/login");
 			}
 			
 		} catch (IOException e) {

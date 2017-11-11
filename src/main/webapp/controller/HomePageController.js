@@ -26,6 +26,7 @@ toDo
 						$scope.navBarHeading="Archive";
 					}
 					
+					/*$scope.cardColor={'white','blue','red'}*/
 					
 					/*toggle side bar*/
 					$scope.showSideBar = true;
