@@ -29,9 +29,6 @@ public class NotesController {
 	@Autowired
 	NotesService notesService;
 
-/*	@Autowired
-	ErrorMessage errorMessage;*/
-
 	@Autowired
 	VerifyToken verifyToken;
 
@@ -43,18 +40,21 @@ public class NotesController {
 	 * @param headers
 	 * @return ResponseEntity
 	 * 
-	 * @Description Add's a new Note.
+	 * @Description This method Add's a new Note. 
+	 *    For the perticular user who is logined.
 	 * 
 	 */
 	@RequestMapping(value = "/AddNotes", method = RequestMethod.POST)
-	public ResponseEntity<ErrorMessage> addNotes(@RequestBody Notes notes,
-			@RequestHeader(value = "token") String headers) {
+	public ResponseEntity<ErrorMessage> addNotes(@RequestBody Notes notes, @RequestHeader(value = "token") String headers)
+	{
 		
 		//Collect the token(headers) from the local storage and verify the token.
 		int userId = verifyToken.parseJWT(headers);
 		User user = userService.userValidated(userId);
 		
+		//ErrorMessage object creation to display customise message.
 		ErrorMessage errorMessage = new ErrorMessage();
+		
 		if (user == null) {
 			errorMessage.setResponseMessage("invalid ...!!");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
@@ -65,25 +65,37 @@ public class NotesController {
 		notes.setModifiedDate(date);
 		notes.setUser(user);
 		notesService.addUserNotes(notes);
+		
 		errorMessage.setAllNotes(null);
 		errorMessage.setResponseMessage("Successfully added the node.");
 
 		return ResponseEntity.ok(errorMessage);
+		
 	}
 
+	
+	/**
+	 * @param id (note id)
+	 * @param headers (JWT)
+	 * @return ResponseEntity (HTTP status)
+	 * 
+	 * @Description This method delete's an existing Note. 
+	 *      For the perticular user who is logined.
+	 * 	when ever the /DeleteNotes/{id} API is called.
+	 */
 	@RequestMapping(value = "/DeleteNotes/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<ErrorMessage> deleteNotes(@PathVariable("id") int id,
-			@RequestHeader(value = "token") String headers, HttpSession session) {
-		
-		System.out.println("m getting note id here in api as "+id);
-		
+	public ResponseEntity<ErrorMessage> deleteNotes(@PathVariable("id") int id, @RequestHeader(value = "token") String headers) 
+	{
+		//Collect the token(headers) from the local storage and verify the token.
 		int userId = verifyToken.parseJWT(headers);
 		User user = userService.userValidated(userId);
 		ErrorMessage errorMessage = new ErrorMessage();
-		if (user == null) {
+		
+		if (user == null){
 			errorMessage.setResponseMessage("invalid ...!!");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
+		
 		Notes note = new Notes();
 		note.setId(id);
 		notesService.deleteNote(note);
@@ -93,29 +105,38 @@ public class NotesController {
 		return ResponseEntity.ok(errorMessage);
 	}
 
+	
+	/**
+	 * @param notes (note object that has to be deleted.)
+	 * @param headers (JWT)
+	 * @return ResponseEntity (HTTP Status)
+	 * 
+	 * @Description This method Update's an existing Note. 
+	 *    For the perticular user who is logined.
+	 * 
+	 */
 	@RequestMapping(value = "/Update", method = RequestMethod.POST)
-	public ResponseEntity<ErrorMessage> updateNote(@RequestBody Notes note,
-			@RequestHeader(value = "token") String headers, HttpSession session) {
+	public ResponseEntity<ErrorMessage> updateNote(@RequestBody Notes note, @RequestHeader(value = "token") String headers)
+	{
 		
-		System.out.println("---->user in add notes<------- "+ note);
+		//Collect the token(headers) from the local storage and verify the token.
 		int userId = verifyToken.parseJWT(headers);
 		User user = userService.userValidated(userId);
 		ErrorMessage errorMessage = new ErrorMessage();
-		if (user == null) {
+		
+		if (user == null){
 			errorMessage.setResponseMessage("invalid ...!!");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
 
 		Notes oldNote = notesService.getNote(note);
+		
 		if (oldNote != null) {
-
 			Date date = new Date();
-
+			
 			note.setModifiedDate(date);
 			note.setCreatedDate(oldNote.getCreatedDate());
-
 			note.setUser(user);
-
 			notesService.updateNote(note);
 
 			errorMessage.setResponseMessage("note updated.");
@@ -123,19 +144,30 @@ public class NotesController {
 			return ResponseEntity.ok(errorMessage);
 		}
 
-		errorMessage.setResponseMessage("no note found.");
+		//If the node dose not exist's in the database.
+		errorMessage.setResponseMessage("The note you are trying to update dose not exist's.");
 		errorMessage.setAllNotes(null);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 	}
 
+	/**
+	 * @param headers (JWT)
+	 * @return ResponseEntity<List> (List of notes)
+	 * 
+	 * @Description This method display's all notes for the user who has requested. 
+	 *    	only the notes created by that perticular user.
+	 * 	The notes which the user has the access.
+	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/AllNodes",method = RequestMethod.GET)
-	public ResponseEntity<List> listAllUsers(HttpSession session,@RequestHeader(value="token") String headers) {
+	public ResponseEntity<List> listAllUsers(@RequestHeader(value="token") String headers)
+	{
 		
+		//Collect the token(headers) from the local storage and verify the token.
+		int userId=verifyToken.parseJWT(headers);
+		User user=userService.userValidated(userId);
+		ErrorMessage errorMessage = new ErrorMessage();
 		
-			int userId=verifyToken.parseJWT(headers);
-			User user=userService.userValidated(userId);
-			ErrorMessage errorMessage = new ErrorMessage();
 		if(user==null){
 			errorMessage.setAllNotes(null);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.getAllNotes());
@@ -143,22 +175,27 @@ public class NotesController {
 		
 		List<Notes> allNotes = notesService.listAllNotes(user);
 		
-		if (allNotes.isEmpty()) {
-			
+		/*if (allNotes.isEmpty()) {	
 			errorMessage.setResponseMessage("no note found.");
 			errorMessage.setAllNotes(allNotes);
 			return ResponseEntity.ok(errorMessage.getAllNotes());
-		} else {
-			
-			errorMessage.setResponseMessage("note found.");
-			errorMessage.setAllNotes(allNotes);
-			return ResponseEntity.ok(errorMessage.getAllNotes());
-		}
+		}*/
+		
+		errorMessage.setResponseMessage("note found.");
+		errorMessage.setAllNotes(allNotes);
+		
+		return ResponseEntity.ok(errorMessage.getAllNotes());
 	}
 
+	/*
+	* This method catche's any exception that exist's.
+	*
+	*/
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(value = Exception.class)
-	public String handleException(Exception e) {
+	public String handleException(Exception e)
+	{
 		return "Exception" + e;
 	}
+
 }
