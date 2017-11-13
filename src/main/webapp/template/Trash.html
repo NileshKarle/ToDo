@@ -10,7 +10,7 @@
 			<br>
 			<br>
 			<div class="card"
-				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{noteStatus:'delete'}">
+				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{deleteStatus:'true'}">
 				
 				<div ng-bind-html="note.title"></div>
 				<br>
@@ -23,7 +23,7 @@
 						</span>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
 							<li><a ng-click="deleteNoteForever(note.id)">Delete Forever</a></li>
-							<li><a ng-click="unarchiveNote(note)">Restore</a></li>
+							<li><a ng-click="restoreNote(note)">Restore</a></li>
 						</ul>
 					</div>
 				</div>

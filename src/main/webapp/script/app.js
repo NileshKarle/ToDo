@@ -15,6 +15,12 @@ toDo.config([ '$stateProvider', '$urlRouterProvider',
 				controller : 'loginController'
 			});
 			
+			$stateProvider.state('EmailVerification', {
+				url : '/EmailVerification',
+				templateUrl : 'template/EmailVerification.html',
+				controller : 'EmailVerificationController'
+			});
+			
 			$stateProvider.state('forgotPassword', {
 				url : '/forgotPassword',
 				templateUrl : 'template/ForgotPassword.html',

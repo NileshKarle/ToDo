@@ -38,7 +38,6 @@
 					<input type="password" name="pwd" ng-model="user.password" class="form-control" required ng-minlength="5" ng-maxlength="20">
 					<span ng-show="registerForm.pwd.$dirty && registerForm.pwd.$error.required">Required</span>
 					<span ng-show="registerForm.pwd.$touched && registerForm.pwd.$invalid">Must be filled</span>
-					<span ng-show="registerForm.pwd.$untouched">Must contain words followed by number</span>
 					<span ng-show="registerForm.pwd.$dirty && registerForm.pwd.$error.minlength">Password Too Short</span>
 					<span ng-show="registerForm.pwd.$dirty && registerForm.pwd.$error.maxlength">Password Too Long</span>
 				</div>

@@ -13,16 +13,16 @@
 			<br>
 			<h4>Pinned</h4>
 			<div class="card"
-				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'true' , noteStatus:'note'}">
+				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'true' , noteStatus:'true' , deleteStatus:'false'}">
 				<div style="float: right">
 					<span style="cursor: pointer"
 						ng-click="note.pin=false; updateNote(note)"> <img alt="pin"
 						style="height: 17px" src="image/bluepin.svg"></img>
 					</span>
 				</div>
-				<div ng-bind-html="note.title"></div>
+				<div ng-bind-html="note.title" ng-click="open(note)"></div>
 				<br>
-				<div ng-bind-html="note.description"></div>
+				<div ng-bind-html="note.description" ng-click="open(note)"></div>
 				<br>
 				<div id="moreOptions">
 					<div class="dropdown" style="float: right">
@@ -46,7 +46,7 @@
 
 			<h4>Others</h4>
 			<div class="card" ng-click="popup(note)"
-				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'false' , noteStatus: 'note'}">
+				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'false' , noteStatus: 'true' , deleteStatus:'false'}">
 				<div id="moreOptions" style="float: right">
 					<span style="cursor: pointer"
 						ng-click="note.pin='true'; updateNote(note)"> <img
@@ -59,12 +59,13 @@
 				<br>
 				<div id="moreOptions">
 
-					<div class="dropdown" style="float: right">
+					<div class="dropdown" style="float: left">
 						<img alt="reminder" src="image/reminder.svg" height="15px"> 
 						<img alt="colaburator" src="image/colaburator.png" height="25px"> 
 						<img alt="color" src="image/colorpallete.svg" height="20px">
 						<img alt="image" src="image/image.svg" height="20px"> 
 						<span ng-click="archiveNote(note)"><img alt="archive" src="image/archive.svg" height="20px"></span> 
+						<div style="float: left">
 						<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
 							<span class="glyphicon glyphicon-option-vertical"></span>
 						</span>
@@ -73,6 +74,7 @@
 							<li><a>Add Lable</a></li>
 							<li><a ng-click="copy(note)">Make a Copy</a></li>
 						</ul>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -46,58 +46,81 @@ public class UserRegisterController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<ErrorMessage> registerUser(@RequestBody User user, HttpServletRequest request) {
 
-		
-		//request.getContextPath() // ToDo
-		
-		//URL url = new URL( request.getRequestURL().toString());
-		//url.getProtocol() // http | https
-		//url.getHost() // 
-		//url.getPort() //
-		
-		user.setFirstLogin("false");
-		String isValid = userValidation.registerValidation(user);
+		// request.getContextPath() // ToDo
+
+		// URL url = new URL( request.getRequestURL().toString());
+		// url.getProtocol() // http | https
+		// url.getHost() //
+		// url.getPort() //
+		System.out.println("this is user registration controller.");
 
 		ErrorMessage errorMessage = new ErrorMessage();
-		if (isValid.equals("true")) {
-			String encrypt=BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10));
-			user.setPassword(encrypt);
-			userService.saveUserData(user);
-			String compactToken = tokenGenerator.createJWT(user.getId(),null);
-			mailService.sendMail(user.getEmail(), compactToken.replaceAll("\\.", "/"),"http://192.168.0.179:8080/ToDo/UserActivation/");
-			errorMessage.setResponseMessage("success");
-			return ResponseEntity.ok(errorMessage);
-		} else {
-			errorMessage.setResponseMessage(isValid);
+
+		User Olduser = userService.emailValidation(user.getEmail());
+
+		// if email already exists in the database.
+		if (Olduser != null) {
+			errorMessage.setResponseMessage("Email already exists;");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
 
+		// else validate the other details.
+		String isValid = userValidation.registerValidation(user);
+
+		// if details are correct.
+		if (isValid.equals("true")) {
+			user.setFirstTimeLogin("false");
+			user.setLoginStatus("false");
+
+			// encrypt the password and then set it.
+			user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
+			userService.saveUserData(user);
+
+			// Generate a token and send a mail.
+			String compactToken = tokenGenerator.createJWT(user.getId());
+			mailService.sendMail(user.getEmail(), compactToken.replaceAll("\\.", "/"),
+					"http://192.168.0.179:8080/ToDo/UserActivation/");
+
+			errorMessage.setResponseMessage("success");
+			return ResponseEntity.ok(errorMessage);
+		}
+
+		// if other details are incorrect.
+		else {
+		    errorMessage.setResponseMessage(isValid);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+		}
 	}
 
+	
 	@RequestMapping(value = "/UserActivation/{header}/{payload}/{footer}")
 	public void RedirectToHomePage(@PathVariable("header") String header, @PathVariable("payload") String payload,
 			@PathVariable("footer") String footer, HttpServletResponse response) {
-		String token = header +"."+payload+"."+ footer;
+		
+		//Regenerate the token in the original form.
+		String token = header + "." + payload + "." + footer;
+		
 		try {
 			int verifiedUserId = verifyToken.parseJWT(token);
-			User user=userService.userValidated(verifiedUserId);
-			//System.out.println(verifiedUserId+"<-----this is id");
-			if (verifiedUserId!=0 || user!=null) {
-				
-				user.setFirstLogin("true");
+			User user = userService.userValidated(verifiedUserId);
+			// System.out.println(verifiedUserId+"<-----this is id");
+			
+			if (verifiedUserId != 0 || user != null) {
+				user.setFirstTimeLogin("true");
 				userService.saveUserData(user);
 				response.sendRedirect("http://localhost:8080/ToDo/#!/login");
 			}
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(value = Exception.class)
 	public String handleException(Exception e) {
-
 		return "Exception " + e;
 	}
-	
+
 }

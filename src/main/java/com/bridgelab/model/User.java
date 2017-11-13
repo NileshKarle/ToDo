@@ -16,40 +16,58 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="TODO_USER")
-public class User{
-	
+@Table(name = "TODO_USER")
+public class User {
+
 	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator="usergen")
-	@GenericGenerator(name="usergen", strategy="native")
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "usergen")
+	@GenericGenerator(name = "usergen", strategy = "native")
 	private int id;
-	
-	private String firstLogin;
-	
-	@Column(name="first_name")
+
+	@Column(name = "FIRST_TIME_LOGIN")
+	private String firstTimeLogin;
+
+	@Column(name = "LOGIN_STATUS")
+	private String loginStatus;
+
+	@Column(name = "FIRST_NAME")
 	private String firstName;
-	
-	@Column(name="last_name")
+
+	@Column(name = "LAST_NAME")
 	private String lastName;
-	
-	@Column(unique=true)
+
+	@Column(unique = true, name = "EMAIL")
 	private String email;
-	
+
+	@Column(name = "PASSWORD")
 	private String password;
-	
+
+	@Column(name = "Contact")
 	private String contact;
-	
-	@OneToMany(mappedBy="user")
+
+	@OneToMany(mappedBy = "user")
 	@JsonIgnore
 	private Set<Notes> notes = new HashSet<Notes>();
-	
-	public String getFirstLogin() {
-		return firstLogin;
+
+	public String getFirstTimeLogin() {
+		return firstTimeLogin;
 	}
 
-	public void setFirstLogin(String firstLogin) {
-		this.firstLogin = firstLogin;
+	public void setFirstTimeLogin(String firstTimeLogin) {
+		if (firstTimeLogin == "true" || firstTimeLogin == "false") {
+			this.firstTimeLogin = firstTimeLogin;
+		}
+	}
+
+	public String getLoginStatus() {
+		return loginStatus;
+	}
+
+	public void setLoginStatus(String loginStatus) {
+		if (loginStatus == "true" || loginStatus == "false") {
+			this.loginStatus = loginStatus;
+		}
 	}
 
 	public Set<Notes> getNotes() {
@@ -63,49 +81,72 @@ public class User{
 	public String getContact() {
 		return contact;
 	}
-	
+
 	public void setContact(String contact) {
-		this.contact = contact;
+		String Id = "[0-9]{10}";
+
+		if (contact.matches(Id)) {
+			this.contact = contact;
+		}
+
 	}
-	
+
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public String getFirstName() {
 		return firstName;
 	}
-	
+
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		String nameFormat = "^[a-zA-Z]+$";
+
+		if (firstName.matches(nameFormat)) {
+			this.firstName = firstName;
+		}
+
 	}
-	
+
 	public String getLastName() {
 		return lastName;
 	}
-	
+
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		String nameFormat = "^[a-zA-Z]+$";
+
+		if (lastName.matches(nameFormat)) {
+			this.lastName = lastName;
+		}
+
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(String email) {
-		this.email = email;
+		String emailFormat = "[a-zA-Z0-9\\.]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,5}$";
+
+		if (email.matches(emailFormat)) {
+			this.email = email;
+		}
+
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
-	
+
 	public void setPassword(String password) {
-		this.password = password;
+		if (password != "") {
+			this.password = password;
+		}
+
 	}
-	
+
 }

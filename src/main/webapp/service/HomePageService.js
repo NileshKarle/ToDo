@@ -5,7 +5,7 @@ toDo.factory('homePageService', function($http, $location) {
 	var abc = {};
 	
 	abc.addNote = function(notes) {
-		console.log("home page service");
+		console.log(notes.noteStatus);
 		return $http({
 			method : "POST",
 			url : 'AddNotes',
@@ -20,6 +20,16 @@ toDo.factory('homePageService', function($http, $location) {
 		return $http({
 			method : "DELETE",
 			url : 'DeleteNotes/'+id,
+			headers: {
+				'token':localStorage.getItem('token')
+			}
+		})
+	}
+	
+	abc.logout = function(){
+		return $http({
+			method : "POSt",
+			url : 'logout',
 			headers: {
 				'token':localStorage.getItem('token')
 			}

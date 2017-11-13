@@ -3,9 +3,30 @@ var toDo = angular.module('toDo');
 toDo
 		.controller(
 				'homeController',
-				function($scope, homePageService, $location, $state) {
+				function($scope, homePageService, $location, $state,  $uibModal) {
 					console.log("main controller");
 					
+					/*$scope.open=function(note){
+
+							    var modalInstance = $uibModal.open({
+							      animation: $scope.animationsEnabled,
+							      templateUrl: 'myModalContent.html',
+							      controller: 'ModalInstanceCtrl',
+							      resolve: {
+							        items: function () {
+							          return $scope.items;
+							        }
+							      }
+							    });
+
+							    modalInstance.result.then(function (selectedItem) {
+							      $scope.selected = selectedItem;
+							    }, function () {
+							      $log.info('Modal dismissed at: ' + new Date());
+							    });
+							  };
+					}
+					*/
 					
 					console.log($state.current.name);
 					
@@ -56,7 +77,8 @@ toDo
 					
 					/*archive notes*/
 					$scope.archiveNote=function(note){
-						note.noteStatus="archive";
+						note.archiveStatus="true";
+						note.noteStatus="false";
 						note.pin="false";
 						var a = homePageService.updateNote(note);
 						a.then(function(response) {
@@ -68,8 +90,20 @@ toDo
 					
 					/*unarchive notes*/
 					$scope.unarchiveNote=function(note){
-						note.noteStatus="note";
+						note.noteStatus="true";
+						note.archiveStatus="false";
 						note.pin="false";
+						var a = homePageService.updateNote(note);
+						a.then(function(response) {
+							getAllNotes();
+						}, function(response) {
+						});
+					}
+					
+					 /*restore note*/ 
+					$scope.restoreNote=function(note){
+						note.pin="false";
+						note.deleteStatus="false";
 						var a = homePageService.updateNote(note);
 						a.then(function(response) {
 							getAllNotes();
@@ -81,7 +115,8 @@ toDo
 					 /*Add notes to trash*/ 
 					$scope.deleteNote=function(note){
 						note.pin="false";
-						note.noteStatus="delete";
+						note.deleteStatus="true";
+						note.reminderStatus="false";
 						var a = homePageService.updateNote(note);
 						a.then(function(response) {
 							getAllNotes();
@@ -114,14 +149,27 @@ toDo
 					}
 
 					
-					$scope.pinStatus = false;
+					$scope.pinStatus =false;
 					
 					/*pin unpin the notes*/
 					$scope.pinUnpin = function() {
-						$scope.pinStatus = !$scope.pinStatus;
-						console.log($scope.pinStatus);
+						if($scope.pinStatus == false){
+						$scope.pinStatus = true;
+					}
+					else {
+						$scope.pinStatus=false;
+					}
 					}
 					
+					$scope.Reminder=false;
+					
+					$scope.addReminder=function(){
+						if($scope.Reminder==false){
+						$scope.Reminder=true;
+						}else{
+							$scope.Reminder=false;
+						}
+					}
 					
 					/*add a new note*/
 					$scope.addNote = function() {
@@ -131,7 +179,12 @@ toDo
 						$scope.notes.description = document
 								.getElementById("noteDescription").innerHTML;
 						$scope.notes.pin = $scope.pinStatus;
-						$scope.notes.noteStatus = "note";
+						$scope.notes.noteStatus = "true";
+						$scope.notes.reminderStatus= "true";
+						$scope.notes.archiveStatus= "false";
+						$scope.notes.deleteStatus = "false";
+						console.log($scope.notes);
+						
 						var a = homePageService.addNote($scope.notes);
 						a.then(function(response) {
 							document.getElementById("notetitle").innerHTML = "";
@@ -151,7 +204,10 @@ toDo
 						$scope.notes.description = document
 								.getElementById("noteDescription").innerHTML;
 						$scope.notes.pin = "false";
-						$scope.notes.noteStatus = "archive";
+						$scope.notes.noteStatus = "false";
+						$scope.notes.archiveStatus = "true";
+						$scope.notes.deleteStatus = "false";
+						$scope.notes.reminderStatus = "false";
 						var a = homePageService.addNote($scope.notes);
 						a.then(function(response) {
 							document.getElementById("notetitle").innerHTML = "";
@@ -166,7 +222,10 @@ toDo
 					/*make a copy of the note*/
 					$scope.copy = function(note) {
 						note.id = 0;
-						note.noteStatus="note";
+						note.noteStatus="true";
+						note.archiveStatus="false";
+						note.deleteStatus="false";
+						note.reminderStatus="false";
 						note.pin = "false";
 						var a = homePageService.addNote(note);
 						a.then(function(response) {
@@ -178,9 +237,12 @@ toDo
 
 					/*logout user*/
 					$scope.logout = function() {
-						console.log("this is logout ");
-						localStorage.removeItem('token');
-						$location.path('/login')
+						var a=homePageService.logout();
+						a.then(function(response){
+							localStorage.removeItem('token');
+							$location.path('/login');
+						})
+						
 					}
 
 				});

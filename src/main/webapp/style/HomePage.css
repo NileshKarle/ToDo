@@ -61,7 +61,7 @@ div#sidebarWrapper{
 	font-size: 15px;
 }
 
-div#moreOptions{
+#moreOptions{
 	visibility: hidden;
 }
 
