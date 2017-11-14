@@ -24,6 +24,7 @@ public class UserDaoImpl implements UserDao {
 		this.sessionFactory = sessionFactory;
 	}
 
+	//This method is called when the user data is to be added to the database or the user details are to be modified.
 	@Override
 	public void saveUserData(User user){
 		
@@ -41,7 +42,7 @@ public class UserDaoImpl implements UserDao {
 	
 	}
 	
-	@SuppressWarnings({ "deprecation" })
+	/*@SuppressWarnings({ "deprecation" })
 	@Override
 	public User loginUser(String email,String password){
 		
@@ -55,8 +56,9 @@ public class UserDaoImpl implements UserDao {
 		session.close();
 		return user;
 	
-	}
+	}*/
 
+	// This method retuns user data if the email exist's in the database else it retuns null.
 	@SuppressWarnings("deprecation")
 	@Override
 	public User emailValidation(String email) {		
@@ -67,6 +69,7 @@ public class UserDaoImpl implements UserDao {
 		return user;	
 	}
 
+	//This method retuns the user object for the perticular user id.
 	@SuppressWarnings("deprecation")
 	@Override
 	public User userValidated(int UserId) {
