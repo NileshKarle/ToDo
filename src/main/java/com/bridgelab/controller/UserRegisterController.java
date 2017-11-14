@@ -43,6 +43,16 @@ public class UserRegisterController {
 	@Autowired
 	VerifyToken verifyToken;
 
+	
+	/**
+	 * @param user(user Object)
+	 * @return ResponseEntity
+	 * 
+	 * @Description This method collet's the user object as the parameter.
+	 *              This user object contains the user details.
+	 *              User details are stored in the database and the user receives a mail for user verification.
+	 *              User can login only if the user is verified.
+	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<ErrorMessage> registerUser(@RequestBody User user, HttpServletRequest request) {
 
@@ -92,6 +102,16 @@ public class UserRegisterController {
 		}
 	}
 
+	/**
+	 * @param header
+	 * @param payload
+	 * @param footer
+	 * 
+	 * @Description This method is invoked when the user click's the link received in the mail.
+	 *              Through the link the user is verified and the user first time login field is set to true.
+	 *              After the user verification the user is redirected to the login page.
+	 *              So the user can login successfully.
+	 */
 	
 	@RequestMapping(value = "/UserActivation/{header}/{payload}/{footer}")
 	public void RedirectToHomePage(@PathVariable("header") String header, @PathVariable("payload") String payload,
