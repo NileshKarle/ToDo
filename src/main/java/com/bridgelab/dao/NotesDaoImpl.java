@@ -25,6 +25,7 @@ public class NotesDaoImpl implements NotesDao{
 		this.sessionFactory = sessionFactory;
 	}
 	
+	//This method save the new note in the database.
 	@Override
 	public void addUserNotes(Notes notes){
 		Session session =this.sessionFactory.openSession();
@@ -41,6 +42,7 @@ public class NotesDaoImpl implements NotesDao{
 		
 	}
 
+	//This method delete's the note permently from the database.
 	@Override
 	public void deleteNote(Notes notes) {
 		Session session =this.sessionFactory.openSession();
@@ -57,7 +59,7 @@ public class NotesDaoImpl implements NotesDao{
 		
 	}
 
-	@SuppressWarnings("deprecation")
+	/*@SuppressWarnings("deprecation")
 	@Override
 	public Notes getNote(Notes note) {
 		
@@ -67,8 +69,10 @@ public class NotesDaoImpl implements NotesDao{
 		session.close();
 		return notes;
 	
-	}
+	}*/
 	
+	//This method is called when any field of the note is modified. 
+	//So the changes can be reflected in the database.
 	@Override
 	public void updateNote(Notes notes) {
 		
@@ -87,14 +91,16 @@ public class NotesDaoImpl implements NotesDao{
 	
 	}
 	
+	
+	//This method retun's list of all the note's of a perticular user based on the user id.
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
-	public List<Notes> listAllNotes(User userId) {
+	public List<Notes> listAllNotes(User user) {
 		
 		List<Notes> results = null;
 		Session session=this.sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Notes.class);
-		criteria.add(Restrictions.eq("user",userId));
+		criteria.add(Restrictions.eq("user",user));
 		results = criteria.list();
 		session.close();
 		return results;
