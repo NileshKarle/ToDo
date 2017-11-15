@@ -52,6 +52,9 @@ public class Notes {
 	@Column(name = "MODIFIED_DATE")
 	private Date modifiedDate;
 
+	@Column(name="NOTE_COLOR")
+	private String noteColor;
+	
 	@ManyToOne()
 	@JsonIgnore
 	@JoinColumn(name = "USER_ID")
@@ -63,6 +66,14 @@ public class Notes {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getNoteColor() {
+		return noteColor;
+	}
+
+	public void setNoteColor(String noteColor) {
+		this.noteColor = noteColor;
 	}
 
 	public String getNoteStatus() {

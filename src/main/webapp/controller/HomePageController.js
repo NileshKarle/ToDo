@@ -1,33 +1,63 @@
 var toDo = angular.module('toDo');
+var modalInstance;
 
-toDo
-		.controller(
+
+toDo.controller(
 				'homeController',
-				function($scope, homePageService, $location, $state,  $uibModal) {
+				function($scope, homePageService, $location, $state) {
+					
+					
+					$scope.colors=[/*{
+						"color":'#8e44ad',
+						"path":'images/purple.png'
+					},
+					{
+						"color":'#3498db',
+						"path":'images/blue.png'
+					},
+					*/{
+						"color":'#f1c40f',
+						"path":'image/yellow.png'
+					}/*,
+					{
+						"color":'#1abc9c',
+						"path":'images/green.png'
+					},
+					{
+						"color":'#2ecc71',
+						"path":'images/seegreen.png'
+					},
+					{
+						"color":'#f1c40f',
+						"path":'images/yellow.png'
+					},
+					{
+						"color":'#f39c12',
+						"path":'images/darkyellow.png'
+					},
+					{
+						"color":'#c0392b',
+						"path":'images/darkred.png'
+					},
+					{
+						"color":'#ffffff',
+						"path":'images/white.png'
+					},
+					{
+						"color":'#000000',
+						"path":'images/black.png'
+					},
+					{
+						"color":'#34495e',
+						"path":'images/darkgrey.png'
+					},
+					{
+						"color":'#d35400',
+						"path":'images/orange.png'
+					},*/
+					];
+					
 					console.log("main controller");
-					
-					/*$scope.open=function(note){
-
-							    var modalInstance = $uibModal.open({
-							      animation: $scope.animationsEnabled,
-							      templateUrl: 'myModalContent.html',
-							      controller: 'ModalInstanceCtrl',
-							      resolve: {
-							        items: function () {
-							          return $scope.items;
-							        }
-							      }
-							    });
-
-							    modalInstance.result.then(function (selectedItem) {
-							      $scope.selected = selectedItem;
-							    }, function () {
-							      $log.info('Modal dismissed at: ' + new Date());
-							    });
-							  };
-					}
-					*/
-					
 					console.log($state.current.name);
 					
 					if($state.current.name=="home"){
@@ -47,6 +77,15 @@ toDo
 						$scope.navBarHeading="Archive";
 					}
 					
+					/*
+					$scope.open = function (note) {
+						$scope.note = note;
+						modalInstance = $uibModal.open({
+						templateUrl: 'template/editNote.html',
+						scope : $scope
+						});
+						};
+					*/
 					/*$scope.cardColor={'white','blue','red'}*/
 					
 					/*toggle side bar*/
@@ -183,6 +222,7 @@ toDo
 						$scope.notes.reminderStatus= "true";
 						$scope.notes.archiveStatus= "false";
 						$scope.notes.deleteStatus = "false";
+						$scope.notes.noteColor="#fff";
 						console.log($scope.notes);
 						
 						var a = homePageService.addNote($scope.notes);
@@ -244,5 +284,15 @@ toDo
 						})
 						
 					}
+					
+					$scope.open = function () {
+
+					    var modalInstance = $modal.open({
+					      templateUrl: 'myModalContent.html',
+					      
+					    });
+
+					      };
+					
 
 				});

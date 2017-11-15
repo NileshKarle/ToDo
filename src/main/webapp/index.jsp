@@ -18,6 +18,12 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-sanitize.js"></script>
+
+<!-- <script src="http://bootstrapdocs.com/v3.1.1/docs/dist/js/bootstrap.min.js"></script> -->
+<!-- <script src="http://rawgit.com/obogo/angular-focus-manager/master/build/angular-focusmanager.js"></script> -->
+
+<!--     <script src="https://cdn.jsdelivr.net/angular.bootstrap/1.3.3/ui-bootstrap.min.js"></script> -->
+  
  
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -28,11 +34,13 @@
 <script src="controller/loginController.js"></script>
 <script src="controller/HomePageController.js"></script>
 <script src="controller/forgotPasswordController.js"></script>
+<script src="controller/EmailVerificationController.js"></script>
 
 <script type="text/javascript" src="service/RegisterService.js"></script>
 <script type="text/javascript" src="service/LoginService.js"></script>
 <script type="text/javascript" src="service/ForgotPasswordService.js"></script>
 <script type="text/javascript" src="service/HomePageService.js"></script>
+<script type="text/javascript" src="service/EmailVerificationService.js"></script>
 
 <script type="text/javascript" src="Directives/CustomiseDirective.js"></script>
 

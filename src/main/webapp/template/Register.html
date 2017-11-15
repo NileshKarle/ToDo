@@ -9,7 +9,8 @@
 					<h3 ng-bind="errorMessage" id="error1"> </h3>
 					
 					<label for="firstName">Enter your First Name</label> 
-					<input type="text" name="fstname" ng-model="user.firstName" class="form-control" required ng-minlength="2" ng-maxlength="15">
+					<input ng-pattern="/^[a-zA-Z]*$/" type="text" name="fstname" ng-model="user.firstName" class="form-control" required ng-minlength="2" ng-maxlength="15">
+					<span ng-show="registerForm.fstname.$dirty && registerForm.fstname.$error.pattern">Number or Special character not allowed </span>
 					<span ng-show="registerForm.fstname.$dirty && registerForm.fstname.$error.required">Required</span>
 					<span ng-show="registerForm.fstname.$touched && registerForm.fstname.$invalid">Must be filled</span>
 					<span ng-show="registerForm.fstname.$dirty && registerForm.fstname.$error.minlength">First Name Too Short</span>
@@ -18,7 +19,8 @@
 				
 				<div class="form-group">
 					<label for="lastName">Enter your Last Name</label> 
-					<input type="text" name="lstname" ng-model="user.lastName" class="form-control" required ng-minlength="2" ng-maxlength="15">
+					<input ng-pattern="/^[a-zA-Z]*$/" type="text" name="lstname" ng-model="user.lastName" class="form-control" required ng-minlength="2" ng-maxlength="15">
+					<span ng-show="registerForm.lstname.$dirty && registerForm.lstname.$error.pattern">Number or Special character not allowed</span>
 					<span ng-show="registerForm.lstname.$dirty && registerForm.lstname.$error.required">Required</span>
 					<span ng-show="registerForm.lstname.$touched && registerForm.lstname.$invalid">Must be filled</span>
 					<span ng-show="registerForm.lstname.$dirty && registerForm.lstname.$error.minlength">Last Name Too Short</span>
@@ -28,10 +30,10 @@
 				<div class="form-group">
 					<label for="email">Enter your Email</label> 
 					<input type="email" name="eml" ng-model="user.email" class="form-control" required>
+					<!-- <span ng-show="registerForm.eml.$dirty && registerForm.eml.$error.pattern">Email must be in proper format</span> -->
 					<span ng-show="registerForm.eml.$dirty && registerForm.eml.$error.required">Required</span>
 					<span ng-show="registerForm.eml.$touched && registerForm.eml.$invalid">Must be filled</span>
-					<span ng-show="registerForm.eml.$dirty && registerForm.eml.$error.email">Must be in a proper format (contain @ and .) </span>
-				</div>
+				    <span ng-show="registerForm.eml.$dirty && registerForm.eml.$error.email">Must be in a proper format (contain @ and .) </span>				</div>
 				
 				<div class="form-group">
 					<label for="password">Enter your Password</label> 

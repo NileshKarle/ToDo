@@ -13,7 +13,7 @@
 				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{archiveStatus:'true',noteStatus:'false'}">
 				<div id="moreOptions" style="float: right">
 					<span style="cursor: pointer"
-						ng-click="note.pin='true'; note.noteStatus='true'; updateNote(note)"> <img
+						ng-click="note.pin='true';note.archiveStatus='false' ;note.noteStatus='true'; updateNote(note)"> <img
 						alt="pin" style="height: 17px" src="image/pin.svg"></img>
 					</span>
 				</div>

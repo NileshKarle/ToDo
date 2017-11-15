@@ -59,7 +59,8 @@ public class NotesDaoImpl implements NotesDao{
 		
 	}
 
-	/*@SuppressWarnings("deprecation")
+	//Retun's the note by id.
+	@SuppressWarnings("deprecation")
 	@Override
 	public Notes getNote(Notes note) {
 		
@@ -69,7 +70,7 @@ public class NotesDaoImpl implements NotesDao{
 		session.close();
 		return notes;
 	
-	}*/
+	}
 	
 	//This method is called when any field of the note is modified. 
 	//So the changes can be reflected in the database.

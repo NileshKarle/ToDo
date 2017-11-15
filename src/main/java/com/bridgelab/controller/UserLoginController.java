@@ -1,15 +1,17 @@
 package com.bridgelab.controller;
 
 import java.io.IOException;
+import java.net.URL;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,8 +55,8 @@ public class UserLoginController {
 	 *              message is send to the user.
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<ErrorMessage> loginUser(@RequestBody User user, HttpSession session) throws Exception {
-
+	public ResponseEntity<ErrorMessage> loginUser(@RequestBody User user,HttpServletRequest request) throws Exception {
+		
 		ErrorMessage errorMessage = new ErrorMessage();
 
 		// Gets the object of user from the database if the email exist's in database.
@@ -62,7 +64,7 @@ public class UserLoginController {
 
 		// if no such email exist's in database.
 		if (userLogined == null) {
-			errorMessage.setResponseMessage("Such Email dose not exists try again later.");
+			errorMessage.setResponseMessage("Such Email does not exist try again later.");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
 
@@ -100,9 +102,9 @@ public class UserLoginController {
 	
 	
 	@RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
-	public ResponseEntity<ErrorMessage> collectNewPassword(@RequestBody User user, HttpSession session)
+	public ResponseEntity<ErrorMessage> emailValidation(@RequestBody User user, HttpServletRequest request)
 			throws Exception {
-
+		
 		User userLogined = userService.emailValidation(user.getEmail());
 		ErrorMessage errorMessage = new ErrorMessage();
 
@@ -111,30 +113,57 @@ public class UserLoginController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
 
+		URL url;
+		url = new URL(request.getRequestURL().toString());	
+		String url1=url.getProtocol()+"://"+url.getHost()+":"+url.getPort()+"/ToDo/redirect/";
+
 		String compactToken = tokenGenerator.createJWT(userLogined.getId());
-		mailService.sendMail(userLogined.getEmail(), compactToken.replaceAll("\\.", "/"),
-				"http://192.168.0.179:8080/ToDo/#!/EmailVerification");
+		mailService.sendMail(userLogined.getEmail(),compactToken.replaceAll("\\.", "/"),url1);
 		errorMessage.setResponseMessage("success");
 		return ResponseEntity.ok(errorMessage);
 
 	}
+		
+	@RequestMapping(value = "/redirect/{header}/{payload}/{footer}")
+	public void redirect(@PathVariable("header") String header, @PathVariable("payload") String payload,
+			@PathVariable("footer") String footer, HttpServletResponse response) {
+		
+		//Regenerate the token in the original form.
+		String token = header + "." + payload + "." + footer;
+		
+		try {
+			int verifiedUserId = verifyToken.parseJWT(token);
+			// System.out.println(verifiedUserId+"<-----this is id");
+			
+			if (verifiedUserId != 0) {
+				System.out.println("it is in the /new page");
+				response.sendRedirect("http://localhost:8080/ToDo/#!/forgotPassword"); 
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 	@RequestMapping(value = "/UpdatedPassword")
-	public ResponseEntity<String> RedirectToHomePage(@RequestBody User user, HttpServletResponse response) throws IOException {
+	public ResponseEntity<ErrorMessage> updatePassword(@RequestBody User user) throws IOException {
 		
+		System.out.println("its in the updatepassword.....");
+		ErrorMessage errorMessage=new ErrorMessage();
 		User OldUser=userService.emailValidation(user.getEmail());
 		
 		if(OldUser!=null){
 		String encrypt = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10));
-		user.setPassword(encrypt);
-		userService.saveUserData(user);
-		//response.sendRedirect("#!/login");
-		return ResponseEntity.ok("Success");
+		OldUser.setPassword(encrypt);
+		userService.saveUserData(OldUser);
+		errorMessage.setResponseMessage("success");
+		return ResponseEntity.ok(errorMessage);
 		}
-		 
-		ErrorMessage errorMessage=new ErrorMessage();
-		errorMessage.setResponseMessage("Such email dose not exist");
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.getResponseMessage());
+		
+		errorMessage.setResponseMessage("Such email does not exist");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 	}
 	
 

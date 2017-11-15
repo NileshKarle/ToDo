@@ -16,10 +16,10 @@ public class UserServiceImpl implements UserService {
 		userDao.saveUserData(user);
 	}
 	
-	@Override
+/*	@Override
 	public User verifyUserData(String email,String password){
 		return userDao.loginUser(email,password);
-	}
+	}*/
 
 	@Override
 	public User emailValidation(String email) 

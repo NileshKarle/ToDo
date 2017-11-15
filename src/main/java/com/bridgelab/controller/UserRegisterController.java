@@ -1,6 +1,8 @@
 package com.bridgelab.controller;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,14 +49,15 @@ public class UserRegisterController {
 	/**
 	 * @param user(user Object)
 	 * @return ResponseEntity
-	 * 
+	 * @throws IOException 
+	 * @throws URISyntaxException 
 	 * @Description This method collet's the user object as the parameter.
 	 *              This user object contains the user details.
 	 *              User details are stored in the database and the user receives a mail for user verification.
 	 *              User can login only if the user is verified.
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<ErrorMessage> registerUser(@RequestBody User user, HttpServletRequest request) {
+	public ResponseEntity<ErrorMessage> registerUser(@RequestBody User user, HttpServletRequest request) throws IOException, URISyntaxException {
 
 		// request.getContextPath() // ToDo
 
@@ -87,9 +90,15 @@ public class UserRegisterController {
 			userService.saveUserData(user);
 
 			// Generate a token and send a mail.
+			
+			System.out.println("its here ");
+
+			URL url;
+			url = new URL(request.getRequestURL().toString());	
+			String url1=url.getProtocol()+"://"+url.getHost()+":"+url.getPort()+"ToDo/UserActivation/";
+
 			String compactToken = tokenGenerator.createJWT(user.getId());
-			mailService.sendMail(user.getEmail(), compactToken.replaceAll("\\.", "/"),
-					"http://192.168.0.179:8080/ToDo/UserActivation/");
+			mailService.sendMail(user.getEmail(), compactToken.replaceAll("\\.", "/"),url1);
 
 			errorMessage.setResponseMessage("success");
 			return ResponseEntity.ok(errorMessage);
@@ -128,7 +137,7 @@ public class UserRegisterController {
 			if (verifiedUserId != 0 || user != null) {
 				user.setFirstTimeLogin("true");
 				userService.saveUserData(user);
-				response.sendRedirect("http://localhost:8080/ToDo/#!/login");
+				response.sendRedirect("/ToDo/#!/login");
 			}
 
 		} catch (IOException e) {

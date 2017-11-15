@@ -40,7 +40,7 @@ toDo.factory('homePageService', function($http, $location) {
 		console.log("inside the update service...");
 		return $http({
 			method : "POST",
-			url : 'Update',
+			url : 'noteUpdate',
 			headers: {
 				'token':localStorage.getItem('token')
 			},

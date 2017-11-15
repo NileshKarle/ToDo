@@ -13,22 +13,33 @@
 			<br>
 			<h4>Pinned</h4>
 			<div class="card"
-				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'true' , noteStatus:'true' , deleteStatus:'false'}">
+				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'true', archiveStatus:'false' , noteStatus:'true' , deleteStatus:'false'}"
+				 ng-click="open(note)">
 				<div style="float: right">
 					<span style="cursor: pointer"
 						ng-click="note.pin=false; updateNote(note)"> <img alt="pin"
 						style="height: 17px" src="image/bluepin.svg"></img>
 					</span>
 				</div>
-				<div ng-bind-html="note.title" ng-click="open(note)"></div>
+				<div ng-bind-html="note.title" ></div>
 				<br>
-				<div ng-bind-html="note.description" ng-click="open(note)"></div>
+				<div ng-bind-html="note.description"></div>
 				<br>
 				<div id="moreOptions">
 					<div class="dropdown" style="float: right">
 						<img alt="reminder" src="image/reminder.svg" height="15px">
 						<img alt="colaburator" src="image/colaburator.png" height="25px"> 
-						<img alt="color" src="image/colorpallete.svg" height="20px"> 
+						
+						<div class="btn-group dropup colorDiv" uib-dropdown>
+									<img id ="dropdown" class="dropdown-toggle" data-toggle="dropdown" alt="color" 
+										src="image/colorpallete.svg"  uib-dropdown-toggle>
+										<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
+											<a ng-style="{'background-color':'color.color'}" ng-repeat="color in colors"   role="menuitem">
+											<img id="icons" ng-src="{{color.path}}" ng-click="note.color =color.color;
+											updateNotes(note)"></a>
+										</ul>
+									</div>
+<!-- 						<img alt="color" src="image/colorpallete.svg" height="20px">  -->
 						<img alt="image" src="image/image.svg" height="20px">
 						<span ng-click="archiveNote(note)"><img alt="archive" src="image/archive.svg" height="20px"></span> 
 						<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
@@ -46,7 +57,7 @@
 
 			<h4>Others</h4>
 			<div class="card" ng-click="popup(note)"
-				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'false' , noteStatus: 'true' , deleteStatus:'false'}">
+				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'false',archiveStatus:'false' , noteStatus: 'true' , deleteStatus:'false'}">
 				<div id="moreOptions" style="float: right">
 					<span style="cursor: pointer"
 						ng-click="note.pin='true'; updateNote(note)"> <img

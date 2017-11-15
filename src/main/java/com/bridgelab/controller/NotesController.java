@@ -117,13 +117,16 @@ public class NotesController {
 	 *              user who is logged in.
 	 * 
 	 */
-	@RequestMapping(value = "/Update", method = RequestMethod.POST)
+	@RequestMapping(value = "/noteUpdate", method = RequestMethod.POST)
 	public ResponseEntity<ErrorMessage> updateNote(@RequestBody Notes note,
 			@RequestHeader(value = "token") String headers) {
-
+		
+		System.out.println("its entered in the update field");
+		
 		// Collect the token(headers) from the local storage and verify the
 		// token.
 		int userId = verifyToken.parseJWT(headers);
+		System.out.println("user id is "+userId);
 		User user = userService.userValidated(userId);
 		ErrorMessage errorMessage = new ErrorMessage();
 
@@ -133,10 +136,9 @@ public class NotesController {
 		}
 
 		Notes oldNote = notesService.getNote(note);
-
+		System.out.println(oldNote);
 		if (oldNote != null) {
 			Date date = new Date();
-
 			note.setModifiedDate(date);
 			note.setCreatedDate(oldNote.getCreatedDate());
 			note.setUser(user);
@@ -169,6 +171,7 @@ public class NotesController {
 		// Collect the token(headers) from the local storage and verify the
 		// token.
 		int userId = verifyToken.parseJWT(headers);
+
 		User user = userService.userValidated(userId);
 		ErrorMessage errorMessage = new ErrorMessage();
 

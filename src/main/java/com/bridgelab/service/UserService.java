@@ -6,7 +6,7 @@ public interface UserService {
 	
 	public void saveUserData(User user);
 	
-	public User verifyUserData(String email,String password);
+	/*public User verifyUserData(String email,String password);*/
 	
 	public User emailValidation(String email);
 	
