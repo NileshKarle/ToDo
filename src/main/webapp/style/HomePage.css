@@ -12,6 +12,7 @@ div#mainWrapper{
 	height:100%;
 	width:100%;
 }
+
 div#sidebarWrapper{
 	width:100%;
 	height: 100%;
@@ -23,7 +24,6 @@ div#sidebarWrapper{
 }
 .card{
 	min-height: 40px;
-	background-color: white;
 	padding:10px;
 	width: 27%;
 	padding-bottom: 10px;

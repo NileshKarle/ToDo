@@ -9,7 +9,7 @@
 		<br> <br>
 			<br>
 			<br>
-			<div class="card"
+			<div class="card" style="background-color: {{note.noteColor}}"
 				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{deleteStatus:'true'}">
 				
 				<div ng-bind-html="note.title"></div>

@@ -16,6 +16,17 @@ toDo.factory('homePageService', function($http, $location) {
 		})
 	}
 	
+	abc.changeColor=function(note){
+		return $http({
+			method : "POST",
+			url : 'changeColor',
+			headers : {
+				'token' : localStorage.getItem('token')
+			},
+			data : note
+		})
+	}
+	
 	abc.deleteNoteForever = function(id){
 		return $http({
 			method : "DELETE",

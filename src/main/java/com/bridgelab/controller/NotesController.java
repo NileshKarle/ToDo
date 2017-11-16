@@ -106,9 +106,34 @@ public class NotesController {
 		return ResponseEntity.ok(errorMessage);
 	}
 
+	
+	@RequestMapping(value = "/changeColor", method = RequestMethod.POST)
+	public ResponseEntity<ErrorMessage> updateColor(@RequestBody Notes note,
+			@RequestHeader(value = "token") String headers) {
+		
+		// Collect the token(headers) from the local storage and verify the
+		// token.
+		int userId = verifyToken.parseJWT(headers);
+		
+		User user = userService.userValidated(userId);
+		ErrorMessage errorMessage = new ErrorMessage();
+
+		if (user == null || user.getLoginStatus().equals("false")) {
+			errorMessage.setResponseMessage("invalid ...!!");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+		}
+		
+		note.setUser(user);
+		notesService.updateNote(note);
+
+			errorMessage.setResponseMessage("note updated.");
+			errorMessage.setAllNotes(null);
+			return ResponseEntity.ok(errorMessage);
+		}	
+	
+	
 	/**
 	 * @param notes
-	 *            (note object that has to be deleted.)
 	 * @param headers
 	 *            (JWT)
 	 * @return ResponseEntity (HTTP Status)

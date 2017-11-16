@@ -7,54 +7,74 @@ toDo.controller(
 				function($scope, homePageService, $location, $state) {
 					
 					
-					$scope.colors=[/*{
-						"color":'#8e44ad',
-						"path":'images/purple.png'
-					},
-					{
-						"color":'#3498db',
-						"path":'images/blue.png'
-					},
-					*/{
-						"color":'#f1c40f',
-						"path":'image/yellow.png'
-					}/*,
-					{
-						"color":'#1abc9c',
-						"path":'images/green.png'
-					},
-					{
-						"color":'#2ecc71',
-						"path":'images/seegreen.png'
-					},
-					{
-						"color":'#f1c40f',
-						"path":'images/yellow.png'
-					},
-					{
-						"color":'#f39c12',
-						"path":'images/darkyellow.png'
-					},
-					{
-						"color":'#c0392b',
-						"path":'images/darkred.png'
-					},
-					{
-						"color":'#ffffff',
-						"path":'images/white.png'
-					},
-					{
-						"color":'#000000',
-						"path":'images/black.png'
-					},
-					{
-						"color":'#34495e',
-						"path":'images/darkgrey.png'
-					},
-					{
-						"color":'#d35400',
-						"path":'images/orange.png'
-					},*/
+					$scope.changeColor=function(note){
+						
+						var a = homePageService.changeColor(note);
+						a.then(function(response) {
+							/*getAllNotes();*/
+							$state.reload();
+						}, function(response) {
+							console.log(response);
+						});
+					}
+					
+					$scope.AddNoteColor="#ffffff";
+					
+					$scope.addNoteColorChange=function(color){
+						$scole.AddNoteColor=color;
+					}
+					
+					
+					$scope.colors=[/*"#fff","#f1c40f","#280275"*/
+						
+						{
+							"color":'#ffffff',
+							"path":'image/white.png'
+						},
+						{
+							"color":'#e74c3c',
+							"path":'image/Red.png'
+						},
+						{
+							"color":'#ff8c1a',
+							"path":'image/orange.png'
+						},
+						{
+							"color":'#fcff77',
+							"path":'image/lightyellow.png'
+						},
+						{
+							"color":'#80ff80',
+							"path":'image/green.png'
+						},
+						{
+							"color":'#99ffff',
+							"path":'image/skyblue.png'
+						},
+						{
+							"color":'#0099ff',
+							"path":'image/blue.png'
+						},
+						{
+							"color":'#1a53ff',
+							"path":'image/darkblue.png'
+						},
+						{
+							"color":'#9966ff',
+							"path":'image/purple.png'
+						},
+						{
+							"color":'#ff99cc',
+							"path":'image/pink.png'
+						},
+						{
+							"color":'#d9b38c',
+							"path":'image/brown.png'
+						},
+						{
+							"color":'#bfbfbf',
+							"path":'image/grey.png'
+						}
 					];
 					
 					console.log("main controller");
@@ -187,7 +207,6 @@ toDo.controller(
 						});
 					}
 
-					
 					$scope.pinStatus =false;
 					
 					/*pin unpin the notes*/
@@ -230,6 +249,7 @@ toDo.controller(
 							document.getElementById("notetitle").innerHTML = "";
 							document.getElementById("noteDescription").innerHTML = "";
 							$scope.pinStatus = false;
+							$scope.AddNoteColor="#ffffff";
 							getAllNotes();
 						}, function(response) {
 							});
