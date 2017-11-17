@@ -4,8 +4,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -41,22 +39,6 @@ public class UserDaoImpl implements UserDao {
 		}
 	
 	}
-	
-	/*@SuppressWarnings({ "deprecation" })
-	@Override
-	public User loginUser(String email,String password){
-		
-		Session session =this.sessionFactory.openSession();
-		Criteria criteria = session.createCriteria(User.class);
-		Criterion emailVerify = Restrictions.eq("email", email);
-		Criterion passwordVerify = Restrictions.eq("password", password);
-		LogicalExpression andExp = Restrictions.and(emailVerify, passwordVerify);
-		criteria.add(andExp);
-		User user = (User) criteria.uniqueResult();
-		session.close();
-		return user;
-	
-	}*/
 
 	// This method retuns user data if the email exist's in the database else it retuns null.
 	@SuppressWarnings("deprecation")

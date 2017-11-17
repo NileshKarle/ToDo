@@ -27,6 +27,11 @@ import com.bridgelab.token.TokenGenerator;
 import com.bridgelab.token.VerifyToken;
 import com.bridgelab.validator.UserValidation;
 
+/**
+ * @author Nilesh
+ *
+ * @Description This controller is called for user registration 
+ */
 @RestController
 public class UserRegisterController {
 
@@ -59,13 +64,6 @@ public class UserRegisterController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<ErrorMessage> registerUser(@RequestBody User user, HttpServletRequest request) throws IOException, URISyntaxException {
 
-		// request.getContextPath() // ToDo
-
-		// URL url = new URL( request.getRequestURL().toString());
-		// url.getProtocol() // http | https
-		// url.getHost() //
-		// url.getPort() //
-		System.out.println("this is user registration controller.");
 
 		ErrorMessage errorMessage = new ErrorMessage();
 
@@ -89,14 +87,11 @@ public class UserRegisterController {
 			user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
 			userService.saveUserData(user);
 
-			// Generate a token and send a mail.
-			
-			System.out.println("its here ");
-
 			URL url;
 			url = new URL(request.getRequestURL().toString());	
 			String url1=url.getProtocol()+"://"+url.getHost()+":"+url.getPort()+"ToDo/UserActivation/";
 
+			// Generate a token and send a mail.
 			String compactToken = tokenGenerator.createJWT(user.getId());
 			mailService.sendMail(user.getEmail(), compactToken.replaceAll("\\.", "/"),url1);
 

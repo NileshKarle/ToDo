@@ -23,6 +23,12 @@ import com.bridgelab.service.NotesService;
 import com.bridgelab.service.UserService;
 import com.bridgelab.token.VerifyToken;
 
+/**
+ * @author Nilesh
+ *
+ * @Description This controller is called when any operation related to notes has to be performed.
+ *
+ */
 @RestController
 @RequestMapping(value="/note")
 public class NotesController {
