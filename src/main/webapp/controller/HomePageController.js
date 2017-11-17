@@ -11,17 +11,16 @@ toDo.controller(
 						
 						var a = homePageService.changeColor(note);
 						a.then(function(response) {
-							/*getAllNotes();*/
-							$state.reload();
+							getAllNotes();
 						}, function(response) {
-							console.log(response);
+							
 						});
 					}
 					
 					$scope.AddNoteColor="#ffffff";
 					
 					$scope.addNoteColorChange=function(color){
-						$scole.AddNoteColor=color;
+						$scope.AddNoteColor=color;
 					}
 					
 					
@@ -241,7 +240,7 @@ toDo.controller(
 						$scope.notes.reminderStatus= "true";
 						$scope.notes.archiveStatus= "false";
 						$scope.notes.deleteStatus = "false";
-						$scope.notes.noteColor="#fff";
+						$scope.notes.noteColor=$scope.AddNoteColor;
 						console.log($scope.notes);
 						
 						var a = homePageService.addNote($scope.notes);
