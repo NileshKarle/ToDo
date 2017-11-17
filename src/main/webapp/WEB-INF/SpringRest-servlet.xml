@@ -82,4 +82,10 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<!-- <mvc:resources location="/toDoImages/" mapping="/toDoImages/**" /> -->
 	<mvc:resources location="/image/" mapping="/image/**" />
 
+	<mvc:interceptors>
+   		<mvc:interceptor>
+   			<mvc:mapping path="/note/**"></mvc:mapping>
+   			<bean id="notesInterceptor" class="com.bridgelab.Interceptor.NotesInterceptor"></bean>
+   		</mvc:interceptor>
+   </mvc:interceptors>
 </beans>
