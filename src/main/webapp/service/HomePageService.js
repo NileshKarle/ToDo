@@ -8,7 +8,7 @@ toDo.factory('homePageService', function($http, $location) {
 		console.log(notes.noteStatus);
 		return $http({
 			method : "POST",
-			url : 'AddNotes',
+			url : 'note/AddNotes',
 			headers: {
 				'token':localStorage.getItem('token')
 			},
@@ -19,7 +19,7 @@ toDo.factory('homePageService', function($http, $location) {
 	abc.changeColor=function(note){
 		return $http({
 			method : "POST",
-			url : 'changeColor',
+			url : 'note/changeColor',
 			headers : {
 				'token' : localStorage.getItem('token')
 			},
@@ -30,7 +30,7 @@ toDo.factory('homePageService', function($http, $location) {
 	abc.deleteNoteForever = function(id){
 		return $http({
 			method : "DELETE",
-			url : 'DeleteNotes/'+id,
+			url : 'note/DeleteNotes/'+id,
 			headers: {
 				'token':localStorage.getItem('token')
 			}
@@ -51,7 +51,7 @@ toDo.factory('homePageService', function($http, $location) {
 		console.log("inside the update service...");
 		return $http({
 			method : "POST",
-			url : 'noteUpdate',
+			url : 'note/noteUpdate',
 			headers: {
 				'token':localStorage.getItem('token')
 			},
@@ -63,7 +63,7 @@ toDo.factory('homePageService', function($http, $location) {
 		console.log("home page service2 all notes");
 		return $http({
 			method : "GET",
-			url : 'AllNodes',
+			url : 'note/AllNodes',
 			headers: {
 				'token':localStorage.getItem('token')
 			}

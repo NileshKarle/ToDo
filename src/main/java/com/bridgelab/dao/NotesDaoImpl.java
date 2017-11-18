@@ -42,7 +42,7 @@ public class NotesDaoImpl implements NotesDao{
 		
 	}
 
-	//This method delete's the note permently from the database.
+	//This method delete's the note from the database.
 	@Override
 	public void deleteNote(Notes notes) {
 		Session session =this.sessionFactory.openSession();
@@ -93,7 +93,7 @@ public class NotesDaoImpl implements NotesDao{
 	}
 	
 	
-	//This method retun's list of all the note's of a perticular user based on the user id.
+	//This method retun's list of all the note's of a particular user based on the user id.
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	public List<Notes> listAllNotes(User user) {

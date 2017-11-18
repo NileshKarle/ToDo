@@ -27,6 +27,11 @@ import com.bridgelab.token.TokenGenerator;
 import com.bridgelab.token.VerifyToken;
 import com.bridgelab.validator.UserValidation;
 
+/**
+ * @author Nilesh
+ *
+ * @Description This controller is called for user login, logout and during forgot password.
+ */
 @RestController
 public class UserLoginController {
 
@@ -74,7 +79,7 @@ public class UserLoginController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
 
-		// decrypt the password and check if it is vallid or not.
+		// decrypt the password and check if it is valid or not.
 		Boolean passwordStatus = BCrypt.checkpw(user.getPassword(), userLogined.getPassword());
 
 		// if the password is not valid.
@@ -92,6 +97,12 @@ public class UserLoginController {
 
 	}
 
+	/**
+	 * @param headers(token)
+	 * 
+	 * @Description User id is collected from the token 
+	 * 				and the loginstatus is set to false for the particular user.
+	 */
 	@RequestMapping(value="/logout",method=RequestMethod.POST)
 	public void logout(@RequestHeader(value = "token") String headers){
 		int userId = verifyToken.parseJWT(headers);
@@ -101,6 +112,15 @@ public class UserLoginController {
 	}
 	
 	
+	/**
+	 * @param user(contains user email)
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 * 
+	 * @Description If the email does not exist in database then a error message is send.
+	 * 				If the email exist in the database then a link is mailed to the particular email.
+	 */
 	@RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
 	public ResponseEntity<ErrorMessage> emailValidation(@RequestBody User user, HttpServletRequest request)
 			throws Exception {
@@ -124,16 +144,23 @@ public class UserLoginController {
 
 	}
 		
+	/**
+	 * @param header(header of token)
+	 * @param payload(payload of token)
+	 * @param footer(footer of token)
+	 * @param response
+	 * 
+	 * @Description When this API is called it validates the token and redirect it to the forgotpassword page.
+	 */
 	@RequestMapping(value = "/redirect/{header}/{payload}/{footer}")
 	public void redirect(@PathVariable("header") String header, @PathVariable("payload") String payload,
 			@PathVariable("footer") String footer, HttpServletResponse response) {
 		
-		//Regenerate the token in the original form.
+		//Rearrange the token in the original form.
 		String token = header + "." + payload + "." + footer;
 		
 		try {
 			int verifiedUserId = verifyToken.parseJWT(token);
-			// System.out.println(verifiedUserId+"<-----this is id");
 			
 			if (verifiedUserId != 0) {
 				System.out.println("it is in the /new page");
@@ -147,19 +174,27 @@ public class UserLoginController {
 	
 	
 
+	/**
+	 * @param user(contains the email and the password)
+	 * @return response Message.
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/UpdatedPassword")
 	public ResponseEntity<ErrorMessage> updatePassword(@RequestBody User user) throws IOException {
 		
-		System.out.println("its in the updatepassword.....");
 		ErrorMessage errorMessage=new ErrorMessage();
+		//collect user Object from email.
 		User OldUser=userService.emailValidation(user.getEmail());
 		
 		if(OldUser!=null){
-		String encrypt = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10));
-		OldUser.setPassword(encrypt);
-		userService.saveUserData(OldUser);
-		errorMessage.setResponseMessage("success");
-		return ResponseEntity.ok(errorMessage);
+			//Encrypt the password.
+			String encrypt = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10));
+			
+			//replace with old password and update the user.
+			OldUser.setPassword(encrypt);
+			userService.saveUserData(OldUser);
+			errorMessage.setResponseMessage("success");
+			return ResponseEntity.ok(errorMessage);
 		}
 		
 		errorMessage.setResponseMessage("Such email does not exist");
