@@ -28,9 +28,6 @@ public class User {
 	@Column(name = "FIRST_TIME_LOGIN")
 	private String firstTimeLogin;
 
-	@Column(name = "LOGIN_STATUS")
-	private String loginStatus;
-
 	@Column(name = "FIRST_NAME")
 	private String firstName;
 
@@ -57,16 +54,6 @@ public class User {
 	public void setFirstTimeLogin(String firstTimeLogin) {
 		if (firstTimeLogin == "true" || firstTimeLogin == "false") {
 			this.firstTimeLogin = firstTimeLogin;
-		}
-	}
-
-	public String getLoginStatus() {
-		return loginStatus;
-	}
-
-	public void setLoginStatus(String loginStatus) {
-		if (loginStatus == "true" || loginStatus == "false") {
-			this.loginStatus = loginStatus;
 		}
 	}
 

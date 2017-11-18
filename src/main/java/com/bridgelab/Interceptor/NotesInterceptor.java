@@ -26,7 +26,7 @@ public class NotesInterceptor implements HandlerInterceptor{
 		int userId = verifyToken.parseJWT(headers);
 		User user = userService.userValidated(userId);
 		
-		if(user == null || user.getLoginStatus().equals("false")){
+		if(user == null){
 			return false;
 		}
 		

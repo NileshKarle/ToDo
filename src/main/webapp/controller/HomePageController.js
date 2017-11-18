@@ -23,6 +23,24 @@ toDo.controller(
 						$scope.AddNoteColor=color;
 					}
 					
+					$scope.ListView=true;
+					
+					$scope.listGrideView=function(){
+						if($scope.ListView){
+							var element = document.getElementsByClassName('card');
+							for(var i=0;i<element.length;i++){
+								element[i].style.width="900px";
+							}
+							$scope.ListView=false;
+						}
+						else{
+							var element = document.getElementsByClassName('card');
+							for(var i=0;i<element.length;i++){
+								element[i].style.width="300px";
+							}
+							$scope.ListView=true;
+						}
+					}
 					
 					$scope.colors=[/*"#fff","#f1c40f","#280275"*/
 						
