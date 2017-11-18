@@ -80,8 +80,8 @@ public class UserRegisterController {
 
 		// if details are correct.
 		if (isValid.equals("true")) {
+			
 			user.setFirstTimeLogin("false");
-			user.setLoginStatus("false");
 
 			// encrypt the password and then set it.
 			user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
@@ -127,7 +127,6 @@ public class UserRegisterController {
 		try {
 			int verifiedUserId = verifyToken.parseJWT(token);
 			User user = userService.userValidated(verifiedUserId);
-			// System.out.println(verifiedUserId+"<-----this is id");
 			
 			if (verifiedUserId != 0 || user != null) {
 				user.setFirstTimeLogin("true");

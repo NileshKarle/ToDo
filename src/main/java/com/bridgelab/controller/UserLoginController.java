@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -90,25 +89,10 @@ public class UserLoginController {
 
 		// if the password is valid.
 		String compactToken = tokenGenerator.createJWT(userLogined.getId());
-		userLogined.setLoginStatus("true");
 		userService.saveUserData(userLogined);
 		errorMessage.setResponseMessage(compactToken);
 		return ResponseEntity.ok(errorMessage);
 
-	}
-
-	/**
-	 * @param headers(token)
-	 * 
-	 * @Description User id is collected from the token 
-	 * 				and the loginstatus is set to false for the particular user.
-	 */
-	@RequestMapping(value="/logout",method=RequestMethod.POST)
-	public void logout(@RequestHeader(value = "token") String headers){
-		int userId = verifyToken.parseJWT(headers);
-		User user = userService.userValidated(userId);
-		user.setLoginStatus("false");
-		userService.saveUserData(user);
 	}
 	
 	
@@ -133,10 +117,18 @@ public class UserLoginController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
 
+		String servletpath = request.getServletPath();
+		String contextpath =request.getContextPath();
+		
+		System.out.println("app name is "+ servletpath);
+		System.out.println("app 2name is "+ contextpath);
 		URL url;
-		url = new URL(request.getRequestURL().toString());	
-		String url1=url.getProtocol()+"://"+url.getHost()+":"+url.getPort()+"/ToDo/redirect/";
-
+		url = new URL( request.getRequestURL().toString());	
+		
+		String url1 = url.getProtocol()+"://"+url.getHost()+":"+url.getPort() + contextpath + "/redirect/";
+    
+		
+		
 		String compactToken = tokenGenerator.createJWT(userLogined.getId());
 		mailService.sendMail(userLogined.getEmail(),compactToken.replaceAll("\\.", "/"),url1);
 		errorMessage.setResponseMessage("success");

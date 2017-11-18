@@ -23,6 +23,24 @@ toDo.controller(
 						$scope.AddNoteColor=color;
 					}
 					
+					$scope.ListView=true;
+					
+					$scope.listGrideView=function(){
+						if($scope.ListView){
+							var element = document.getElementsByClassName('card');
+							for(var i=0;i<element.length;i++){
+								element[i].style.width="900px";
+							}
+							$scope.ListView=false;
+						}
+						else{
+							var element = document.getElementsByClassName('card');
+							for(var i=0;i<element.length;i++){
+								element[i].style.width="300px";
+							}
+							$scope.ListView=true;
+						}
+					}
 					
 					$scope.colors=[/*"#fff","#f1c40f","#280275"*/
 						
@@ -76,8 +94,6 @@ toDo.controller(
 						}
 					];
 					
-					console.log("main controller");
-					console.log($state.current.name);
 					
 					if($state.current.name=="home"){
 						$scope.navBarColor= "#ffbb33";
@@ -105,12 +121,18 @@ toDo.controller(
 						});
 						};
 					*/
-					/*$scope.cardColor={'white','blue','red'}*/
 					
 					/*toggle side bar*/
 					$scope.showSideBar = true;
 					$scope.sidebarToggle = function() {
-						$scope.showSideBar = !$scope.showSideBar;
+						if($scope.showSideBar){
+							$scope.showSideBar=false;
+							document.getElementById("mainWrapper").style.paddingLeft = "200px";
+						}
+						else{
+							$scope.showSideBar = true;
+							document.getElementById("mainWrapper").style.paddingLeft = "300px";
+						}
 					}
 					
 					/*toggle AddNote box*/
