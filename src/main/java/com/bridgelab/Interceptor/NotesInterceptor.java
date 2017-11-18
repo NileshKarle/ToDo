@@ -25,10 +25,8 @@ public class NotesInterceptor implements HandlerInterceptor{
 		String headers=request.getHeader("token");
 		int userId = verifyToken.parseJWT(headers);
 		User user = userService.userValidated(userId);
-		System.out.println("it arrived here first"+user);
 		
 		if(user == null || user.getLoginStatus().equals("false")){
-			response.sendRedirect("#!/login");
 			return false;
 		}
 		

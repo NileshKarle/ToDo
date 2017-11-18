@@ -133,10 +133,18 @@ public class UserLoginController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}
 
+		String servletpath = request.getServletPath();
+		String contextpath =request.getContextPath();
+		
+		System.out.println("app name is "+ servletpath);
+		System.out.println("app 2name is "+ contextpath);
 		URL url;
-		url = new URL(request.getRequestURL().toString());	
-		String url1=url.getProtocol()+"://"+url.getHost()+":"+url.getPort()+"/ToDo/redirect/";
-
+		url = new URL( request.getRequestURL().toString());	
+		
+		String url1 = url.getProtocol()+"://"+url.getHost()+":"+url.getPort() + contextpath + "/redirect/";
+    
+		
+		
 		String compactToken = tokenGenerator.createJWT(userLogined.getId());
 		mailService.sendMail(userLogined.getEmail(),compactToken.replaceAll("\\.", "/"),url1);
 		errorMessage.setResponseMessage("success");

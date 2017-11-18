@@ -1,31 +1,27 @@
 @CHARSET "UTF-8";
-div#mainHome{
+#mainHome{
 	width: 100%;
 	height: 100%;
 	background-color: #e8e8e8;
 }
 
-div#mainWrapper{
+#mainWrapper{
 	background-color:#e8e8e8;
-    padding-left:200px; 
+    padding-left:300px; 
  	position: absolute;
 	height:100%;
 	width:100%;
 }
 
-div#sidebarWrapper{
-	width:100%;
+#sidebarWrapper{
 	height: 100%;
-	background-color: white;
 	display: inline-block;
 	padding-top: 25px;
 	padding-bottom: 25px;
-	padding-left: 16px;
 }
 .card{
 	min-height: 40px;
 	padding:10px;
-	width: 27%;
 	padding-bottom: 10px;
 	margin-top:10px;
 	margin-left: 10px;
@@ -54,6 +50,11 @@ div#sidebarWrapper{
 
 .dropdown img{
 	padding-left: 20px;
+}
+
+
+body {
+	background-color: #e8e8e8;
 }
 
 .dropdown-menu{
