@@ -12,11 +12,11 @@
  -->
 
 <div class="ModalContainer" style="background-color: {{note.noteColor}}" ng-controller="homeController">
-<div contenteditable="true" ng-bind-html="note.title"></div>
+<div contenteditable="true" ng-bind-html="note.title" id="modifiedtitle"></div>
 <br>
-<div contenteditable="true" ng-bind-html="note.description"></div>
+<div contenteditable="true" ng-bind-html="note.description" id="modifieddescreption"></div>
 <br>
-<div><span ng-click="updateNote(note)">DONE</span></div>
+<div><span ng-click="updateNoteModal(note)">DONE</span></div>
 </div>
 
 

@@ -291,6 +291,15 @@ toDo.controller(
 					}
 					
 					
+					$scope.updateNoteModal=function(){
+						$scope.notes = {};
+						$scope.notes.title = document
+								.getElementById("modifiedtitle").innerHTML;
+						$scope.notes.description = document
+								.getElementById("modifieddescreption").innerHTML;
+						$scope.updateNote($scope.notes);
+					}
+					
 					/*add a new note to archive*/
 					$scope.addArchiveNote = function() {
 						$scope.notes = {};
