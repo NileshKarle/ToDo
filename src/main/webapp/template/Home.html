@@ -12,17 +12,16 @@
 					<br> <br>
 					<h4>Pinned</h4>
 					<div class="card" style="background-color: {{note.noteColor}}" 
-						ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'true', archiveStatus:'false' , noteStatus:'true' , deleteStatus:'false'}"
-						ng-click="open(note)">
+						ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'true', archiveStatus:'false' , noteStatus:'true' , deleteStatus:'false'}">
 						<div style="float: right">
 							<span style="cursor: pointer"
 								ng-click="note.pin=false; updateNote(note)"> <img
 								alt="pin" style="height: 17px" src="image/bluepin.svg"></img>
 							</span>
 						</div>
-						<div ng-bind-html="note.title"></div>
+						<div ng-bind-html="note.title" ng-click="open(note)"></div>
 						<br>
-						<div ng-bind-html="note.description"></div>
+						<div ng-bind-html="note.description" ng-click="open(note)"></div>
 						<br>
 						<div id="moreOptions">
 

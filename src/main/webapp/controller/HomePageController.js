@@ -1,10 +1,8 @@
 var toDo = angular.module('toDo');
-var modalInstance;
-
 
 toDo.controller(
 				'homeController',
-				function($scope, homePageService, $location, $state) {
+				function($scope, homePageService, $uibModal, $location,$state) {
 					
 					
 					$scope.changeColor=function(note){
@@ -25,20 +23,31 @@ toDo.controller(
 					
 					$scope.ListView=true;
 					
-					$scope.listGrideView=function(){
+					$scope.ListViewToggle=function(){
+						if($scope.ListView==true){
+							$scope.ListView=false;
+							listGrideView();
+						}
+						else{
+						$scope.ListView=true;
+						listGrideView();
+						}
+					}
+					
+					listGrideView();
+					
+					function listGrideView(){
 						if($scope.ListView){
 							var element = document.getElementsByClassName('card');
 							for(var i=0;i<element.length;i++){
 								element[i].style.width="900px";
 							}
-							$scope.ListView=false;
 						}
 						else{
 							var element = document.getElementsByClassName('card');
 							for(var i=0;i<element.length;i++){
 								element[i].style.width="300px";
 							}
-							$scope.ListView=true;
 						}
 					}
 					
@@ -112,15 +121,24 @@ toDo.controller(
 						$scope.navBarHeading="Archive";
 					}
 					
-					/*
-					$scope.open = function (note) {
+					/* Edit a note in modal */
+					/*$scope.open = function(note) {
+						$scope.note=note;
+						$scope.modalInstance = $uibModal.open({
+						templateUrl: 'template/editNote.html',
+						data:note
+						});
+						};*/
+					
+					
+						$scope.open = function (note) {
 						$scope.note = note;
 						modalInstance = $uibModal.open({
 						templateUrl: 'template/editNote.html',
 						scope : $scope
 						});
 						};
-					*/
+					
 					
 					/*toggle side bar*/
 					$scope.showSideBar = true;
@@ -148,9 +166,10 @@ toDo.controller(
 					function getAllNotes() {
 						var b = homePageService.allNotes();
 						b.then(function(response) {
-							console.log(response.data);
 							$scope.userNotes = response.data;
+							
 						}, function(response) {
+							$scope.logout();
 						});
 					}
 
@@ -215,10 +234,6 @@ toDo.controller(
 					}
 					
 					
-					$scope.popup=function(note){
-						
-					}
-					
 					/*update the note*/
 					$scope.updateNote = function(note) {
 						var a = homePageService.updateNote(note);
@@ -263,7 +278,6 @@ toDo.controller(
 						$scope.notes.archiveStatus= "false";
 						$scope.notes.deleteStatus = "false";
 						$scope.notes.noteColor=$scope.AddNoteColor;
-						console.log($scope.notes);
 						
 						var a = homePageService.addNote($scope.notes);
 						a.then(function(response) {
@@ -294,6 +308,7 @@ toDo.controller(
 							document.getElementById("notetitle").innerHTML = "";
 							document.getElementById("noteDescription").innerHTML = "";
 							$scope.pinStatus = false;
+							$scope.AddNoteColor="#ffffff";
 							getAllNotes();
 						}, function(response) {
 							});
@@ -317,23 +332,19 @@ toDo.controller(
 
 
 					/*logout user*/
-					$scope.logout = function() {
-						var a=homePageService.logout();
-						a.then(function(response){
+					$scope.logout = function() {					
 							localStorage.removeItem('token');
-							$location.path('/login');
-						})
-						
+							$location.path('/login');						
 					}
 					
-					$scope.open = function () {
+					/*$scope.open = function () {
 
 					    var modalInstance = $modal.open({
 					      templateUrl: 'myModalContent.html',
 					      
 					    });
 
-					      };
+					      };*/
 					
 
 				});

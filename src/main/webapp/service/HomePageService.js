@@ -37,16 +37,6 @@ toDo.factory('homePageService', function($http, $location) {
 		})
 	}
 	
-	abc.logout = function(){
-		return $http({
-			method : "POSt",
-			url : 'logout',
-			headers: {
-				'token':localStorage.getItem('token')
-			}
-		})
-	}
-	
 	abc.updateNote=function(notes){
 		console.log("inside the update service...");
 		return $http({

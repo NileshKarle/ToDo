@@ -137,7 +137,7 @@ public class NotesController {
 		ErrorMessage errorMessage = new ErrorMessage();
 
 		Notes oldNote = notesService.getNote(note);
-		
+		System.out.println(oldNote);
 		if (oldNote != null) {
 			Date date = new Date();
 			note.setModifiedDate(date);

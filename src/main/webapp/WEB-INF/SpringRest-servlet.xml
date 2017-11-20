@@ -79,8 +79,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<mvc:resources location="/service/" mapping="/service/**" />
 	<mvc:resources location="/script/" mapping="/script/**" />
 	<mvc:resources location="/Directives/" mapping="/Directives/**" />
-	<!-- <mvc:resources location="/toDoImages/" mapping="/toDoImages/**" /> -->
 	<mvc:resources location="/image/" mapping="/image/**" />
+	<mvc:resources location="/bower_components/" mapping="/bower_components/**" />
+	
 
 	<mvc:interceptors>
    		<mvc:interceptor>

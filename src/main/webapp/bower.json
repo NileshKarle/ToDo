@@ -1,0 +1,17 @@
+{
+  "name": "webapp",
+  "homepage": "https://github.com/Nileshkarle/ToDo",
+  "authors": [
+    "Nileshkarle <nileshkarle388@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
