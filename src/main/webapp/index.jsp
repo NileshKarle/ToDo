@@ -31,12 +31,14 @@
 <script src="controller/HomePageController.js"></script>
 <script src="controller/forgotPasswordController.js"></script>
 <script src="controller/EmailVerificationController.js"></script>
+<script src="controller/DummyPageController.js"></script>
 
 <script type="text/javascript" src="service/RegisterService.js"></script>
 <script type="text/javascript" src="service/LoginService.js"></script>
 <script type="text/javascript" src="service/ForgotPasswordService.js"></script>
 <script type="text/javascript" src="service/HomePageService.js"></script>
 <script type="text/javascript" src="service/EmailVerificationService.js"></script>
+<script type="text/javascript" src="service/DummyPageService.js"></script>
 
 <script type="text/javascript" src="Directives/CustomiseDirective.js"></script>
 

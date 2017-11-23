@@ -7,13 +7,11 @@ div#addNoteForm{
 div#noteDescription{
 	outline:none;
 	padding-top:5px;
-	height: 28px;
 }
 
 div#notetitle{
 	outline:none;
 	padding-top:5px;
-	height: 28px;
 }
 
 [contentEditable=true]:empty:not(:focus):before{
