@@ -125,9 +125,7 @@ public class UserLoginController {
 		URL url;
 		url = new URL( request.getRequestURL().toString());	
 		
-		String url1 = url.getProtocol()+"://"+url.getHost()+":"+url.getPort() + contextpath + "/redirect/";
-    
-		
+		String url1 = url.getProtocol()+"://"+url.getHost()+":"+url.getPort() +"/"+ contextpath + "/redirect/";
 		
 		String compactToken = tokenGenerator.createJWT(userLogined.getId());
 		mailService.sendMail(userLogined.getEmail(),compactToken.replaceAll("\\.", "/"),url1);

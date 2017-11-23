@@ -7,10 +7,11 @@
 
 #mainWrapper{
 	background-color:#e8e8e8;
-    padding-left:300px; 
  	position: absolute;
 	height:100%;
 	width:100%;
+ 	padding-left: 200px;
+	display: inline-table;
 }
 
 #sidebarWrapper{
@@ -20,17 +21,16 @@
 	padding-bottom: 25px;
 }
 .card{
-	min-height: 40px;
-	padding:10px;
-	padding-bottom: 10px;
-	margin-top:10px;
-	margin-left: 10px;
-	margin-right: 10px;
-	display: inline-block;
+	min-height: 130px;
+    padding: 20px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    margin-right: 2.5%;
+    display: inline-table;
 }
 
 .card:hover{
-	 box-shadow: 6px 6px 3px 1px #0A0A0A;
+	 box-shadow: 6px 6px 3px 1px #d9d9e2;
 }
 
 .card:hover #moreOptions{

@@ -12,11 +12,20 @@
  -->
 
 <div class="ModalContainer" style="background-color: {{note.noteColor}}" ng-controller="homeController">
-<div contenteditable="true" ng-bind-html="note.title" id="modifiedtitle"></div>
-<br>
-<div contenteditable="true" ng-bind-html="note.description" id="modifieddescreption"></div>
-<br>
-<div><span ng-click="updateNoteModal(note)">DONE</span></div>
+	<div style="float: right">
+		<span style="cursor: pointer" ng-click="note.pin=!note.pin"> 
+			<img alt="pin" style="height: 17px" src="image/bluepin.svg"/>
+		</span>
+	</div>
+	<div contenteditable="true" ng-bind-html="note.title"
+		id="modifiedtitle"></div>
+	<br>
+	<div contenteditable="true" ng-bind-html="note.description"
+		id="modifieddescreption"></div>
+	<br>
+	<div>
+		<span ng-click="updateNoteModal(note)">DONE</span>
+	</div>
 </div>
 
 
@@ -35,9 +44,9 @@
 	<div ng-bind-html="note.description" contenteditable="true"></div>
 	<br>
 	<span ng-click="updateNote(note)">DONE</span> -->
-	
-	
-	
+
+
+
 <!-- 	<div id="moreOptions">
 
 		<div class="dropdown" style="float: left">

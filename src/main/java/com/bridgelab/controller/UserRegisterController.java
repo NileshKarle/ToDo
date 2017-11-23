@@ -89,8 +89,9 @@ public class UserRegisterController {
 
 			URL url;
 			url = new URL(request.getRequestURL().toString());	
-			String url1=url.getProtocol()+"://"+url.getHost()+":"+url.getPort()+"ToDo/UserActivation/";
-
+			String url1= url.getProtocol()+"://"+url.getHost()+":"+url.getPort()+"/ToDo/UserActivation/";
+			System.out.println(url1+"<---");
+			
 			// Generate a token and send a mail.
 			String compactToken = tokenGenerator.createJWT(user.getId());
 			mailService.sendMail(user.getEmail(), compactToken.replaceAll("\\.", "/"),url1);

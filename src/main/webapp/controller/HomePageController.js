@@ -141,7 +141,7 @@ toDo.controller(
 					
 					
 					/*toggle side bar*/
-					$scope.showSideBar = true;
+					$scope.showSideBar = false;
 					$scope.sidebarToggle = function() {
 						if($scope.showSideBar){
 							$scope.showSideBar=false;
@@ -149,7 +149,7 @@ toDo.controller(
 						}
 						else{
 							$scope.showSideBar = true;
-							document.getElementById("mainWrapper").style.paddingLeft = "300px";
+							document.getElementById("mainWrapper").style.paddingLeft = "70px";
 						}
 					}
 					
@@ -236,6 +236,7 @@ toDo.controller(
 					
 					/*update the note*/
 					$scope.updateNote = function(note) {
+						console.log(note);
 						var a = homePageService.updateNote(note);
 						a.then(function(response) {
 							getAllNotes();
@@ -272,9 +273,16 @@ toDo.controller(
 								.getElementById("notetitle").innerHTML;
 						$scope.notes.description = document
 								.getElementById("noteDescription").innerHTML;
+						
+						if($scope.notes.title=="" && $scope.notes.description== ""){
+							$scope.pinStatus = false;
+							$scope.AddNoteColor="#ffffff";
+							$scope.AddNoteBox = false;
+						}
+						else if($scope.notes.title!="" || $scope.notes.description!= ""){
 						$scope.notes.pin = $scope.pinStatus;
 						$scope.notes.noteStatus = "true";
-						$scope.notes.reminderStatus= "true";
+						$scope.notes.reminderStatus= "false";
 						$scope.notes.archiveStatus= "false";
 						$scope.notes.deleteStatus = "false";
 						$scope.notes.noteColor=$scope.AddNoteColor;
@@ -288,16 +296,17 @@ toDo.controller(
 							getAllNotes();
 						}, function(response) {
 							});
+						}
 					}
 					
 					
-					$scope.updateNoteModal=function(){
-						$scope.notes = {};
-						$scope.notes.title = document
+					$scope.updateNoteModal=function(note){
+						note.title = document
 								.getElementById("modifiedtitle").innerHTML;
-						$scope.notes.description = document
+						note.description = document
 								.getElementById("modifieddescreption").innerHTML;
-						$scope.updateNote($scope.notes);
+						$scope.updateNote(note);
+						modalInstance.close('resetmodel');
 					}
 					
 					/*add a new note to archive*/
@@ -307,6 +316,12 @@ toDo.controller(
 								.getElementById("notetitle").innerHTML;
 						$scope.notes.description = document
 								.getElementById("noteDescription").innerHTML;
+						if($scope.notes.title=="" && $scope.notes.description== ""){
+							$scope.pinStatus = false;
+							$scope.AddNoteColor="#ffffff";
+							$scope.AddNoteBox = false;
+						}
+						else if($scope.notes.title!="" || $scope.notes.description!= ""){
 						$scope.notes.pin = "false";
 						$scope.notes.noteStatus = "false";
 						$scope.notes.archiveStatus = "true";
@@ -321,6 +336,7 @@ toDo.controller(
 							getAllNotes();
 						}, function(response) {
 							});
+						}
 					}
 					
 					

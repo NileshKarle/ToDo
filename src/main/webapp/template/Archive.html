@@ -10,7 +10,7 @@
 			<br>
 			<br>
 			<div class="card" style="background-color: {{note.noteColor}}"
-				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{archiveStatus:'true',noteStatus:'false'}">
+				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{archiveStatus:'true',noteStatus:'false', deleteStatus:'false'}">
 				<div id="moreOptions" style="float: right">
 					<span style="cursor: pointer"
 						ng-click="note.pin='true';note.archiveStatus='false' ;note.noteStatus='true'; updateNote(note)"> <img
