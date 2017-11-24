@@ -43,6 +43,7 @@
 <link rel="stylesheet" href="style/SideNavigationBar.css">
 <link rel="stylesheet" href="style/HomePage.css">
 <link rel="stylesheet" href="style/AddNote.css">
+<link rel="stylesheet" href="style/editNote.css"> 
 
 <style type="text/css"></style>
 

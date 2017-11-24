@@ -10,24 +10,41 @@
 </div>
 </div>
  -->
+<div id="editNoteModal" style="background-color: {{EditNoteColor}}">
+		<div style="float: right">
+			<span style="cursor: pointer" ng-click="note.pin=!note.pin"> 
+			<img ng-hide="note.pin" style="height: 17px" alt="pin" src="image/pin.svg"><img ng-show="note.pin" style="height: 17px" alt="pin" src="image/bluepin.svg">
+			</span>
+		</div>
+		
+		<div contenteditable="true" ng-bind-html="note.title" id="modifiedtitle">
+		
+		</div>
 
-<div class="ModalContainer" style="background-color: {{note.noteColor}}" ng-controller="homeController">
-	<div style="float: right">
-		<span style="cursor: pointer" ng-click="note.pin=!note.pin"> 
-			<img alt="pin" style="height: 17px" src="image/bluepin.svg"/>
-		</span>
-	</div>
-	<div contenteditable="true" ng-bind-html="note.title"
-		id="modifiedtitle"></div>
-	<br>
-	<div contenteditable="true" ng-bind-html="note.description"
-		id="modifieddescreption"></div>
-	<br>
-	<div>
-		<span ng-click="updateNoteModal(note)">DONE</span>
-	</div>
+
+		<br>
+		<div contenteditable="true" ng-bind-html="note.description" id="modifieddescreption"></div>
+		<br>
+
+
+		<div style="float: right">
+		<div class="btn-group dropup colorDiv" uib-dropdown>
+			<img id ="dropdown" class="dropdown-toggle" data-toggle="dropdown" alt="color" src="image/colorpallete.svg"  uib-dropdown-toggle height="20px">
+					<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body" style="background-color: #000000">
+							<a ng-repeat="color in colors"   role="menuitem">
+								<img ng-src="{{color.path}}"  height="25px" ng-click="changeColorInModal(color.color)">
+							</a>
+					</ul>
+		</div>
+		
+		<span style="cursor: pointer" ng-click="UnarchiveandArchiveFromModal(note)"> 
+			<img ng-hide="note.archiveStatus" style="height: 17px" alt="pin" src="image/unarchive.png"><img ng-show="note.archiveStatus" style="height: 17px" alt="pin" src="image/archive.svg">
+			</span>
+		
+			<span ng-click="updateNoteModal(note)">DONE</span>
+		</div>
+
 </div>
-
 
 
 

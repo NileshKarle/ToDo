@@ -17,9 +17,9 @@
 						alt="pin" style="height: 17px" src="image/pin.svg"></img>
 					</span>
 				</div>
-				<div ng-bind-html="note.title"></div>
+				<div ng-bind-html="note.title" ng-click="open(note)"></div>
 				<br>
-				<div ng-bind-html="note.description"></div>
+				<div ng-bind-html="note.description" ng-click="open(note)"></div>
 				<br>
 				<div id="moreOptions">
 					<div class="dropdown" style="float: right">

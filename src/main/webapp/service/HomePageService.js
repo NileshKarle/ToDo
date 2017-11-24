@@ -38,7 +38,6 @@ toDo.factory('homePageService', function($http, $location) {
 	}
 	
 	abc.updateNote=function(notes){
-		console.log("inside the update service...");
 		return $http({
 			method : "POST",
 			url : 'note/noteUpdate',
@@ -49,8 +48,17 @@ toDo.factory('homePageService', function($http, $location) {
 		})
 	}
 	
+	abc.getUser=function(){
+		return $http({
+			method : "POST",
+			url : 'currentUser',
+			headers: {
+				'token':localStorage.getItem('token')
+			}
+		})
+	}
+	
 	abc.allNotes = function() {
-		console.log("home page service2 all notes");
 		return $http({
 			method : "GET",
 			url : 'note/AllNodes',

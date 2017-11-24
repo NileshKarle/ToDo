@@ -1,15 +1,15 @@
 @CHARSET "UTF-8";
-div#addNoteForm{
+#addNoteForm{
 	margin-top: 10px;
 	margin-bottom: 25px;
 	margin-left: 20%;
 }
-div#noteDescription{
+#noteDescription{
 	outline:none;
 	padding-top:5px;
 }
 
-div#notetitle{
+#notetitle{
 	outline:none;
 	padding-top:5px;
 }

@@ -5,6 +5,17 @@ toDo.controller(
 				function($scope, homePageService, $uibModal, $location,$state) {
 					
 					
+					getUser();
+					
+					function getUser(){
+						var a = homePageService.getUser();
+						a.then(function(response) {
+							$scope.User=response.data;
+						}, function(response) {
+							
+						});
+					}
+					
 					$scope.changeColor=function(note){
 						
 						var a = homePageService.changeColor(note);
@@ -130,15 +141,22 @@ toDo.controller(
 						});
 						};*/
 					
+					$scope.EditNoteColor="#ffffff";
 					
-						$scope.open = function (note) {
-						$scope.note = note;
-						modalInstance = $uibModal.open({
+					/*open a model*/
+					$scope.open = function (note) {
+					$scope.EditNoteColor=note.noteColor;
+					$scope.note = note;
+					modalInstance = $uibModal.open({
 						templateUrl: 'template/editNote.html',
 						scope : $scope
 						});
-						};
+					};
 					
+					
+					$scope.changeColorInModal=function(color){
+						$scope.EditNoteColor=color;
+					}
 					
 					/*toggle side bar*/
 					$scope.showSideBar = false;
@@ -299,15 +317,38 @@ toDo.controller(
 						}
 					}
 					
-					
+					/*Update the header and title from modal*/
 					$scope.updateNoteModal=function(note){
 						note.title = document
 								.getElementById("modifiedtitle").innerHTML;
 						note.description = document
 								.getElementById("modifieddescreption").innerHTML;
+						note.noteColor=$scope.EditNoteColor;
 						$scope.updateNote(note);
 						modalInstance.close('resetmodel');
 					}
+					
+					/*archive a note from a modal*/
+					$scope.UnarchiveandArchiveFromModal=function(note){
+						note.title = document.getElementById("modifiedtitle").innerHTML;
+						note.description = document.getElementById("modifieddescreption").innerHTML;
+						note.noteColor=$scope.EditNoteColor;
+						if(note.archiveStatus=="false"){
+						note.archiveStatus="true";
+						note.noteStatus="false";
+						note.pin="false";
+						$scope.updateNote(note);
+						modalInstance.close('resetmodel');
+						}
+						else{
+							note.archiveStatus="false";
+							note.noteStatus="true";
+							$scope.updateNote(note);
+							modalInstance.close('resetmodel');
+						}
+					}
+					
+					
 					
 					/*add a new note to archive*/
 					$scope.addArchiveNote = function() {
