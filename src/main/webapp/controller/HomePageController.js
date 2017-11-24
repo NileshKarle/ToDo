@@ -2,8 +2,7 @@ var toDo = angular.module('toDo');
 
 toDo.controller(
 				'homeController',
-				function($scope, homePageService, $uibModal, $location,$state) {
-					
+				function($scope, homePageService, $uibModal, $location ,$state) {
 					
 					getUser();
 					
@@ -15,6 +14,8 @@ toDo.controller(
 							
 						});
 					}
+					
+					
 					
 					$scope.changeColor=function(note){
 						
@@ -133,13 +134,6 @@ toDo.controller(
 					}
 					
 					/* Edit a note in modal */
-					/*$scope.open = function(note) {
-						$scope.note=note;
-						$scope.modalInstance = $uibModal.open({
-						templateUrl: 'template/editNote.html',
-						data:note
-						});
-						};*/
 					
 					$scope.EditNoteColor="#ffffff";
 					
@@ -152,6 +146,17 @@ toDo.controller(
 						scope : $scope
 						});
 					};
+					
+					/*open collaborator modal*/
+					$scope.openCollaborator=function(note){
+						$scope.noteUser=$scope.User;
+						console.log($scope.noteUser);
+						modalInstance = $uibModal.open({
+							templateUrl: 'template/collaboratorNote.html',
+							scope : $scope
+							});
+					}
+			
 					
 					
 					$scope.changeColorInModal=function(color){
