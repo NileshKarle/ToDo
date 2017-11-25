@@ -14,6 +14,7 @@
 	padding-top:5px;
 }
 
+
 [contentEditable=true]:empty:not(:focus):before{
 	color:#989faa;
 content:attr(data-ph) }

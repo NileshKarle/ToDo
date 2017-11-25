@@ -30,14 +30,15 @@ $(document).ready(function() {
             $('#datetimepicker6').datetimepicker();
     });
 });
-</script>    -->
-
+</script>   
+ -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-bootstrap-datetimepicker/1.1.4/js/datetimepicker.templates.js"></script> -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-sanitize.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
@@ -52,12 +53,14 @@ $(document).ready(function() {
 <script src="controller/EmailVerificationController.js"></script>
 <script src="controller/DummyPageController.js"></script>
 
+
 <script type="text/javascript" src="service/RegisterService.js"></script>
 <script type="text/javascript" src="service/LoginService.js"></script>
 <script type="text/javascript" src="service/ForgotPasswordService.js"></script>
 <script type="text/javascript" src="service/HomePageService.js"></script>
 <script type="text/javascript" src="service/EmailVerificationService.js"></script>
 <script type="text/javascript" src="service/DummyPageService.js"></script>
+
 
 <script type="text/javascript" src="Directives/CustomiseDirective.js"></script>    
    

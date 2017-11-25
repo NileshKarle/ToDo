@@ -17,17 +17,32 @@
 			</span>
 		</div>
 		
-		<div contenteditable="true" ng-bind-html="note.title" id="modifiedtitle">
+		<div ng-click="open(note)">
+			<img ng-src="{{note.image}}"/>
+		</div>
+		
+		<div contenteditable="{{contentable}}" ng-bind-html="note.title" data-ph="Title" id="modifiedtitle">
 		
 		</div>
 
 
 		<br>
-		<div contenteditable="true" ng-bind-html="note.description" id="modifieddescreption"></div>
+		<div contenteditable="{{contentable}}" ng-bind-html="note.description" data-ph="Edit a note..." id="modifieddescreption"></div>
 		<br>
+		
+		<div ng-hide={{contentable}}>
+		<div class="dropdown" style="float: left">
+						<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
+							<span class="glyphicon glyphicon-option-vertical"></span>
+						</span>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+							<li><a ng-click="deleteNoteForever(note.id)">Delete Forever</a></li>
+							<li><a ng-click="restoreNote(note)">Restore</a></li>
+						</ul>
+					</div>
+		</div>
 
-
-		<div style="float: right">
+		<div style="float: right" ng-show={{contentable}}>
 		<div class="btn-group dropup colorDiv" uib-dropdown>
 			<img id ="dropdown" class="dropdown-toggle" data-toggle="dropdown" alt="color" src="image/colorpallete.svg"  uib-dropdown-toggle height="20px">
 					<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body" style="background-color: #000000">

@@ -59,7 +59,7 @@ public class NotesController {
 
 		// ErrorMessage object creation to display customise message.
 		ErrorMessage errorMessage = new ErrorMessage();
-		
+			
 		Date date = new Date();
 		notes.setCreatedDate(date);
 		notes.setModifiedDate(date);

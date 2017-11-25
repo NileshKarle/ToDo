@@ -6,6 +6,13 @@
 				<div ng-show="AddNoteBox" style="float: right">
 					<span style="cursor: pointer" ng-click="pinUnpin()"><img ng-if="!pinStatus" style="height: 17px" alt="pin" src="image/pin.svg"><img ng-if="pinStatus" style="height: 17px" alt="pin" src="image/bluepin.svg"></span>
 				</div>
+				
+				
+				
+				<span ng-show="AddNoteBox" ><img ng-src="{{addimg}}" ng-show="AddNoteBox && addimg"/></span>
+				
+				
+				
 				<div ng-show="AddNoteBox" data-ph="Title" contenteditable="true" placeholder="title" id="notetitle"></div>
 					<br>
 				<div contenteditable="true" data-ph="Take a note..." ng-click="ShowAddNote()" id="noteDescription"></div>
@@ -22,10 +29,16 @@
 									</ul>
 						</div>
 						
+						
+						<img alt="image" ng-click="openImageUploader('input')" src="image/image.svg" height="20px">
+						
+						 <input id="imageuploader" ng-show="false"  type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc">
+												
+						
 					<span ng-click="addArchiveNote()">
 						<img alt="archive" src="image/archive.svg" height="20px">
 					</span>
-					<span ng-click="addNote()" >DONE</span>
+					<button ng-click="addNote()">DONE</button>
 					</div>
 				</div>
 			</div>

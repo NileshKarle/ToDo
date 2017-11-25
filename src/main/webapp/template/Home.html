@@ -28,6 +28,13 @@ $(document).ready(function() {
 								<img alt="pin" style="height: 17px" src="image/bluepin.svg"></img>
 							</span>
 						</div>
+						
+						
+						
+						<div ng-click="open(note)">
+						<img ng-src="{{note.image}}"/>
+						</div>
+						<br>
 						<div ng-bind-html="note.title" ng-click="open(note)"></div>
 						<br>
 						<div ng-bind-html="note.description" ng-click="open(note)"></div>
@@ -69,9 +76,16 @@ $(document).ready(function() {
 										</a>
 									</ul>
 								</div>
-								<img alt="image" src="image/image.svg" height="20px"> <span
-									ng-click="archiveNote(note)"><img alt="archive"
-									src="image/archive.svg" height="20px"></span>
+								
+								
+								<img alt="image" ng-click="openImageUploader(note)" src="image/image.svg" height="20px">
+								
+								
+								
+								<span ng-click="archiveNote(note)">
+									<img alt="archive" src="image/archive.svg" height="20px">
+								</span>
+								
 								<div style="float: left">
 									<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
 										<span class="glyphicon glyphicon-option-vertical"></span>
@@ -98,6 +112,9 @@ $(document).ready(function() {
 								alt="pin" style="height: 17px" src="image/pin.svg"></img>
 							</span>
 						</div>
+						<div ng-click="open(note)">
+							<img ng-src="{{note.image}}"/>
+						</div>
 						<div ng-bind-html="note.title" ng-click="open(note)"></div>
 						<br>
 						<div ng-bind-html="note.description" ng-click="open(note)"></div>
@@ -120,9 +137,12 @@ $(document).ready(function() {
 										</a>
 									</ul>
 								</div>
-								<img alt="image" src="image/image.svg" height="20px"> <span
-									ng-click="archiveNote(note)"><img alt="archive"
-									src="image/archive.svg" height="20px"></span>
+								
+								<img alt="image" ng-click="openImageUploader(note)" src="image/image.svg" height="20px">
+								
+								<span ng-click="archiveNote(note)">
+								 <img alt="archive" src="image/archive.svg" height="20px">
+								</span>
 								<div style="float: left">
 									<span class="btn dropdown-toggle" id="menu1"
 										data-toggle="dropdown"> <span

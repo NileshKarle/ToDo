@@ -17,8 +17,8 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 public class FacebookConnection {
 
-	public static final String app_Id = "133399100756118";
-	public static final String secret_id = "dabdc27c904e1e48a5fc2deec583269b";
+	public static final String app_Id = "132217884131949";
+	public static final String secret_id = "e303266a3c41f695a2d78b0b3524901e";
 	public static final String Redirect_URI = "http://localhost:8080/ToDo/connectFB";
 	
 	
