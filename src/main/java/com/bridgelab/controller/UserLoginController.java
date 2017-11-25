@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -125,9 +126,7 @@ public class UserLoginController {
 		URL url;
 		url = new URL( request.getRequestURL().toString());	
 		
-		String url1 = url.getProtocol()+"://"+url.getHost()+":"+url.getPort() + contextpath + "/redirect/";
-    
-		
+		String url1 = url.getProtocol()+"://"+url.getHost()+":"+url.getPort() +"/"+ contextpath + "/redirect/";
 		
 		String compactToken = tokenGenerator.createJWT(userLogined.getId());
 		mailService.sendMail(userLogined.getEmail(),compactToken.replaceAll("\\.", "/"),url1);
@@ -165,7 +164,15 @@ public class UserLoginController {
 	}
 	
 	
-
+	
+	@RequestMapping(value = "/currentUser")
+	public ResponseEntity<User> currrentUser(HttpServletRequest request) throws IOException {
+		
+		int userId = verifyToken.parseJWT(request.getHeader("token"));
+		User user = userService.userValidated(userId);
+		return ResponseEntity.ok(user);
+	}
+	
 	/**
 	 * @param user(contains the email and the password)
 	 * @return response Message.

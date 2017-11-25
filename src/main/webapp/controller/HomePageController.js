@@ -1,10 +1,20 @@
 var toDo = angular.module('toDo');
-var modalInstance;
-
 
 toDo.controller(
 				'homeController',
-				function($scope, homePageService, $location, $state) {
+				function($scope, homePageService, $uibModal, $location ,$state) {
+					
+					getUser();
+					
+					function getUser(){
+						var a = homePageService.getUser();
+						a.then(function(response) {
+							$scope.User=response.data;
+						}, function(response) {
+							
+						});
+					}
+					
 					
 					
 					$scope.changeColor=function(note){
@@ -25,20 +35,31 @@ toDo.controller(
 					
 					$scope.ListView=true;
 					
-					$scope.listGrideView=function(){
+					$scope.ListViewToggle=function(){
+						if($scope.ListView==true){
+							$scope.ListView=false;
+							listGrideView();
+						}
+						else{
+						$scope.ListView=true;
+						listGrideView();
+						}
+					}
+					
+					listGrideView();
+					
+					function listGrideView(){
 						if($scope.ListView){
 							var element = document.getElementsByClassName('card');
 							for(var i=0;i<element.length;i++){
 								element[i].style.width="900px";
 							}
-							$scope.ListView=false;
 						}
 						else{
 							var element = document.getElementsByClassName('card');
 							for(var i=0;i<element.length;i++){
 								element[i].style.width="300px";
 							}
-							$scope.ListView=true;
 						}
 					}
 					
@@ -112,18 +133,38 @@ toDo.controller(
 						$scope.navBarHeading="Archive";
 					}
 					
-					/*
+					/* Edit a note in modal */
+					
+					$scope.EditNoteColor="#ffffff";
+					
+					/*open a model*/
 					$scope.open = function (note) {
-						$scope.note = note;
-						modalInstance = $uibModal.open({
+					$scope.EditNoteColor=note.noteColor;
+					$scope.note = note;
+					modalInstance = $uibModal.open({
 						templateUrl: 'template/editNote.html',
 						scope : $scope
 						});
-						};
-					*/
+					};
+					
+					/*open collaborator modal*/
+					$scope.openCollaborator=function(note){
+						$scope.noteUser=$scope.User;
+						console.log($scope.noteUser);
+						modalInstance = $uibModal.open({
+							templateUrl: 'template/collaboratorNote.html',
+							scope : $scope
+							});
+					}
+			
+					
+					
+					$scope.changeColorInModal=function(color){
+						$scope.EditNoteColor=color;
+					}
 					
 					/*toggle side bar*/
-					$scope.showSideBar = true;
+					$scope.showSideBar = false;
 					$scope.sidebarToggle = function() {
 						if($scope.showSideBar){
 							$scope.showSideBar=false;
@@ -131,7 +172,7 @@ toDo.controller(
 						}
 						else{
 							$scope.showSideBar = true;
-							document.getElementById("mainWrapper").style.paddingLeft = "300px";
+							document.getElementById("mainWrapper").style.paddingLeft = "70px";
 						}
 					}
 					
@@ -148,9 +189,10 @@ toDo.controller(
 					function getAllNotes() {
 						var b = homePageService.allNotes();
 						b.then(function(response) {
-							console.log(response.data);
 							$scope.userNotes = response.data;
+							
 						}, function(response) {
+							$scope.logout();
 						});
 					}
 
@@ -215,12 +257,9 @@ toDo.controller(
 					}
 					
 					
-					$scope.popup=function(note){
-						
-					}
-					
 					/*update the note*/
 					$scope.updateNote = function(note) {
+						console.log(note);
 						var a = homePageService.updateNote(note);
 						a.then(function(response) {
 							getAllNotes();
@@ -257,13 +296,19 @@ toDo.controller(
 								.getElementById("notetitle").innerHTML;
 						$scope.notes.description = document
 								.getElementById("noteDescription").innerHTML;
+						
+						if($scope.notes.title=="" && $scope.notes.description== ""){
+							$scope.pinStatus = false;
+							$scope.AddNoteColor="#ffffff";
+							$scope.AddNoteBox = false;
+						}
+						else if($scope.notes.title!="" || $scope.notes.description!= ""){
 						$scope.notes.pin = $scope.pinStatus;
 						$scope.notes.noteStatus = "true";
-						$scope.notes.reminderStatus= "true";
+						$scope.notes.reminderStatus= "false";
 						$scope.notes.archiveStatus= "false";
 						$scope.notes.deleteStatus = "false";
 						$scope.notes.noteColor=$scope.AddNoteColor;
-						console.log($scope.notes);
 						
 						var a = homePageService.addNote($scope.notes);
 						a.then(function(response) {
@@ -274,7 +319,40 @@ toDo.controller(
 							getAllNotes();
 						}, function(response) {
 							});
+						}
 					}
+					
+					/*Update the header and title from modal*/
+					$scope.updateNoteModal=function(note){
+						note.title = document
+								.getElementById("modifiedtitle").innerHTML;
+						note.description = document
+								.getElementById("modifieddescreption").innerHTML;
+						note.noteColor=$scope.EditNoteColor;
+						$scope.updateNote(note);
+						modalInstance.close('resetmodel');
+					}
+					
+					/*archive a note from a modal*/
+					$scope.UnarchiveandArchiveFromModal=function(note){
+						note.title = document.getElementById("modifiedtitle").innerHTML;
+						note.description = document.getElementById("modifieddescreption").innerHTML;
+						note.noteColor=$scope.EditNoteColor;
+						if(note.archiveStatus=="false"){
+						note.archiveStatus="true";
+						note.noteStatus="false";
+						note.pin="false";
+						$scope.updateNote(note);
+						modalInstance.close('resetmodel');
+						}
+						else{
+							note.archiveStatus="false";
+							note.noteStatus="true";
+							$scope.updateNote(note);
+							modalInstance.close('resetmodel');
+						}
+					}
+					
 					
 					
 					/*add a new note to archive*/
@@ -284,6 +362,12 @@ toDo.controller(
 								.getElementById("notetitle").innerHTML;
 						$scope.notes.description = document
 								.getElementById("noteDescription").innerHTML;
+						if($scope.notes.title=="" && $scope.notes.description== ""){
+							$scope.pinStatus = false;
+							$scope.AddNoteColor="#ffffff";
+							$scope.AddNoteBox = false;
+						}
+						else if($scope.notes.title!="" || $scope.notes.description!= ""){
 						$scope.notes.pin = "false";
 						$scope.notes.noteStatus = "false";
 						$scope.notes.archiveStatus = "true";
@@ -294,9 +378,11 @@ toDo.controller(
 							document.getElementById("notetitle").innerHTML = "";
 							document.getElementById("noteDescription").innerHTML = "";
 							$scope.pinStatus = false;
+							$scope.AddNoteColor="#ffffff";
 							getAllNotes();
 						}, function(response) {
 							});
+						}
 					}
 					
 					
@@ -317,23 +403,19 @@ toDo.controller(
 
 
 					/*logout user*/
-					$scope.logout = function() {
-						var a=homePageService.logout();
-						a.then(function(response){
+					$scope.logout = function() {					
 							localStorage.removeItem('token');
-							$location.path('/login');
-						})
-						
+							$location.path('/login');						
 					}
 					
-					$scope.open = function () {
+					/*$scope.open = function () {
 
 					    var modalInstance = $modal.open({
 					      templateUrl: 'myModalContent.html',
 					      
 					    });
 
-					      };
+					      };*/
 					
 
 				});

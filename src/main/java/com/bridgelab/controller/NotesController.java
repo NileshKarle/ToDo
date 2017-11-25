@@ -152,7 +152,6 @@ public class NotesController {
 
 		// If the node dose not exist's in the database.
 		errorMessage.setResponseMessage("The note you are trying to update dose not exist's.");
-		errorMessage.setAllNotes(null);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 	}
 

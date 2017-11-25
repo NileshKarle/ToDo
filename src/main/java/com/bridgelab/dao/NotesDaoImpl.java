@@ -63,10 +63,14 @@ public class NotesDaoImpl implements NotesDao{
 	@SuppressWarnings("deprecation")
 	@Override
 	public Notes getNote(Notes note) {
-		
+		System.out.println(note);
+		System.out.println(note.getId());
 		Session session=this.sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Notes.class).add(Restrictions.eq("id", note.getId()));
 		Notes notes=(Notes) criteria.uniqueResult();
+		System.out.println(notes);
+		System.out.println(notes.getDescription());
+		
 		session.close();
 		return notes;
 	

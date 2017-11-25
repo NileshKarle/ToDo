@@ -60,6 +60,10 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</bean>
 
+	<bean id="facebookConnection" class="com.bridgelab.controller.FacebookConnection"/>
+
+	<bean id="googleConnection" class="com.bridgelab.controller.GoogleConnection"/>
+
 	<bean id="userValidation" class="com.bridgelab.validator.UserValidationImpl" />
 
 	<bean id="notesService" class="com.bridgelab.service.NotesServiceImpl" />
@@ -79,8 +83,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<mvc:resources location="/service/" mapping="/service/**" />
 	<mvc:resources location="/script/" mapping="/script/**" />
 	<mvc:resources location="/Directives/" mapping="/Directives/**" />
-	<!-- <mvc:resources location="/toDoImages/" mapping="/toDoImages/**" /> -->
 	<mvc:resources location="/image/" mapping="/image/**" />
+	<mvc:resources location="/bower_components/" mapping="/bower_components/**" />
+	
 
 	<mvc:interceptors>
    		<mvc:interceptor>

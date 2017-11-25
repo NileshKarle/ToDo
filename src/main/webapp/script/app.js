@@ -1,4 +1,4 @@
-var toDo = angular.module('toDo', ['ui.router', 'ngSanitize']);
+var toDo = angular.module('toDo', ['ui.router', 'ngSanitize', 'ui.bootstrap']);
 
 toDo.config([ '$stateProvider', '$urlRouterProvider',
 		function($stateProvider, $urlRouterProvider) {
@@ -33,10 +33,16 @@ toDo.config([ '$stateProvider', '$urlRouterProvider',
 					controller: 'homeController'
 			});
 			
+			$stateProvider.state('dummyPage',{
+				url : '/dummyPage',
+				templateUrl : 'template/DummyPage.html',
+				controller : 'dummyController'
+			});
+			
 			$stateProvider.state('archive', {
 				url : '/archive',
 				templateUrl : 'template/Archive.html',
-					controller: 'homeController'
+				controller: 'homeController'
 			});
 
 			$stateProvider.state('trash',{

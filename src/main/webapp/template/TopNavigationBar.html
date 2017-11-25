@@ -15,14 +15,25 @@
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
-		<li ng-click="listGrideView()"><img ng-if="!ListView" height="30px" alt="gride" src="image/gridePxart.png"><img ng-if="ListView" height="30px" alt="list" src="image/list1.png"></li>
+		<li ng-click="ListViewToggle()"><img ng-if="!ListView" height="30px" alt="gride" src="image/gridePxart.png"><img ng-if="ListView" height="30px" alt="list" src="image/list1.png"></li>
 			<li>
-				<div class="dropdown">
+				<div class="imagedropdown">
 					<span class="btn dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">
-						<span class="glyphicon glyphicon-user"></span>
+						<img alt="userProfile" class="img-circle" ng-src="{{User.profile}}" height="35px">
 					</span>
+					
 					<ul class="dropdown-menu" role="menu" style="background-color: white; padding-left: 10px" aria-labelledby="menu1">
+						<li     style="height: 150px;width: 200px;">
+						
+						<img alt="userProfile" class="img-circle" ng-src="{{User.profile}}" height="100px">
+						{{User.firstName}}
+						{{User.email}}
+						
+						</li>
+						<button style="float: right">
 						<li ng-click="logout()">logout</li>
+						</button>
+						
 					</ul>
 				</div>
 			</li>

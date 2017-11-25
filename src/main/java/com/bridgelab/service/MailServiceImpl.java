@@ -24,7 +24,8 @@ public class MailServiceImpl implements MailService {
 		message.setFrom("nileshkarle388@gmail.com");
 		message.setTo(to);
 		message.setSubject("Activation link");
-		message.setText(/*"http://192.168.0.179:8080/ToDo/UserActivation/"*/page+text);
+		String urllatest=page+text;
+		message.setText(/*"http://192.168.0.179:8080/ToDo/UserActivation/"*/urllatest);
 		try {
 			email.send(message);
 		} catch (MailException e) {

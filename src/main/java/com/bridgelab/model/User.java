@@ -40,8 +40,11 @@ public class User {
 	@Column(name = "PASSWORD")
 	private String password;
 
-	@Column(name = "Contact")
+	@Column(name = "CONTACT")
 	private String contact;
+	
+	@Column(name = "PROFILE")
+	private String profile;
 
 	@OneToMany(mappedBy = "user")
 	@JsonIgnore
@@ -63,6 +66,14 @@ public class User {
 
 	public void setNotes(Set<Notes> notes) {
 		this.notes = notes;
+	}
+	
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
 	}
 
 	public String getContact() {
@@ -91,7 +102,7 @@ public class User {
 	}
 
 	public void setFirstName(String firstName) {
-		String nameFormat = "^[a-zA-Z]+$";
+		String nameFormat = "^[a-zA-Z\\s]+$";
 
 		if (firstName.matches(nameFormat)) {
 			this.firstName = firstName;
