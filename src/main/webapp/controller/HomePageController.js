@@ -3,7 +3,7 @@ var toDo = angular.module('toDo');
 toDo
 		.controller(
 				'homeController',
-				function($scope, homePageService, $uibModal, $location,
+				function($scope, homePageService, $uibModal, toastr, $location, $filter, $interval,
 						fileReader, $state) {
 
 					getUser();
@@ -148,6 +148,33 @@ toDo
 						});
 					};
 
+					$scope.socialShare = function(note) {
+						FB.init({
+						appId : '132217884131949',
+						status : true,
+						cookie : true,
+						xfbml : true,
+						version : 'v2.4'
+						});
+
+						FB.ui({
+						method : 'share_open_graph',
+						action_type : 'og.likes',
+						action_properties : JSON.stringify({
+						object : {
+						'og:title' : note.title,
+						'og:description' :note.description
+						}
+						})
+						}, function(response) {
+						if (response && !response.error_message) {
+							toastr.success('Note shared', 'successfully');
+						} else {
+							toastr.success('Note share', 'Error');
+						}
+						});
+						};
+					
 					/* open collaborator modal */
 					$scope.openCollaborator = function(note) {
 						$scope.noteUser = $scope.User;
@@ -180,6 +207,37 @@ toDo
 						$scope.AddNoteBox = true;
 					}
 
+					
+					
+					$scope.AddReminder='';
+					$scope.openAddReminder=function(){
+					   	$('#datepicker').datetimepicker();
+					   	$scope.AddReminder= $('#datepicker').val();
+				}
+					
+					
+					
+					
+					$scope.reminder ="";
+					$scope.openReminder=function(note){
+						   	$('.reminder').datetimepicker();
+						   	 var id = '#datepicker' + note.id;
+						   	$scope.reminder = $(id).val();
+						   	//note.reminderStatus=$scope.reminder;
+						   	if($scope.reminder === "" || $scope.reminder === undefined){
+						   		console.log(note);
+						   		console.log($scope.reminder);
+						   	}
+						   	else{
+						   		console.log($scope.reminder);
+						   		note.reminderStatus=$scope.reminder;
+						   		$scope.updateNote(note);
+						   		$scope.reminder="";
+						   }
+					}
+					
+					
+					
 					getAllNotes();
 
 					/* display notes */
@@ -187,7 +245,23 @@ toDo
 						var b = homePageService.allNotes();
 						b.then(function(response) {
 							$scope.userNotes = response.data;
-
+							$interval(function(){
+								var i=0;
+								for(i;i<$scope.userNotes.length;i++){
+									if($scope.userNotes[i].reminderStatus!='false'){
+										
+										var currentDate=$filter('date')(new Date(),'MM/dd/yyyy h:mm a');
+										
+										if($scope.userNotes[i].reminderStatus === currentDate){
+											
+											toastr.success('You have a reminder for a note', 'check it out');
+										}
+									}
+									
+								}
+							},9000);
+							
+							
 						}, function(response) {
 							$scope.logout();
 						});
@@ -275,13 +349,13 @@ toDo
 
 					$scope.Reminder = false;
 
-					$scope.addReminder = function() {
+					/*$scope.addReminder = function() {
 						if ($scope.Reminder == false) {
 							$scope.Reminder = true;
 						} else {
 							$scope.Reminder = false;
 						}
-					}
+					}*/
 
 					/* add a new note */
 					$scope.addNote = function() {
@@ -295,6 +369,7 @@ toDo
 								&& $scope.notes.description == ""
 								&& $scope.imageSrc == "") {
 							$scope.pinStatus = false;
+							$scope.AddReminder='';
 							$scope.AddNoteColor = "#ffffff";
 							$scope.AddNoteBox = false;
 
@@ -303,7 +378,7 @@ toDo
 								|| $scope.notes.image != "") {
 							$scope.notes.pin = $scope.pinStatus;
 							$scope.notes.noteStatus = "true";
-							$scope.notes.reminderStatus = "false";
+							$scope.notes.reminderStatus = $scope.AddReminder;
 							$scope.notes.archiveStatus = "false";
 							$scope.notes.deleteStatus = "false";
 							$scope.notes.image = $scope.imageSrc;
@@ -319,8 +394,10 @@ toDo
 												document
 														.getElementById("noteDescription").innerHTML = "";
 												$scope.pinStatus = false;
-												$scope.AddNoteColor = "#ffffff";
+												$scope.AddReminder='';
+												$scope.AddNoteColor = "#ffffff";s
 												$scope.removeImage();
+												 toastr.success('Note added', 'successfully');
 												getAllNotes();
 											}, function(response) {
 											});
@@ -388,7 +465,7 @@ toDo
 								|| $scope.notes.description != "") {
 							$scope.notes.pin = "false";
 							$scope.notes.noteStatus = "false";
-							$scope.notes.archiveStatus = "true";
+							$scope.notes.reminderStatus = $scope.AddReminder;
 							$scope.notes.deleteStatus = "false";
 							$scope.notes.reminderStatus = "false";
 							var a = homePageService.addNote($scope.notes);
@@ -401,6 +478,7 @@ toDo
 														.getElementById("noteDescription").innerHTML = "";
 												$scope.pinStatus = false;
 												$scope.AddNoteColor = "#ffffff";
+												$scope.AddReminder='';
 												getAllNotes();
 											}, function(response) {
 											});

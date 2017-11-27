@@ -1,13 +1,3 @@
-
- <!-- <script type="text/javascript">
-$(document).ready(function() {
-        $(function () {
-            $('#datetimepicker6').datetimepicker();
-    });
-});
-</script>  -->  
-
-
 <div>
 	<top-navigation-bar></top-navigation-bar>
 	<div class="row">
@@ -22,7 +12,7 @@ $(document).ready(function() {
 					<br> <br>
 					<h4 ng-show="pinnedAll.length">Pinned</h4>
 					<div class="card" style="background-color: {{note.noteColor}}" 
-						ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'true', archiveStatus:'false' , noteStatus:'true' , deleteStatus:'false'} as pinnedAll">
+						ng-if="note.reminderStatus!=''" ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'true', deleteStatus:'false'} as pinnedAll">
 						<div style="float: right">
 							<span style="cursor: pointer" ng-click="note.pin=false; updateNote(note)"> 
 								<img alt="pin" style="height: 17px" src="image/bluepin.svg"></img>
@@ -94,7 +84,7 @@ $(document).ready(function() {
 
 					<h4 ng-show="pinnedAll.length">Others</h4>
 					<div class="card" ng-click="popup(note)" style="background-color: {{note.noteColor}}"
-						ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'false',archiveStatus:'false' , noteStatus: 'true' , deleteStatus:'false'} as OtherNotes">
+						ng-if="note.reminderStatus!=''" ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'false', deleteStatus:'false'} as OtherNotes">
 						<div id="moreOptions" style="float: right">
 							<span style="cursor: pointer"
 								ng-click="note.pin='true'; updateNote(note)"> <img

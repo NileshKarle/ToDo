@@ -134,10 +134,8 @@ public class Notes {
 		return reminderStatus;
 	}
 
-	public void setReminderStatus(String reminderStatus) {
-		if (reminderStatus.equals("true") || reminderStatus.equals("false")) {
+	public void setReminderStatus(String reminderStatus) {	
 		this.reminderStatus = reminderStatus;
-		}
 	}
 
 	public String getDescription() {
