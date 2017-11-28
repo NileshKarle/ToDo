@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -55,6 +56,10 @@ public class Notes {
 	@Column(name="NOTE_COLOR")
 	private String noteColor;
 	
+	@Lob
+	@Column(name="IMAGE",columnDefinition="LONGBLOB")
+	private String image;
+	
 	@ManyToOne()
 	@JsonIgnore
 	@JoinColumn(name = "USER_ID")
@@ -66,6 +71,14 @@ public class Notes {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getNoteColor() {
@@ -121,10 +134,8 @@ public class Notes {
 		return reminderStatus;
 	}
 
-	public void setReminderStatus(String reminderStatus) {
-		if (reminderStatus.equals("true") || reminderStatus.equals("false")) {
+	public void setReminderStatus(String reminderStatus) {	
 		this.reminderStatus = reminderStatus;
-		}
 	}
 
 	public String getDescription() {

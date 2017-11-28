@@ -173,6 +173,19 @@ public class UserLoginController {
 		return ResponseEntity.ok(user);
 	}
 	
+	
+	@RequestMapping(value = "/profileChange")
+	public ResponseEntity<String> changeProfile(@RequestBody User user ,HttpServletRequest request) throws IOException {
+		
+		int userId = verifyToken.parseJWT(request.getHeader("token"));
+		if(userId==0){
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
+		}
+		userService.saveUserData(user);
+		return ResponseEntity.ok("");
+	}
+	
+	
 	/**
 	 * @param user(contains the email and the password)
 	 * @return response Message.

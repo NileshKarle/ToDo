@@ -12,6 +12,9 @@
 			<div class="card" style=" width:27% ; background-color: {{note.noteColor}}"
 				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{deleteStatus:'true'}">
 				
+				<div ng-click="open(note)">
+					<img ng-src="{{note.image}}"/>
+				</div>
 				<div ng-bind-html="note.title"></div>
 				<br>
 				<div ng-bind-html="note.description"></div>

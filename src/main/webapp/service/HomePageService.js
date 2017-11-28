@@ -58,6 +58,17 @@ toDo.factory('homePageService', function($http, $location) {
 		})
 	}
 	
+	abc.changeProfile=function(User){
+		return $http({
+			method : "POST",
+			url : 'profileChange',
+			headers: {
+				'token':localStorage.getItem('token')
+			},
+			data : User
+		})
+	}
+	
 	abc.allNotes = function() {
 		return $http({
 			method : "GET",

@@ -1,4 +1,4 @@
-var toDo = angular.module('toDo', ['ui.router', 'ngSanitize', 'ui.bootstrap']);
+var toDo = angular.module('toDo', ['ui.router', 'ngSanitize', 'ui.bootstrap', 'toastr','ui.bootstrap.datepicker']);
 
 toDo.config([ '$stateProvider', '$urlRouterProvider',
 		function($stateProvider, $urlRouterProvider) {
@@ -48,6 +48,12 @@ toDo.config([ '$stateProvider', '$urlRouterProvider',
 			$stateProvider.state('trash',{
 				url : '/trash',
 				templateUrl : 'template/Trash.html',
+				controller: 'homeController'
+			});
+			
+			$stateProvider.state('reminder',{
+				url : '/reminder',
+				templateUrl : 'template/reminder.html',
 				controller: 'homeController'
 			});
 			
