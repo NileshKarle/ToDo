@@ -20,25 +20,27 @@
 				<div class="imagedropdown">
 					<span class="btn dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">
 						
-						<img alt="{{User.firstName.charAt(0)}}" class="img-circle" ng-src="{{User.profile}}" height="35px">
+						<img alt='{{User.firstName.charAt(0)}}' class="img-circle" ng-src="{{User.profile}}" height="37px" width="38" style="margin-top: -6px">
 					</span>
 					
-					<ul class="dropdown-menu" role="menu" style="background-color: white; padding-left: 10px" aria-labelledby="menu1">
+					<ul class="dropdown-menu" id="logoutDroupdown" role="menu" style="background-color: white; padding-left: 10px" aria-labelledby="menu1">
 						<li     style="height: 150px;width: 200px;">
+						<div>
+						<span><img alt='{{User.firstName.charAt(0)}}' title="{{User.firstName.charAt(0)}}" class="img-circle" ng-src="{{User.profile}}" height="100px" style="margin-left:-103px; "width="100px">
 						
-						<img alt="{{User.firstName.charAt(0)}}" title="{{User.firstName.charAt(0)}}" class="img-circle" ng-src="{{User.profile}}" height="100px" width="100px">
 						
-						<img alt="ChangeProfile" ng-click="openImageUploader('user')" src="" height="20px">
 						
-						 <input id="imageuploader" ng-show="false"  type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc">
+						 <input id="imageuploader" ng-show="false" style="margin-right: 10px" type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc">
 						
-						{{User.firstName}}
-						{{User.email}}
-						
+						<h4 style="margin-left: 138px;margin-top: -74px;">{{User.firstName}}</h4>
+						<h5 style="margin-left: 150px;margin-top: 15px;">{{User.email}}</h5>
+						</span>
+						</div>
 						</li>
-						<button style="float: right">
-						<li ng-click="logout()">logout</li>
-						</button>
+						
+						<button ng-click="openImageUploader('user')">change profile</button>
+						<button ng-click="logout()">logout</button>
+						
 						
 					</ul>
 				</div>

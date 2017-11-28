@@ -1,14 +1,21 @@
 package com.bridgelab.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bridgelab.model.Collaborator;
 import com.bridgelab.model.Notes;
 import com.bridgelab.model.User;
 
@@ -100,15 +107,54 @@ public class NotesDaoImpl implements NotesDao{
 	//This method retun's list of all the note's of a particular user based on the user id.
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
-	public List<Notes> listAllNotes(User user) {
+	public Set<Notes> listAllNotes(User user) {
 		
 		List<Notes> results = null;
 		Session session=this.sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Notes.class);
 		criteria.add(Restrictions.eq("user",user));
 		results = criteria.list();
+		Set<Notes> allNotes=new HashSet<Notes>(results);
 		session.close();
-		return results;
+		return allNotes;
+	}
+
+	@Override
+	public List<User> getListOfUser(int noteId) {
+		Session session = this.sessionFactory.openSession();
+		Query querycollab = session.createQuery("select c.shareWithId from Collaborator c where c.note= " + noteId);
+		List<User> listOfSharedCollaborators =  querycollab.list();
+		System.out.println("listOfSharedCollaborators "+listOfSharedCollaborators);
+		session.close();
+		return listOfSharedCollaborators;
+	}
+
+	@Override
+	public Set<Notes> getCollboratedNotes(int userId) {
+		Session session = this.sessionFactory.openSession();
+		Query query = session.createQuery("select c.note from Collaborator c where c.shareWithId= " + userId);
+		List<Notes> colllboratedNotes =  query.list();
+		Set<Notes> notes=new HashSet<Notes>(colllboratedNotes);
+		
+		session.close();
+		return notes;
+	}
+
+	@Override
+	public int saveCollborator(Collaborator collaborate) {
+		int collboratorId=0;
+		Session session= this.sessionFactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		try{
+		collboratorId=(Integer) session.save(collaborate);
+		transaction.commit();
+		}catch(HibernateException e){
+			e.printStackTrace();
+			transaction.rollback();
+		}finally{
+			session.close();
+		}
+		return collboratorId;
 	}
 
 }

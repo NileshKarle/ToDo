@@ -79,6 +79,17 @@ toDo.factory('homePageService', function($http, $location) {
 		})
 	}
 	
+	abc.service = function(url,method,object) {
+		return $http({
+			method : method,
+			url : 'note/'+url,
+			headers: {
+				'token':localStorage.getItem('token')
+			},
+			data:object
+		})
+	}
+	
 	return abc;
 
 });

@@ -28,7 +28,7 @@ public class Notes {
 
 	@Column(name = "DESCRIPTION")
 	private String description;
-
+	
 	@Column(name = "TITLE")
 	private String title;
 

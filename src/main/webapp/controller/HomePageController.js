@@ -175,15 +175,7 @@ toDo
 						});
 						};
 					
-					/* open collaborator modal */
-					$scope.openCollaborator = function(note) {
-						$scope.noteUser = $scope.User;
-						console.log($scope.noteUser);
-						modalInstance = $uibModal.open({
-							templateUrl : 'template/collaboratorNote.html',
-							scope : $scope
-						});
-					}
+					
 
 					$scope.changeColorInModal = function(color) {
 						$scope.EditNoteColor = color;
@@ -395,10 +387,10 @@ toDo
 														.getElementById("noteDescription").innerHTML = "";
 												$scope.pinStatus = false;
 												$scope.AddReminder='';
-												$scope.AddNoteColor = "#ffffff";s
+												$scope.AddNoteColor = "#ffffff";
 												$scope.removeImage();
-												 toastr.success('Note added', 'successfully');
 												getAllNotes();
+												 toastr.success('Note added', 'successfully');
 											}, function(response) {
 											});
 						}
@@ -480,6 +472,7 @@ toDo
 												$scope.AddNoteColor = "#ffffff";
 												$scope.AddReminder='';
 												getAllNotes();
+												toastr.success('Note added to Archive', 'success');
 											}, function(response) {
 											});
 						}
@@ -535,5 +528,96 @@ toDo
 						}
 
 					});
+					
+					
+					$scope.openCollaborator=function(note){
+						$scope.note = note;
+						$scope.user=$scope.User;
+						modalInstance = $uibModal.open({
+							templateUrl : 'template/collaboratorNote.html',
+							scope : $scope,
+							
+						});
+					}
+					var collborators=[];
+					
+					$scope.getUserlist=function(note){
+						var obj={};
+						console.log(note);
+						obj.note=note;
+						$scope.User.lastName='';
+						obj.ownerId=$scope.User;
+						obj.shareWithId={'email':''};
+						console.log(obj);
+						var url='collaborate';
+						
+						var users=homePageService.service(url,'POST',obj);
+				        users.then(function(response) {
+							
+							console.log("Inside collborator");
+							console.log(response.data);
+							$scope.users= response.data; 
+							/*$scope.notes[index].collabratorUsers = response.data; */
+							
+						}, function(response) {
+							$scope.users={};
+							console.log(response);
+
+						});
+						console.log("Returned");
+						console.log(collborators);
+						console.log(users);
+						return collborators;
+					}
+					
+					
+				/*	var collborate=function(obj){
+						var url='collaborate';
+						var token = localStorage.getItem('token');
+						var users = noteService.service(url,'POST',token,obj);
+						var collborators={};
+						users.then(function(response) {
+							
+							console.log("Inside collborator");
+							console.log(response.data);
+							collborators= response.data; 
+						}, function(response) {
+							$scope.users={};
+							collborators= response.data; 
+							
+						});
+						return collborators;
+					}*/
+					
+					$scope.collborate=function(note){
+						var obj={};
+						console.log(note);
+						obj.note=note;
+						console.log($scope.User);
+						obj.ownerId=$scope.User;
+						obj.shareWithId=$scope.shareWith;
+						
+						var url='collaborate';
+						
+						var users=homePageService.service(url,'POST',obj);
+				        users.then(function(response) {
+							
+							console.log("Inside collborator");
+							console.log(response.data);
+							$scope.users= response.data; 
+							$scope.notes[index].collabratorUsers = response.data; 
+							
+						}, function(response) {
+							console.log(response);
+							$scope.users={};
+							
+							
+
+						});
+						console.log("Returned");
+						console.log(collborators);
+						console.log(users);
+						
+					}
 
 				});

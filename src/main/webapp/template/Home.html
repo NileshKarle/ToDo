@@ -59,9 +59,9 @@ $(document).ready(function() {
 									<img id="dropdown" class="dropdown-toggle" data-toggle="dropdown" alt="color" src="image/colorpallete.svg" uib-dropdown-toggle height="20px">
 									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
 										aria-labelledby="btn-append-to-body" style="background-color: #f9fbff">
-										<a ng-repeat="color in colors" role="menuitem"> <img
-											ng-src="{{color.path}}" height="25px"
-											ng-click="note.noteColor =color.color;addNoteColorChange(color.color)">
+										<a ng-repeat="color in colors" role="menuitem"> 
+										<img ng-src="{{color.path}}" height="25px"
+											ng-click="note.noteColor =color.color;changeColor(note);">
 										</a>
 									</ul>
 								</div>
@@ -81,7 +81,7 @@ $(document).ready(function() {
 									</span>
 									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
 										<li><a ng-click="deleteNote(note)">Delete</a></li>
-										<li><a>Add Lable</a></li>
+										<li><a ng-click="socialShare(note)">Share Note</a></li>
 										<li><a ng-click="copy(note)">Make a Copy</a></li>
 									</ul>
 								</div>
@@ -132,7 +132,7 @@ $(document).ready(function() {
 										style="background-color: #f9fbff">
 										<a ng-repeat="color in colors" role="menuitem"> <img
 											ng-src="{{color.path}}" height="25px"
-											ng-click="note.noteColor =color.color;addNoteColorChange(color.color)">
+											ng-click="note.noteColor =color.color;changeColor(note)">
 										</a>
 									</ul>
 								</div>

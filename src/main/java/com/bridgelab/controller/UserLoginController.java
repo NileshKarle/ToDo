@@ -217,6 +217,7 @@ public class UserLoginController {
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(value = Exception.class)
 	public String handleException(Exception e) {
+		e.printStackTrace();
 		return "Exception" + e;
 	}
 }

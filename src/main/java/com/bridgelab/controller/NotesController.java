@@ -1,7 +1,11 @@
 package com.bridgelab.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgelab.model.Collaborator;
 import com.bridgelab.model.ErrorMessage;
 import com.bridgelab.model.Notes;
 import com.bridgelab.model.User;
@@ -165,12 +170,14 @@ public class NotesController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/AllNodes", method = RequestMethod.GET)
-	public ResponseEntity<List> listAllUsers(@RequestAttribute("loginedUser") User user) {
+	public ResponseEntity<Set> listAllUsers(@RequestAttribute("loginedUser") User user) {
 
 		ErrorMessage errorMessage = new ErrorMessage();
 
-		List<Notes> allNotes = notesService.listAllNotes(user);
-
+		Set<Notes> collaboratedNote = notesService.getCollboratedNotes(user.getId());
+		Set<Notes> allNotes = notesService.listAllNotes(user);
+		allNotes.addAll(collaboratedNote);
+		
 		errorMessage.setResponseMessage("note found.");
 		errorMessage.setAllNotes(allNotes);
 
@@ -178,9 +185,49 @@ public class NotesController {
 	}
 
 	
+	@RequestMapping(value = "/collaborate", method = RequestMethod.POST)
+	public ResponseEntity<List<User>> getNotes(@RequestBody Collaborator collborator, HttpServletRequest request,@RequestAttribute("loginedUser") User ownerUser){
+		List<User> users=new ArrayList<User>();
+		System.out.println("inside the collaborate"+collborator);
+		Collaborator collaborate =new Collaborator();
+		Notes note= (Notes) collborator.getNote();
+		User shareWith = (User) collborator.getShareWithId();
+		shareWith=userService.emailValidation(shareWith.getEmail());
+		User owner= (User) collborator.getOwnerId();
+		users=	notesService.getListOfUser(note.getId());
+//		User user=userService.getUserById(tokenService.verifyToken(token));
+		
+				if(shareWith!=null && shareWith.getId()!=owner.getId()) {
+					int i=0;
+					int flag=0;
+					while(users.size()>i) {
+						if(users.get(i).getId()==shareWith.getId()) {
+							flag=1;
+						}
+						i++;
+					}
+					if(flag==0) {
+						collaborate.setNote(note);
+						collaborate.setOwnerId(owner);
+						collaborate.setShareWithId(shareWith);
+						if(notesService.saveCollborator(collaborate)>0) {
+						  	users.add(shareWith);
+						}else {
+							 ResponseEntity.ok(users);
+						}
+					}
+		}
+		
+		return ResponseEntity.ok(users);
+	}
+	
+	
+	
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(value = Exception.class)
 	public String handleException(Exception e) {
+		e.printStackTrace();
+		System.out.println();
 		return "Exception" + e;
 	}
 

@@ -1,16 +1,21 @@
 @CHARSET "UTF-8";
 
-div#topNavigation{
+#topNavigation{
 	position : fixed;
 	width : 100%;
 	z-index:2;
     background-color:#ffbb33;
 } 
 
-div#topNavigation li{
+#topNavigation li{
      margin-right: 20px;
      margin-top: 10px;
 }
-div#topNavigation input{
+
+#logoutDroupdown{
+	width:350px;
+}
+
+#topNavigation input{
 	length:50px;
 }

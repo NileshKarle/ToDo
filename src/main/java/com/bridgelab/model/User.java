@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name = "TODO_USER")
@@ -31,16 +33,19 @@ public class User {
 
 	@Column(name = "FIRST_NAME")
 	private String firstName;
-
+	
+	@JsonProperty(access=Access.WRITE_ONLY)
 	@Column(name = "LAST_NAME")
 	private String lastName;
 
 	@Column(unique = true, name = "EMAIL")
 	private String email;
-
+	
+	@JsonProperty(access=Access.WRITE_ONLY)
 	@Column(name = "PASSWORD")
 	private String password;
-
+	
+	@JsonProperty(access=Access.WRITE_ONLY)
 	@Column(name = "CONTACT")
 	private String contact;
 	
