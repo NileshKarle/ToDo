@@ -161,7 +161,7 @@ public class NotesDaoImpl implements NotesDao{
 	public int removeCollborator(int shareWith, int noteId) {
 		Session session = this.sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
-		Query query = session.createQuery("delete  Collaborater c where c.shareWithId= "+shareWith+" and c.note="+noteId );
+		Query query = session.createQuery("delete  Collaborator c where c.shareWithId= "+shareWith+" and c.note="+noteId );
 		int status=query.executeUpdate();
 		session.close();
 		return status;

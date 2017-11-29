@@ -42,9 +42,8 @@
 					</div>
 		</div>
 
-		<div style="float: right" ng-show={{contentable}}>
-		<div class="btn-group dropup colorDiv" uib-dropdown>
-		
+		<div style="display:inline-flex" ng-show={{contentable}}>
+
 		<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
 										<img alt="reminder" src="image/reminder.svg" height="15px">
 									</span>
@@ -56,6 +55,7 @@
 									
 									<img alt="image" ng-click="openImageUploader(note)" src="image/image.svg" height="20px">
 		
+		<div>
 			<img id ="dropdown" class="dropdown-toggle" data-toggle="dropdown" alt="color" src="image/colorpallete.svg"  uib-dropdown-toggle height="20px">
 					<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body" style="background-color: #000000">
 							<a ng-repeat="color in colors"   role="menuitem">
@@ -64,14 +64,15 @@
 					</ul>
 		</div>
 		
+		
 		<span style="cursor: pointer" ng-click="UnarchiveandArchiveFromModal(note)"> 
 			<img ng-hide="note.archiveStatus" style="height: 17px" alt="pin" src="image/unarchive.png"><img ng-show="note.archiveStatus" style="height: 17px" alt="pin" src="image/archive.svg">
 			</span>
 		
 			<span ng-click="updateNoteModal(note)">DONE</span>
 		</div>
-
 </div>
+
 
 
 

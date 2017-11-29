@@ -230,6 +230,7 @@ public class NotesController {
 	@RequestMapping(value = "/getOwner", method = RequestMethod.POST)
 	public ResponseEntity<User> getOwner(@RequestBody Notes note, HttpServletRequest request,@RequestAttribute("loginedUser") User user){
 		
+		System.out.println("inside the get owner");
 		Notes noteComplete=notesService.getNote(note);
 		User owner=noteComplete.getUser();
 		return ResponseEntity.ok(owner);
@@ -246,6 +247,7 @@ public class NotesController {
 				if(owner.getId()!=shareWith){
 					if(notesService.removeCollborator(shareWith, note.getId())>0){
 						response.setResponseMessage("Collborator removed");
+						
 						return ResponseEntity.ok(response);
 					}else{
 						response.setResponseMessage("database problem");

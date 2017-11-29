@@ -1,0 +1,17 @@
+<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
+	<img alt="reminder" src="image/reminder.svg" height="15px">
+</span>
+
+<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+	<li><button class="form-control" ng-show="{{TodaylaterReminder}}"
+			ng-click="todaysReminder(note)">Today</button></li>
+	<li><button class="form-control"
+			ng-click="tomorrowsReminder(note)">Tomorrow</button></li>
+	<li><button class="form-control" ng-click="NextweekReminder(note)">Next
+			week</button></li>
+	<li><input type="text" ng-attr-id="datepicker{{note.id}}"
+		placeholder="Select time" class="reminder"></li>
+	<li><button ng-click="openReminder(note)">
+			<span class="glyphicon glyphicon-calendar"></span>
+		</button></li>
+</ul>

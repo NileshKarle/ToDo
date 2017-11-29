@@ -34,28 +34,11 @@
 
 							<div class="dropdown" style="float: left">
 							
-									<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
-										<img alt="reminder" src="image/reminder.svg" height="15px">
-									</span>
-									
-									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-									<li><input type="text" ng-attr-id="datepicker{{note.id}}" class="reminder"></li>
-									<li><button ng-click="openReminder(note)"><span  class="glyphicon glyphicon-calendar"></span></button></li>
-									</ul>
+									<reminder></reminder>
 									
 								<img alt="colaburator" src="image/colaburator.png" ng-click="openCollaborator(note)" height="25px">
 								
-								<div class="btn-group dropup colorDiv" uib-dropdown>
-									<img id="dropdown" class="dropdown-toggle" data-toggle="dropdown" alt="color" src="image/colorpallete.svg" uib-dropdown-toggle height="20px">
-									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
-										aria-labelledby="btn-append-to-body" style="background-color: #f9fbff">
-										<a ng-repeat="color in colors" role="menuitem"> <img
-											ng-src="{{color.path}}" height="25px"
-											ng-click="note.noteColor =color.color;addNoteColorChange(color.color)">
-										</a>
-									</ul>
-								</div>
-								
+								<color></color>
 								
 								<img alt="image" ng-click="openImageUploader(note)" src="image/image.svg" height="20px">
 								
@@ -103,29 +86,11 @@
 
 							<div class="dropdown" style="float: left">
 								
-								<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
-										<img alt="reminder" src="image/reminder.svg" height="15px">
-									</span>
-									
-									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-									<li><input type="text" ng-attr-id="datepicker{{note.id}}" class="reminder" ng-click="openReminder(note)"></li>
-									<li><button ng-click="openReminder(note)"><span  class="glyphicon glyphicon-calendar"></span></button></li>
-									</ul>
+								<reminder></reminder>
 								
 								<img alt="colaburator" src="image/colaburator.png" height="25px">
-								<div class="btn-group dropup colorDiv" uib-dropdown>
-									<img id="dropdown" class="dropdown-toggle"
-										data-toggle="dropdown" alt="color"
-										src="image/colorpallete.svg" uib-dropdown-toggle height="20px">
-									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
-										aria-labelledby="btn-append-to-body"
-										style="background-color: #f9fbff">
-										<a ng-repeat="color in colors" role="menuitem"> <img
-											ng-src="{{color.path}}" height="25px"
-											ng-click="note.noteColor =color.color;addNoteColorChange(color.color)">
-										</a>
-									</ul>
-								</div>
+								
+								<color></color>
 								
 								<img alt="image" ng-click="openImageUploader(note)" src="image/image.svg" height="20px">
 								

@@ -46,22 +46,39 @@ toDo
 						$scope.AddNoteColor = color;
 					}
 
-					$scope.ListView = true;
+					read();
+					
+					function read(){
+						$scope.ListView = localStorage.getItem('view');
+					}
+					
+					
 
+					
 					$scope.ListViewToggle = function() {
-						if ($scope.ListView == true) {
+						if ($scope.ListView === true) {
 							$scope.ListView = false;
-							listGrideView();
+							localStorage.setItem('view',false);
+							var element = document
+							.getElementsByClassName('card');
+					for (var i = 0; i < element.length; i++) {
+						element[i].style.width = "900px";
+					}
 						} else {
 							$scope.ListView = true;
-							listGrideView();
+							localStorage.setItem('view',true);
+								var element = document
+										.getElementsByClassName('card');
+								for (var i = 0; i < element.length; i++) {
+									element[i].style.width = "300px";
+								}
 						}
 					}
 
-					listGrideView();
+					/*listGrideView();
 
 					function listGrideView() {
-						if ($scope.ListView) {
+						if ($scope.ListView == ) {
 							var element = document
 									.getElementsByClassName('card');
 							for (var i = 0; i < element.length; i++) {
@@ -74,7 +91,7 @@ toDo
 								element[i].style.width = "300px";
 							}
 						}
-					}
+					}*/
 
 					$scope.colors = [/* "#fff","#f1c40f","#280275" */
 
@@ -241,7 +258,43 @@ toDo
 						   }
 					}
 					
+					$scope.tomorrowsReminder=function(notes){
+						$scope.currentTime=$filter('date')(new Date().getTime() + 24 * 60 * 60 * 1000,'MM/dd/yyyy');
+						notes.reminderStatus=$scope.currentTime+" 8:00 AM";
+						$scope.updateNote(notes);
+					}
 					
+					$scope.NextweekReminder=function(notes){
+						$scope.currentTime=$filter('date')(new Date().getTime() + 7 * 24 * 60 * 60 * 1000,'MM/dd/yyyy');
+						notes.reminderStatus=$scope.currentTime+" 8:00 AM";
+						$scope.updateNote(notes);
+					}
+					
+					$scope.todaysReminder=function(notes){
+						$scope.currentTime=$filter('date')(new Date(), 'MM/dd/yyyy');
+						var currentDate=new Date().getHours();
+						if(currentDate >= 7){
+							notes.reminderStatus=$scope.currentTime+" 8:00 PM";	
+						}
+						if(currentDate < 7){
+							notes.reminderStatus=$scope.currentTime+" 8:00 AM";
+						}
+						
+						$scope.updateNote(notes);
+					}
+					
+					$scope.TodaylaterReminder=true;
+					
+					checktime();
+					function checktime(){
+						var currentDate=new Date().getHours();
+						if(currentDate > 19){
+							$scope.TodaylaterReminder=false;
+						}
+						if(currentDate > 1){
+							$scope.TodaylaterReminder=true;
+						}
+					}
 					
 					getAllNotes();
 
@@ -633,6 +686,38 @@ toDo
 						
 					}
 
-					
+					$scope.getOwner = function(note) {
+						var url = 'getOwner';
+						var users = homePageService.service(url, 'POST', note);
+						users.then(function(response) {
+
+							$scope.owner = response.data;
+
+						}, function(response) {
+							concole.log("this is error")
+							$scope.users = {};
+						});
+					}
+
+					$scope.removeCollborator = function(note, user) {
+						var obj = {};
+						var url = 'removeCollborator';
+						obj.note = note;
+						obj.ownerId = {
+							'email' : ''
+						};
+						obj.shareWithId = user;
+						var token = localStorage.getItem('token');
+						var users = homePageService.service(url, 'POST', obj);
+						users.then(function(response) {
+							$scope.collborate(note, $scope.owner);
+
+							console.log(response.data);
+
+						}, function(response) {
+							console.log(response.data);
+
+						});
+					}
 					
 				});
