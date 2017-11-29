@@ -58,6 +58,7 @@ public class NotesController {
 	public ResponseEntity<ErrorMessage> addNotes(@RequestBody Notes notes,
 			@RequestAttribute("loginedUser") User user) {
 		
+
 		// Collect the token(headers) from the local storage and verify the
 		// token.
 
@@ -113,12 +114,19 @@ public class NotesController {
 
 		ErrorMessage errorMessage = new ErrorMessage();
 		
-		note.setUser(user);
-		notesService.updateNote(note);
+		Notes oldNote = notesService.getNote(note);
+		
+		if (oldNote != null) {
+			
+			note.setUser(oldNote.getUser());
+			notesService.updateNote(note);
 
-		errorMessage.setResponseMessage("note updated.");
-		errorMessage.setAllNotes(null);
-		return ResponseEntity.ok(errorMessage);
+			errorMessage.setResponseMessage("note updated.");
+			errorMessage.setAllNotes(null);
+			return ResponseEntity.ok(errorMessage);
+		}
+		errorMessage.setResponseMessage("The note you are trying to update dose not exist's.");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}	
 	
 	
@@ -135,8 +143,6 @@ public class NotesController {
 	@RequestMapping(value = "/noteUpdate", method = RequestMethod.POST)
 	public ResponseEntity<ErrorMessage> updateNote(@RequestBody Notes note,
 			@RequestAttribute("loginedUser") User user) {
-		
-		System.out.println("its entered in the update field");
 
 		ErrorMessage errorMessage = new ErrorMessage();
 
@@ -146,7 +152,7 @@ public class NotesController {
 			Date date = new Date();
 			note.setModifiedDate(date);
 			note.setCreatedDate(oldNote.getCreatedDate());
-			note.setUser(user);
+			note.setUser(oldNote.getUser());
 			notesService.updateNote(note);
 
 			errorMessage.setResponseMessage("note updated.");
@@ -221,7 +227,36 @@ public class NotesController {
 		return ResponseEntity.ok(users);
 	}
 	
+	@RequestMapping(value = "/getOwner", method = RequestMethod.POST)
+	public ResponseEntity<User> getOwner(@RequestBody Notes note, HttpServletRequest request,@RequestAttribute("loginedUser") User user){
+		
+		Notes noteComplete=notesService.getNote(note);
+		User owner=noteComplete.getUser();
+		return ResponseEntity.ok(owner);
+		
+	}
 	
+	@RequestMapping(value = "/removeCollborator", method = RequestMethod.POST)
+	public ResponseEntity<ErrorMessage> removeCollborator(@RequestBody Collaborator collborator, HttpServletRequest request){
+		ErrorMessage response=new ErrorMessage();
+		int shareWith=collborator.getShareWithId().getId();
+		Notes note=notesService.getNote(collborator.getNote());
+		User owner=note.getUser();
+		
+				if(owner.getId()!=shareWith){
+					if(notesService.removeCollborator(shareWith, note.getId())>0){
+						response.setResponseMessage("Collborator removed");
+						return ResponseEntity.ok(response);
+					}else{
+						response.setResponseMessage("database problem");
+						return ResponseEntity.ok(response);
+					}
+				}else{
+					response.setResponseMessage("Can't remove owner");
+					return ResponseEntity.ok(response);
+				}
+		
+	}
 	
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(value = Exception.class)

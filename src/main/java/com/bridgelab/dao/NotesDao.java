@@ -29,6 +29,8 @@ public interface NotesDao {
 	
 	public int saveCollborator(Collaborator collaborate);
 	
+	public int removeCollborator(int shareWith,int noteId);
+	
 	public Set<Notes> listAllNotes(User userId);
 	
 }

@@ -22,10 +22,11 @@ public class NotesInterceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		
 		String headers=request.getHeader("token");
 		int userId = verifyToken.parseJWT(headers);
 		User user = userService.userValidated(userId);
-		
+
 		if(user == null){
 			return false;
 		}

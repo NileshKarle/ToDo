@@ -60,4 +60,10 @@ public class NotesServiceImpl implements NotesService{
 		return notesDao.saveCollborator(collaborate);
 	}
 
+	@Override
+	public int removeCollborator(int shareWith, int noteId) {
+		
+		return notesDao.removeCollborator(shareWith,noteId);
+	}
+
 }

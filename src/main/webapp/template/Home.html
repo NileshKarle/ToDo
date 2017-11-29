@@ -31,9 +31,9 @@ $(document).ready(function() {
 						
 						
 						
-						<div ng-click="open(note)">
-						<img ng-src="{{note.image}}"/>
-						</div>
+						
+						<img ng-click="open(note)" style="max-height: 278px;" ng-src="{{note.image}}"/>
+						
 						<br>
 						<div ng-bind-html="note.title" ng-click="open(note)"></div>
 						<br>

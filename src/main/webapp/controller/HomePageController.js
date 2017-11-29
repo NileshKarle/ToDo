@@ -119,21 +119,34 @@ toDo
 					if ($state.current.name == "home") {
 						$scope.navBarColor = "#ffbb33";
 						$scope.contentable = true;
+						$scope.searching=false;
 						$scope.navBarHeading = "Google Keep";
 					} else if ($state.current.name == "reminder") {
 						$scope.navBarColor = "#607D8B";
 						$scope.contentable = true;
+						$scope.searching=false;
 						$scope.navBarHeading = "Reminder";
 					} else if ($state.current.name == "trash") {
 						$scope.navBarHeading = "Trash";
 						$scope.contentable = false;
+						$scope.searching=false;
 						$scope.navBarColor = "#636363";
 					} else if ($state.current.name == "archive") {
 						$scope.navBarColor = "#607D8B";
 						$scope.contentable = true;
+						$scope.searching=false;
 						$scope.navBarHeading = "Archive";
+					}else if ($state.current.name == "searchPage") {
+						$scope.navBarColor = "#3e50b4";
+						$scope.contentable = true;
+						$scope.searching=true;
+						$scope.navBarHeading = "Search";
 					}
+					
 
+					$scope.gotoSearch=function(){
+						$location.path("/searchPage");
+					}
 					/* Edit a note in modal */
 
 					$scope.EditNoteColor = "#ffffff";
@@ -312,7 +325,7 @@ toDo
 						console.log("id is ..." + id);
 						var a = homePageService.deleteNoteForever(id);
 						a.then(function(response) {
-							modalInstance.close('resetmodel');
+							
 							getAllNotes();
 						}, function(response) {
 						});
@@ -606,7 +619,7 @@ toDo
 							console.log(response.data);
 							$scope.users= response.data; 
 							$scope.notes[index].collabratorUsers = response.data; 
-							
+							modalInstance.close('resetmodel');
 						}, function(response) {
 							console.log(response);
 							$scope.users={};
@@ -620,4 +633,6 @@ toDo
 						
 					}
 
+					
+					
 				});

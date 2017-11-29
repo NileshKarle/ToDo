@@ -57,5 +57,11 @@ toDo.config([ '$stateProvider', '$urlRouterProvider',
 				controller: 'homeController'
 			});
 			
+			$stateProvider.state('searchPage',{
+				url : '/searchPage',
+				templateUrl : 'template/searchPage.html',
+				controller: 'homeController'
+			});
+			
 			$urlRouterProvider.otherwise('login');
 		} ]);

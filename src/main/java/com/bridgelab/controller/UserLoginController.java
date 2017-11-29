@@ -181,7 +181,9 @@ public class UserLoginController {
 		if(userId==0){
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
 		}
-		userService.saveUserData(user);
+		User olduser = userService.userValidated(userId);
+		olduser.setProfile(user.getProfile());
+		userService.saveUserData(olduser);
 		return ResponseEntity.ok("");
 	}
 	

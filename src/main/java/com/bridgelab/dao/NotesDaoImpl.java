@@ -157,4 +157,14 @@ public class NotesDaoImpl implements NotesDao{
 		return collboratorId;
 	}
 
+	@Override
+	public int removeCollborator(int shareWith, int noteId) {
+		Session session = this.sessionFactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		Query query = session.createQuery("delete  Collaborater c where c.shareWithId= "+shareWith+" and c.note="+noteId );
+		int status=query.executeUpdate();
+		session.close();
+		return status;
+	}
+
 }
