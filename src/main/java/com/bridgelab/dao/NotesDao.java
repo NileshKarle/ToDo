@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.bridgelab.model.Collaborator;
+import com.bridgelab.model.Label;
 import com.bridgelab.model.Notes;
 import com.bridgelab.model.User;
 
@@ -28,6 +29,8 @@ public interface NotesDao {
 	public Set<Notes> getCollboratedNotes(int userId);
 	
 	public int saveCollborator(Collaborator collaborate);
+	
+	public void addLabel(Label label);
 	
 	public int removeCollborator(int shareWith,int noteId);
 	

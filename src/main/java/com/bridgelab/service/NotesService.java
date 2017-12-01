@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.bridgelab.model.Collaborator;
+import com.bridgelab.model.Label;
 import com.bridgelab.model.Notes;
 import com.bridgelab.model.User;
 
@@ -26,4 +27,7 @@ public interface NotesService {
 	public int removeCollborator(int shareWith,int noteId);
 	
 	public Set<Notes> listAllNotes(User userId);
+	
+	public void addLabel(Label label);
+	
 }

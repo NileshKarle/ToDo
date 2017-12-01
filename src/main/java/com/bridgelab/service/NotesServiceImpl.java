@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bridgelab.dao.NotesDao;
 import com.bridgelab.model.Collaborator;
+import com.bridgelab.model.Label;
 import com.bridgelab.model.Notes;
 import com.bridgelab.model.User;
 
@@ -64,6 +65,11 @@ public class NotesServiceImpl implements NotesService{
 	public int removeCollborator(int shareWith, int noteId) {
 		
 		return notesDao.removeCollborator(shareWith,noteId);
+	}
+
+	@Override
+	public void addLabel(Label label) {
+		notesDao.addLabel(label);
 	}
 
 }

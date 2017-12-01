@@ -16,6 +16,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bridgelab.model.Collaborator;
+import com.bridgelab.model.Label;
 import com.bridgelab.model.Notes;
 import com.bridgelab.model.User;
 
@@ -167,4 +168,11 @@ public class NotesDaoImpl implements NotesDao{
 		return status;
 	}
 
+	public void addLabel(Label label){
+		Session session = this.sessionFactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		session.save(label);
+		transaction.commit();
+		session.close();
+	}
 }

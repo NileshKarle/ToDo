@@ -25,6 +25,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 				<value>com.bridgelab.model.Notes</value>
 				<value>com.bridgelab.model.User</value>
 				<value>com.bridgelab.model.Collaborator</value>
+				<value>com.bridgelab.model.Label</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

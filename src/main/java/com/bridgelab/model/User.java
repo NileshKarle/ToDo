@@ -53,6 +53,9 @@ public class User {
 	@Column(name="PROFILE",columnDefinition="LONGBLOB")
 	private String profile;
 
+	@OneToMany(mappedBy="userLabel")
+	private Set<Label> labels; 
+	
 	@OneToMany(mappedBy = "user")
 	@JsonIgnore
 	private Set<Notes> notes = new HashSet<Notes>();
@@ -154,4 +157,12 @@ public class User {
 
 	}
 
+	public Set<Label> getLabels() {
+		return labels;
+	}
+
+	public void setLabels(Set<Label> labels) {
+		this.labels = labels;
+	}
+	
 }

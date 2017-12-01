@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelab.model.Collaborator;
 import com.bridgelab.model.ErrorMessage;
+import com.bridgelab.model.Label;
 import com.bridgelab.model.Notes;
 import com.bridgelab.model.User;
 import com.bridgelab.service.NotesService;
@@ -259,6 +260,19 @@ public class NotesController {
 				}
 		
 	}
+	
+	
+	@RequestMapping(value = "/AddLabel", method = RequestMethod.POST)
+	public ResponseEntity<ErrorMessage> Addlabel(@RequestAttribute("loginedUser") User user,@RequestBody Label label) {
+		System.out.println(label);
+		ErrorMessage errorMessage = new ErrorMessage();
+		label.setUserId(user);
+		label.setNoteId(null);
+		notesService.addLabel(label);
+		return ResponseEntity.ok(errorMessage);
+	}
+
+	
 	
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(value = Exception.class)

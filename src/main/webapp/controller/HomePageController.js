@@ -7,12 +7,12 @@ toDo
 						fileReader, $state) {
 
 					getUser();
+					getAllNotes();
+					checktime();
 					
 					/*get the current user details*/
 					function getUser() {
-						
-						var url='currentUser';
-						var a = homePageService.getData(url,'POST');
+						var a = homePageService.getData('currentUser','POST');
 						a.then(function(response) {
 							$scope.User = response.data;
 						}, function(response) {
@@ -20,23 +20,23 @@ toDo
 						});
 					}
 
-					/**/
+					/*image upload*/
 					$scope.imageSrc = "";
 
 					$scope.$on("fileProgress", function(e, progress) {
 						$scope.progress = progress.loaded / progress.total;
 					});
 
+					/*check from image upload type(add note, present note, user profile)*/
 					$scope.openImageUploader = function(type) {
 						$scope.type = type;
 						$('#imageuploader').trigger('click');
 					}
 					
 					
-
+					/*update the note with new color*/
 					$scope.changeColor = function(note) {
-
-						var a = homePageService.changeColor(note);
+						var a = homePageService.service('note/changeColor','POST',note);
 						a.then(function(response) {
 							getAllNotes();
 						}, function(response) {
@@ -44,20 +44,19 @@ toDo
 						});
 					}
 
+					/*default color while adding a new note*/
 					$scope.AddNoteColor = "#ffffff";
 
+					/*set the color for the new note*/
 					$scope.addNoteColorChange = function(color) {
 						$scope.AddNoteColor = color;
 					}
 
-					read();
 					
+					read();
 					function read(){
 						$scope.ListView = localStorage.getItem('view');
 					}
-					
-					
-
 					
 					$scope.ListViewToggle = function() {
 						if ($scope.ListView === true) {
@@ -67,6 +66,7 @@ toDo
 							.getElementsByClassName('card');
 					for (var i = 0; i < element.length; i++) {
 						element[i].style.width = "900px";
+						"col-lg-12 col-md-12 list"
 					}
 						} else {
 							$scope.ListView = true;
@@ -79,26 +79,8 @@ toDo
 						}
 					}
 
-					/*listGrideView();
-
-					function listGrideView() {
-						if ($scope.ListView == ) {
-							var element = document
-									.getElementsByClassName('card');
-							for (var i = 0; i < element.length; i++) {
-								element[i].style.width = "900px";
-							}
-						} else {
-							var element = document
-									.getElementsByClassName('card');
-							for (var i = 0; i < element.length; i++) {
-								element[i].style.width = "300px";
-							}
-						}
-					}*/
-
-					$scope.colors = [/* "#fff","#f1c40f","#280275" */
-
+					/*Add color and */
+					$scope.colors = [
 					{
 						"color" : '#ffffff',
 						"path" : 'image/white.png'
@@ -137,6 +119,7 @@ toDo
 						"path" : 'image/grey.png'
 					} ];
 
+					/*change the navbar color and content*/
 					if ($state.current.name == "home") {
 						$scope.navBarColor = "#ffbb33";
 						$scope.contentable = true;
@@ -164,12 +147,12 @@ toDo
 						$scope.navBarHeading = "Search";
 					}
 					
-
+					/*go to search page*/
 					$scope.gotoSearch=function(){
 						$location.path("/searchPage");
 					}
+					
 					/* Edit a note in modal */
-
 					$scope.EditNoteColor = "#ffffff";
 
 					/* open a model */
@@ -182,6 +165,7 @@ toDo
 						});
 					};
 
+					/*share the note on facebook*/
 					$scope.socialShare = function(note) {
 						FB.init({
 						appId : '132217884131949',
@@ -210,7 +194,7 @@ toDo
 						};
 					
 					
-
+					/*change the note color*/
 					$scope.changeColorInModal = function(color) {
 						$scope.EditNoteColor = color;
 					}
@@ -233,23 +217,19 @@ toDo
 						$scope.AddNoteBox = true;
 					}
 
-					
-					
+					/*add a reminder to new note*/
 					$scope.AddReminder='';
 					$scope.openAddReminder=function(){
 					   	$('#datepicker').datetimepicker();
 					   	$scope.AddReminder= $('#datepicker').val();
 				}
 					
-					
-					
-					
+					/*Add a reminder to existing note*/
 					$scope.reminder ="";
 					$scope.openReminder=function(note){
 						   	$('.reminder').datetimepicker();
 						   	 var id = '#datepicker' + note.id;
 						   	$scope.reminder = $(id).val();
-						   	//note.reminderStatus=$scope.reminder;
 						   	if($scope.reminder === "" || $scope.reminder === undefined){
 						   		console.log(note);
 						   		console.log($scope.reminder);
@@ -262,18 +242,21 @@ toDo
 						   }
 					}
 					
+					/*set tomorrows reminder*/
 					$scope.tomorrowsReminder=function(notes){
 						$scope.currentTime=$filter('date')(new Date().getTime() + 24 * 60 * 60 * 1000,'MM/dd/yyyy');
 						notes.reminderStatus=$scope.currentTime+" 8:00 AM";
 						$scope.updateNote(notes);
 					}
 					
+					/*set next week reminder*/
 					$scope.NextweekReminder=function(notes){
 						$scope.currentTime=$filter('date')(new Date().getTime() + 7 * 24 * 60 * 60 * 1000,'MM/dd/yyyy');
 						notes.reminderStatus=$scope.currentTime+" 8:00 AM";
 						$scope.updateNote(notes);
 					}
 					
+					/*set later todays reminder*/
 					$scope.todaysReminder=function(notes){
 						$scope.currentTime=$filter('date')(new Date(), 'MM/dd/yyyy');
 						var currentDate=new Date().getHours();
@@ -287,9 +270,10 @@ toDo
 						$scope.updateNote(notes);
 					}
 					
+
 					$scope.TodaylaterReminder=true;
 					
-					checktime();
+					/*check weather to display later todays reminder or not*/
 					function checktime(){
 						var currentDate=new Date().getHours();
 						if(currentDate > 19){
@@ -300,11 +284,11 @@ toDo
 						}
 					}
 					
-					getAllNotes();
+					
 
 					/* display notes */
 					function getAllNotes() {
-						var b = homePageService.allNotes();
+						var b = homePageService.getData('note/AllNodes','GET');
 						b.then(function(response) {
 							$scope.userNotes = response.data;
 							$interval(function(){
@@ -322,8 +306,6 @@ toDo
 									
 								}
 							},9000);
-							
-							
 						}, function(response) {
 							$scope.logout();
 						});
@@ -334,7 +316,7 @@ toDo
 						note.archiveStatus = "true";
 						note.noteStatus = "false";
 						note.pin = "false";
-						var a = homePageService.updateNote(note);
+						var a = homePageService.service('note/noteUpdate','POST',note);
 						a.then(function(response) {
 							getAllNotes();
 						}, function(response) {
@@ -346,7 +328,7 @@ toDo
 						note.noteStatus = "true";
 						note.archiveStatus = "false";
 						note.pin = "false";
-						var a = homePageService.updateNote(note);
+						var a = homePageService.service('note/noteUpdate','POST',note);
 						a.then(function(response) {
 							getAllNotes();
 						}, function(response) {
@@ -357,7 +339,7 @@ toDo
 					$scope.restoreNote = function(note) {
 						note.pin = "false";
 						note.deleteStatus = "false";
-						var a = homePageService.updateNote(note);
+						var a = homePageService.service('note/noteUpdate','POST',note);
 						a.then(function(response) {
 							modalInstance.close('resetmodel');
 							getAllNotes();
@@ -370,7 +352,7 @@ toDo
 						note.pin = "false";
 						note.deleteStatus = "true";
 						note.reminderStatus = "";
-						var a = homePageService.updateNote(note);
+						var a = homePageService.service('note/noteUpdate','POST',note);
 						a.then(function(response) {
 							getAllNotes();
 						}, function(response) {
@@ -380,7 +362,7 @@ toDo
 					/* delete note forever */
 					$scope.deleteNoteForever = function(id) {
 						console.log("id is ..." + id);
-						var a = homePageService.deleteNoteForever(id);
+						var a = homePageService.getData('note/DeleteNotes/'+id,'DELETE');
 						a.then(function(response) {
 							
 							getAllNotes();
@@ -391,7 +373,7 @@ toDo
 					/* update the note */
 					$scope.updateNote = function(note) {
 
-						var a = homePageService.updateNote(note);
+						var a = homePageService.service('note/noteUpdate','POST',note);
 						a.then(function(response) {
 							getAllNotes();
 						}, function(response) {
@@ -409,7 +391,7 @@ toDo
 						}
 					}
 
-					$scope.Reminder = false;
+					$scope.Reminder = '';
 
 					/*$scope.addReminder = function() {
 						if ($scope.Reminder == false) {
@@ -447,7 +429,7 @@ toDo
 							$scope.imageSrc = "";
 							$scope.notes.noteColor = $scope.AddNoteColor;
 
-							var a = homePageService.addNote($scope.notes);
+							var a = homePageService.service('note/AddNotes','POST',$scope.notes);
 							a
 									.then(
 											function(response) {
@@ -466,16 +448,28 @@ toDo
 						}
 					}
 
+					/*change user profile picture*/
 					$scope.changeProfile=function(user){
-					var a=homePageService.changeProfile(user);
+					var a=homePageService.service('profileChange','POST',user);
 					a.then(function(response) {
-					
 					},function(response){
-						
 					});
-					
 					}
 					
+					$scope.addLabel=function(){
+						var label= document.getElementById("labelName").value;
+						if(label!=""){
+							var obj={};
+							obj.labelName=label;
+							
+					var a=homePageService.service('note/AddLabel','POST',obj);
+					a.then(function(response) {
+						document.getElementById("labelName").value="";
+					},function(response){
+					});
+					}
+					}
+					/*remove the image after adding the new note*/
 					$scope.removeImage = function() {
 						$scope.AddNoteBox = false;
 						$scope.addimg = undefined;
@@ -529,7 +523,7 @@ toDo
 							$scope.notes.noteStatus = "false";
 							$scope.notes.reminderStatus = $scope.AddReminder;
 							$scope.notes.deleteStatus = "false";
-							var a = homePageService.addNote($scope.notes);
+							var a = homePageService.service('note/AddNotes','POST',$scope.notes);
 							a
 									.then(
 											function(response) {
@@ -554,7 +548,7 @@ toDo
 						note.archiveStatus = "false";
 						note.deleteStatus = "false";
 						note.pin = "false";
-						var a = homePageService.addNote(note);
+						var a = homePageService.service('note/AddNotes','POST',note);
 						a.then(function(response) {
 							getAllNotes();
 						}, function(response) {
@@ -617,7 +611,7 @@ toDo
 						obj.ownerId=$scope.User;
 						obj.shareWithId={'email':''};
 						console.log(obj);
-						var url='collaborate';
+						var url='note/collaborate';
 						
 						var users=homePageService.service(url,'POST',obj);
 				        users.then(function(response) {
@@ -646,7 +640,7 @@ toDo
 						obj.ownerId=$scope.User;
 						obj.shareWithId=$scope.shareWith;
 						
-						var url='collaborate';
+						var url='note/collaborate';
 						
 						var users=homePageService.service(url,'POST',obj);
 				        users.then(function(response) {
@@ -670,7 +664,7 @@ toDo
 					}
 
 					$scope.getOwner = function(note) {
-						var url = 'getOwner';
+						var url = 'note/getOwner';
 						var users = homePageService.service(url, 'POST', note);
 						users.then(function(response) {
 
@@ -684,7 +678,7 @@ toDo
 
 					$scope.removeCollborator = function(note, user) {
 						var obj = {};
-						var url = 'removeCollborator';
+						var url = 'note/removeCollborator';
 						obj.note = note;
 						obj.ownerId = {
 							'email' : ''
