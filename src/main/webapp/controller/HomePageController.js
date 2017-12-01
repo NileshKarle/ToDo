@@ -7,9 +7,12 @@ toDo
 						fileReader, $state) {
 
 					getUser();
-
+					
+					/*get the current user details*/
 					function getUser() {
-						var a = homePageService.getUser();
+						
+						var url='currentUser';
+						var a = homePageService.getData(url,'POST');
 						a.then(function(response) {
 							$scope.User = response.data;
 						}, function(response) {
@@ -17,6 +20,7 @@ toDo
 						});
 					}
 
+					/**/
 					$scope.imageSrc = "";
 
 					$scope.$on("fileProgress", function(e, progress) {
@@ -306,7 +310,7 @@ toDo
 							$interval(function(){
 								var i=0;
 								for(i;i<$scope.userNotes.length;i++){
-									if($scope.userNotes[i].reminderStatus!='false'){
+									if($scope.userNotes[i].reminderStatus!='false'||$scope.userNotes[i].reminderStatus!=''){
 										
 										var currentDate=$filter('date')(new Date(),'MM/dd/yyyy h:mm a');
 										
@@ -365,7 +369,7 @@ toDo
 					$scope.deleteNote = function(note) {
 						note.pin = "false";
 						note.deleteStatus = "true";
-						note.reminderStatus = "false";
+						note.reminderStatus = "";
 						var a = homePageService.updateNote(note);
 						a.then(function(response) {
 							getAllNotes();
@@ -525,7 +529,6 @@ toDo
 							$scope.notes.noteStatus = "false";
 							$scope.notes.reminderStatus = $scope.AddReminder;
 							$scope.notes.deleteStatus = "false";
-							$scope.notes.reminderStatus = "false";
 							var a = homePageService.addNote($scope.notes);
 							a
 									.then(
@@ -550,7 +553,6 @@ toDo
 						note.noteStatus = "true";
 						note.archiveStatus = "false";
 						note.deleteStatus = "false";
-						note.reminderStatus = "false";
 						note.pin = "false";
 						var a = homePageService.addNote(note);
 						a.then(function(response) {
@@ -635,25 +637,6 @@ toDo
 						console.log(users);
 						return collborators;
 					}
-					
-					
-				/*	var collborate=function(obj){
-						var url='collaborate';
-						var token = localStorage.getItem('token');
-						var users = noteService.service(url,'POST',token,obj);
-						var collborators={};
-						users.then(function(response) {
-							
-							console.log("Inside collborator");
-							console.log(response.data);
-							collborators= response.data; 
-						}, function(response) {
-							$scope.users={};
-							collborators= response.data; 
-							
-						});
-						return collborators;
-					}*/
 					
 					$scope.collborate=function(note){
 						var obj={};

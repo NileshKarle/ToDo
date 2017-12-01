@@ -48,7 +48,7 @@ toDo.factory('homePageService', function($http, $location) {
 		})
 	}
 	
-	abc.getUser=function(){
+	/*abc.getUser=function(){
 		return $http({
 			method : "POST",
 			url : 'currentUser',
@@ -56,7 +56,7 @@ toDo.factory('homePageService', function($http, $location) {
 				'token':localStorage.getItem('token')
 			}
 		})
-	}
+	}*/
 	
 	abc.changeProfile=function(User){
 		return $http({
@@ -87,6 +87,16 @@ toDo.factory('homePageService', function($http, $location) {
 				'token':localStorage.getItem('token')
 			},
 			data:object
+		})
+	}
+	
+	abc.getData = function(url,method) {
+		return $http({
+			method : method,
+			url : url,
+			headers: {
+				'token':localStorage.getItem('token')
+			}
 		})
 	}
 	

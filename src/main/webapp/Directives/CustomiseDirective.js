@@ -24,15 +24,15 @@ app.directive("reminder", function() {
     };
 });
 
-app.directive("color", function() {
+app.directive("colorPalet", function() {
     return {
     	templateUrl :'template/colorIcon.html'
     };
 });
 
-app.directive("colloberate", function() {
+app.directive("moreOption", function() {
     return {
-    	templateUrl :'template/colloberateIcon.html'
+    	templateUrl :'template/MoreOptionIcon.html'
     };
 });
 

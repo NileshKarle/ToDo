@@ -1,32 +1,49 @@
 <div class="modal-content" ng-init="getUserlist(note)">
-<div class="modal-header"><font size="5px">Collborators</font></div>
+
+	<div class="modal-header">
+		<font size="5px">Collborators</font>
+	</div>
+	
 	<div class="modal-body">
+	
 		<div class="row">
 
-	<div class="col-sm-2" ng-init="getOwner(note)">
-	<img ng-src="{{owner.profile}}" height="50%" width="50%" alt="image" class="img-circle"/>
+			<div class="col-sm-2" ng-init="getOwner(note)">
+				<img ng-src="{{owner.profile}}" height="50%" width="50%" alt="image" class="img-circle" />
+			</div>
+
+			<div class="col-sm-8">
+				<font size="4px">{{owner.firstName}}(owner)</font><br>{{owner.email}}
+			</div>
+			
+		</div> <br>
+		
+		<div ng-repeat="user in users">
+
+			<div class="row">
+				
+				<div class="col-sm-2">
+					<img ng-src="{{user.profile}}" height="50%" width="50%" alt="image" class="img-circle" />
+				</div>
+
+				<div class="col-sm-8">
+					<font size="4px">{{user.firstName}}</font><br>{{user.email}}
+				</div>
+				
+				<div class="col-sm-2" ng-click="removeCollborator(note,user)">&#10006;</div>
+			
+			</div> <br>
+		
+		</div>
+		
+		<div class="row">
+			<input type="text" class="col-sm-12" id="searchbox" ng-model="$parent.shareWith.email" placeholder="Enter Collborator">
+		</div>
+		
 	</div>
 	
-	<div class="col-sm-8"><font size="4px">{{owner.firstName}}</font><br>{{owner.email}}(owner)</div>
-	</div><br>
-	<div ng-repeat="user in users">
-	
-	<div class="row">
-	<div class="col-sm-2">
-	<img ng-src="{{user.profile}}" height="50%" width="50%" alt="image" class="img-circle"/>
-	</div>
-	
-	<div class="col-sm-8"><font size="4px">{{user.firstName}}</font><br>{{user.email}}</div>
-	<div class="col-sm-2" ng-click="removeCollborator(note,user)">&#10006;</div>
-	</div><br>
-	</div><div class="row">
-	<input type="text" class="col-sm-12" id="searchbox" ng-model="$parent.shareWith.email" placeholder="Enter Collborator">
-	</div>
-	</div>
 	<div class="modal-footer">
-	
-	    <div role="button" ng-click="collborate(note,user)"
-				class="btn btn-done pull-right inline" data-dismiss="modal">DONE</div>
+		<div role="button" ng-click="collborate(note,user)" class="btn btn-done pull-right inline" data-dismiss="modal">DONE</div>
 	</div>
 
 </div>
