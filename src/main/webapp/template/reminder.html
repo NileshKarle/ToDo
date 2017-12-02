@@ -27,7 +27,7 @@
 						<br>
 						<img ng-if="note.image!=''" ng-click="open(note)" style="height: 258px;" ng-src="{{note.image}}"/>
 						<br>
-						<div ng-bind="note.reminderStatus"></div>
+						<div ng-if="note.reminderStatus!=''">{{note.reminderStatus}}<span ng-click="removeReminder(note)">&#10006;</span></div>
 						
 			<div id="moreOptions" style="margin-top: 20px">
 
@@ -73,7 +73,7 @@
 							<br>
 						<img ng-if="note.image!=''" ng-click="open(note)" style="height: 258px;" ng-src="{{note.image}}"/>
 						
-						<div ng-bind="note.reminderStatus"></div>
+						<div ng-if="note.reminderStatus!=''">{{note.reminderStatus}}<span ng-click="removeReminder(note)">&#10006;</span></div>
 			
 						<div id="moreOptions" style="margin-top: 20px">
 			

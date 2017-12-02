@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -88,6 +89,7 @@ public class NotesController {
 	 *              user who is logged in. when ever the /DeleteNotes/{id} API
 	 *              is called.
 	 */
+	
 	@RequestMapping(value = "/DeleteNotes/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ErrorMessage> deleteNotes(@PathVariable("id") int id,
 			@RequestAttribute("loginedUser") User user) {
@@ -145,6 +147,9 @@ public class NotesController {
 	public ResponseEntity<ErrorMessage> updateNote(@RequestBody Notes note,
 			@RequestAttribute("loginedUser") User user) {
 
+		System.out.println(note);
+		System.out.println("line 1");
+		System.out.println(note.getLabels().size());
 		ErrorMessage errorMessage = new ErrorMessage();
 
 		Notes oldNote = notesService.getNote(note);
@@ -272,6 +277,26 @@ public class NotesController {
 		return ResponseEntity.ok(errorMessage);
 	}
 
+	@RequestMapping(value = "/currentUserLabel", method = RequestMethod.POST)
+	public ResponseEntity<Set<Label>> getOwnerLabels(@RequestAttribute("loginedUser") User user){
+		System.out.println(user);
+		System.out.println("inside the send label class");
+		Set<Label> labelNames = user.getLabels();
+		System.out.println(labelNames);
+		return ResponseEntity.ok(labelNames);
+		
+	}
+	
+	@RequestMapping(value = "/AddNoteLabel", method = RequestMethod.POST)
+	public ResponseEntity<String> AddNoteToLabel(@RequestAttribute("loginedUser") User user,@RequestBody Label label) {
+		
+		System.out.println(label);
+		System.out.println(label.getId());
+		System.out.println(label.getNoteId().isEmpty());
+		
+		notesService.updateLabel(label);
+		return ResponseEntity.ok("");
+	}
 	
 	
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)

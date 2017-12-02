@@ -175,4 +175,12 @@ public class NotesDaoImpl implements NotesDao{
 		transaction.commit();
 		session.close();
 	}
+	
+	public void updateLabel(Label label){
+		Session session = this.sessionFactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		session.update(label);
+		transaction.commit();
+		session.close();
+	}
 }

@@ -170,6 +170,8 @@ public class UserLoginController {
 		
 		int userId = verifyToken.parseJWT(request.getHeader("token"));
 		User user = userService.userValidated(userId);
+		System.out.println("inside the current user");
+		System.out.println(user);
 		return ResponseEntity.ok(user);
 	}
 	

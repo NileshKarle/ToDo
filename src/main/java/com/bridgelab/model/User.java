@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -53,10 +54,11 @@ public class User {
 	@Column(name="PROFILE",columnDefinition="LONGBLOB")
 	private String profile;
 
-	@OneToMany(mappedBy="userLabel")
-	private Set<Label> labels; 
+	@JsonIgnore
+	@OneToMany(mappedBy="userLabel",fetch=FetchType.EAGER)
+	private Set<Label> labels;
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user",fetch=FetchType.EAGER)
 	@JsonIgnore
 	private Set<Notes> notes = new HashSet<Notes>();
 

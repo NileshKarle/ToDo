@@ -32,6 +32,8 @@ public interface NotesDao {
 	
 	public void addLabel(Label label);
 	
+	public void updateLabel(Label label);
+	
 	public int removeCollborator(int shareWith,int noteId);
 	
 	public Set<Notes> listAllNotes(User userId);

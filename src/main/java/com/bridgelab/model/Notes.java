@@ -1,14 +1,17 @@
 package com.bridgelab.model;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -60,10 +63,22 @@ public class Notes {
 	@Column(name="IMAGE",columnDefinition="LONGBLOB")
 	private String image;
 	
+	
+	@ManyToMany(fetch=FetchType.EAGER)
+	private Set<Label> labels;
+	
 	@ManyToOne()
 	@JsonIgnore
 	@JoinColumn(name = "USER_ID")
 	private User user;
+
+	public Set<Label> getLabels() {
+		return labels;
+	}
+
+	public void setLabels(Set<Label> labels) {
+		this.labels = labels;
+	}
 
 	public User getUser() {
 		return user;

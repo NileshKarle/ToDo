@@ -3,6 +3,7 @@ package com.bridgelab.model;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -10,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -21,10 +24,13 @@ public class Label {
 	@GeneratedValue(generator = "abc")
 	private int id;
 	
+
 	@ManyToOne
+	@JsonIgnore
 	private User userLabel;
 	
-	@ManyToMany
+	@JsonIgnore
+	@ManyToMany(mappedBy="labels")
 	private Set<Notes> noteId;
 	
 	private String labelName;

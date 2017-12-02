@@ -7,6 +7,7 @@ toDo
 						fileReader, $state) {
 
 					getUser();
+					getUserLabel();
 					getAllNotes();
 					checktime();
 					
@@ -15,10 +16,82 @@ toDo
 						var a = homePageService.getData('currentUser','POST');
 						a.then(function(response) {
 							$scope.User = response.data;
+							console.log("user data");
+							console.log($scope.User);
 						}, function(response) {
 
 						});
 					}
+					
+					
+					/*get the current user labels*/
+					function getUserLabel() {
+						var a = homePageService.getData('note/currentUserLabel','POST');
+						a.then(function(response) {
+							$scope.UserLabels = response.data;
+							console.log($scope.UserLabels);
+						}, function(response) {
+
+						});
+					}
+					
+					
+					/*Add a label*/
+					/*$scope.LabelNote=function(note,label){
+//						var label= document.getElementById("labelName").value;
+						note.labels.push(label);
+					var a=homePageService.service('note/noteUpdate','POST',note);
+					a.then(function(response) {
+					},function(response){
+					});
+					}*/
+					
+					/*remove and add a label*/
+					$scope.ToggleLabel=function(note,label){
+						var index=-1;
+						for(var i=0;i<note.labels.length;i++){
+							if(note.labels[i].labelName == label.labelName){
+								index=i;
+							}
+						}
+						if(index == -1){
+							note.labels.push(label);
+						}
+						else{
+						note.labels.splice(index,1);
+						}
+						var a=homePageService.service('note/noteUpdate','POST',note);
+						a.then(function(response) {
+						},function(response){
+						});
+					}
+					
+					$scope.checkStatus=function(note,label){
+						for(var i=0;i<note.labels.length;i++){
+							if(note.labels[i].labelName===label.labelName){
+								return true;
+							}
+						}
+						return false;
+					}
+					
+					
+					
+					/*Add a label*/
+					$scope.addLabel=function(){
+						var label= document.getElementById("labelName").value;
+						if(label!=""){
+							var obj={};
+							obj.labelName=label;
+							
+					var a=homePageService.service('note/AddLabel','POST',obj);
+					a.then(function(response) {
+						document.getElementById("labelName").value="";
+					},function(response){
+					});
+					}
+					}
+					
 
 					/*image upload*/
 					$scope.imageSrc = "";
@@ -66,7 +139,7 @@ toDo
 							.getElementsByClassName('card');
 					for (var i = 0; i < element.length; i++) {
 						element[i].style.width = "900px";
-						"col-lg-12 col-md-12 list"
+						
 					}
 						} else {
 							$scope.ListView = true;
@@ -77,6 +150,15 @@ toDo
 									element[i].style.width = "300px";
 								}
 						}
+					}
+					
+					
+					$scope.removeReminder=function(note){
+						note.reminderStatus="";
+						var a=homePageService.service('note/noteUpdate','POST',note);
+						a.then(function(response) {
+						},function(response){
+						});
 					}
 
 					/*Add color and */
@@ -291,6 +373,7 @@ toDo
 						var b = homePageService.getData('note/AllNodes','GET');
 						b.then(function(response) {
 							$scope.userNotes = response.data;
+							console.log($scope.userNotes);
 							$interval(function(){
 								var i=0;
 								for(i;i<$scope.userNotes.length;i++){
@@ -456,19 +539,6 @@ toDo
 					});
 					}
 					
-					$scope.addLabel=function(){
-						var label= document.getElementById("labelName").value;
-						if(label!=""){
-							var obj={};
-							obj.labelName=label;
-							
-					var a=homePageService.service('note/AddLabel','POST',obj);
-					a.then(function(response) {
-						document.getElementById("labelName").value="";
-					},function(response){
-					});
-					}
-					}
 					/*remove the image after adding the new note*/
 					$scope.removeImage = function() {
 						$scope.AddNoteBox = false;

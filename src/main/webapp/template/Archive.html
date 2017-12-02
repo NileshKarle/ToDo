@@ -25,7 +25,8 @@
 			<div ng-if="note.description!=''" ng-bind-html="note.description" ng-click="open(note)"></div>
 			<br>
 			<img ng-if="note.image!=''" ng-click="open(note)" style="height: 258px;" ng-src="{{note.image}}"/>
-			<div ng-bind="note.reminderStatus"></div>
+			
+			<div ng-if="note.reminderStatus!=''">{{note.reminderStatus}}<span ng-click="removeReminder(note)">&#10006;</span></div>
 						
 			<div id="moreOptions" style="margin-top: 20px">
 				
