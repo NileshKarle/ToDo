@@ -1,20 +1,21 @@
 <div>
-	
+	<div class="row" style="height: 100% ; width: 100%">
+	 <div class="container-fluid">
 	<top-navigation-bar></top-navigation-bar>
+	</div>
 	
-	<div class="row">
 		
-		<div class="col-sm-2" id="sidebarWrapper" ng-show="showSideBar">
+		<div class="col-sm-4 col-md-3 col-lg-2 col-xs-4" id="sidebarWrapper" ng-show="showSideBar" align="left">
 			<side-navigation-bar></side-navigation-bar>
 		</div>
 		
 		<div id="mainHome">
-			<div class="col-sm-10" id="mainWrapper">
+			<div id="mainWrapper">
 				<br> <br>
 				
 				<add-notes></add-notes>
 				
-				<div ng-click="AddNoteBox=false; AddNoteColor='#ffffff'">
+				<div ng-click="AddNoteBox=false; AddNoteColor='#ffffff'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
 					<br> <br>
 					<h4 ng-show="pinnedAll.length">Pinned</h4>
 					

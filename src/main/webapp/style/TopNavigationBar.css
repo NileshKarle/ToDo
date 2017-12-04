@@ -1,15 +1,23 @@
 @CHARSET "UTF-8";
 
 #topNavigation{
-	position : fixed;
+ 	position : fixed;
+ 	max-height: 80px;
 	width : 100%;
 	z-index:2;
-    background-color:#ffbb33;
+    background-color:#ffbb33; 
+    display: inline-flex;
 } 
 
 #topNavigation li{
-     margin-right: 20px;
-     margin-top: 10px;
+/*      margin-right: 20px;
+     margin-top: 10px; */
+     display: inline-flex ;
+}
+
+.navbar-nav{
+	float: right;
+	margin: 1px 1px 1px 1px;
 }
 
 #logoutDroupdown{

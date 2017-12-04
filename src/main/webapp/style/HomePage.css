@@ -1,24 +1,24 @@
 @CHARSET "UTF-8";
 #mainHome{
-	width: 100%;
-	height: 100%;
+	/* width: 100%;
+	height: 100%; */
 	background-color: #e8e8e8;
 }
 
 #mainWrapper{
 	background-color:#e8e8e8;
- 	position: absolute;
+ 	/* position: absolute;
 	height:100%;
 	width:100%;
  	padding-left: 200px;
-	display: inline-table;
+	display: inline-table; */
 }
 
 #sidebarWrapper{
-	height: 100%;
+/* 	height: 100%;
 	display: inline-block;
 	padding-top: 25px;
-	padding-bottom: 25px;
+	padding-bottom: 25px; */
 }
 .card{
     margin: 0px 20px 10px 0px;

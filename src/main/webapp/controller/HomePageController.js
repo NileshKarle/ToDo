@@ -286,10 +286,10 @@ toDo
 					$scope.sidebarToggle = function() {
 						if ($scope.showSideBar) {
 							$scope.showSideBar = false;
-							document.getElementById("mainWrapper").style.paddingLeft = "200px";
+//							document.getElementById("mainWrapper").style.paddingLeft = "200px";
 						} else {
 							$scope.showSideBar = true;
-							document.getElementById("mainWrapper").style.paddingLeft = "70px";
+//							document.getElementById("mainWrapper").style.paddingLeft = "70px";
 						}
 					}
 

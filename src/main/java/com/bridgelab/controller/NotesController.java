@@ -279,10 +279,9 @@ public class NotesController {
 
 	@RequestMapping(value = "/currentUserLabel", method = RequestMethod.POST)
 	public ResponseEntity<Set<Label>> getOwnerLabels(@RequestAttribute("loginedUser") User user){
-		System.out.println(user);
-		System.out.println("inside the send label class");
+
 		Set<Label> labelNames = user.getLabels();
-		System.out.println(labelNames);
+	
 		return ResponseEntity.ok(labelNames);
 		
 	}

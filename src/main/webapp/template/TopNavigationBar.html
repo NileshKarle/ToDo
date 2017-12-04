@@ -8,15 +8,22 @@
 			<li><h4 ng-bind="navBarHeading"></h4></li>
 			<li><span style="padding-top: 10px" class="glyphicon glyphicon-search"></span></li>
 			<li>
-				<div class="form-group">
+				
+				 <div class="hidden-xs hidden-sm col-md-5 col-lg-6">
 					<input type="text" id="srch" ng-show="searching" class="form-control" placeholder="Search" ng-model="searchText">
 						<button id="srch" ng-hide="searching" ng-click="gotoSearch()">Search</button>
 				</div>
+				
 			</li>
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
-		<li ng-click="ListViewToggle()"><img ng-if="!ListView" height="40px" alt="gride" src="image/notesGride.png"><img ng-if="ListView" height="40px" alt="list" src="image/notesList.png"></li>
+		<li ng-click="ListViewToggle()">
+		<div class="hidden-xs hidden-sm">
+		<img ng-if="!ListView" height="40px" alt="gride" src="image/notesGride.png">
+		<img ng-if="ListView" height="40px" alt="list" src="image/notesList.png">
+		</div>
+		</li>
 			<li>
 				<div class="imagedropdown">
 					<span class="btn dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">
