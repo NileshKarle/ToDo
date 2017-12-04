@@ -4,7 +4,7 @@ toDo.factory('homePageService', function($http, $location) {
 
 	var abc = {};
 	
-	abc.addNote = function(notes) {
+/*	abc.addNote = function(notes) {
 		console.log(notes.noteStatus);
 		return $http({
 			method : "POST",
@@ -15,8 +15,8 @@ toDo.factory('homePageService', function($http, $location) {
 			data : notes
 		})
 	}
-	
-	abc.changeColor=function(note){
+	*/
+	/*abc.changeColor=function(note){
 		return $http({
 			method : "POST",
 			url : 'note/changeColor',
@@ -25,9 +25,9 @@ toDo.factory('homePageService', function($http, $location) {
 			},
 			data : note
 		})
-	}
+	}*/
 	
-	abc.deleteNoteForever = function(id){
+/*	abc.deleteNoteForever = function(id){
 		return $http({
 			method : "DELETE",
 			url : 'note/DeleteNotes/'+id,
@@ -36,8 +36,8 @@ toDo.factory('homePageService', function($http, $location) {
 			}
 		})
 	}
-	
-	abc.updateNote=function(notes){
+	*/
+/*	abc.updateNote=function(notes){
 		return $http({
 			method : "POST",
 			url : 'note/noteUpdate',
@@ -47,8 +47,8 @@ toDo.factory('homePageService', function($http, $location) {
 			data: notes
 		})
 	}
-	
-	abc.getUser=function(){
+	*/
+	/*abc.getUser=function(){
 		return $http({
 			method : "POST",
 			url : 'currentUser',
@@ -56,9 +56,9 @@ toDo.factory('homePageService', function($http, $location) {
 				'token':localStorage.getItem('token')
 			}
 		})
-	}
+	}*/
 	
-	abc.changeProfile=function(User){
+/*	abc.changeProfile=function(User){
 		return $http({
 			method : "POST",
 			url : 'profileChange',
@@ -67,12 +67,33 @@ toDo.factory('homePageService', function($http, $location) {
 			},
 			data : User
 		})
-	}
+	}*/
 	
-	abc.allNotes = function() {
+/*	abc.allNotes = function() {
 		return $http({
 			method : "GET",
 			url : 'note/AllNodes',
+			headers: {
+				'token':localStorage.getItem('token')
+			}
+		})
+	}*/
+	
+	abc.service = function(url,method,object) {
+		return $http({
+			method : method,
+			url : url,
+			headers: {
+				'token':localStorage.getItem('token')
+			},
+			data:object
+		})
+	}
+	
+	abc.getData = function(url,method) {
+		return $http({
+			method : method,
+			url : url,
 			headers: {
 				'token':localStorage.getItem('token')
 			}

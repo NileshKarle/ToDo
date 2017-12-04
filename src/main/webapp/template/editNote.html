@@ -1,128 +1,65 @@
-<!-- <div class="modal-body" >
-<div style="background-color: {{note.noteColor}}">
-	<div ng-bind-html="note.title"></div>
-	<div ng-bind-html="note.description"></div>
-	<div ng-show="AddNoteBox" style="float: right">
-		<span ng-click="addArchiveNote()"> <img alt="archive"
-			src="image/archive.svg" height="20px">
-		</span> <span ng-click="updateNote(note)">DONE</span>
-	</div>
-</div>
-</div>
- -->
 <div id="editNoteModal" style="background-color: {{EditNoteColor}}">
-		<div style="float: right">
-			<span style="cursor: pointer" ng-click="note.pin=!note.pin"> 
-			<img ng-hide="note.pin" style="height: 17px" alt="pin" src="image/pin.svg"><img ng-show="note.pin" style="height: 17px" alt="pin" src="image/bluepin.svg">
-			</span>
-		</div>
-		
-		<div ng-click="open(note)">
-			<img ng-src="{{note.image}}"/>
-		</div>
-		
-		<div contenteditable="{{contentable}}" ng-bind-html="note.title" data-ph="Title" id="modifiedtitle">
-		
-		</div>
 
-
-		<br>
-		<div contenteditable="{{contentable}}" ng-bind-html="note.description" data-ph="Edit a note..." id="modifieddescreption"></div>
-		<br>
-		
-		<div ng-hide={{contentable}}>
-		<div class="dropdown" style="float: left">
-						<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
-							<span class="glyphicon glyphicon-option-vertical"></span>
-						</span>
-						<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-							<li><a ng-click="deleteNoteForever(note.id)">Delete Forever</a></li>
-							<li><a ng-click="restoreNote(note)">Restore</a></li>
-						</ul>
-					</div>
-		</div>
-
-		<div style="float: right" ng-show={{contentable}}>
-		<div class="btn-group dropup colorDiv" uib-dropdown>
-		
-		<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
-										<img alt="reminder" src="image/reminder.svg" height="15px">
-									</span>
-									
-									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-									<li><input type="text" ng-attr-id="datepicker{{note.id}}" class="reminder"></li>
-									<li><button ng-click="openReminder(note)"><span  class="glyphicon glyphicon-calendar"></span></button></li>
-									</ul>
-									
-									<img alt="image" ng-click="openImageUploader(note)" src="image/image.svg" height="20px">
-		
-			<img id ="dropdown" class="dropdown-toggle" data-toggle="dropdown" alt="color" src="image/colorpallete.svg"  uib-dropdown-toggle height="20px">
-					<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body" style="background-color: #000000">
-							<a ng-repeat="color in colors"   role="menuitem">
-								<img ng-src="{{color.path}}"  height="25px" ng-click="changeColorInModal(color.color)">
-							</a>
-					</ul>
-		</div>
-		
-		<span style="cursor: pointer" ng-click="UnarchiveandArchiveFromModal(note)"> 
-			<img ng-hide="note.archiveStatus" style="height: 17px" alt="pin" src="image/unarchive.png"><img ng-show="note.archiveStatus" style="height: 17px" alt="pin" src="image/archive.svg">
-			</span>
-		
-			<span ng-click="updateNoteModal(note)">DONE</span>
-		</div>
-
-</div>
-
-
-
-<!-- <div class="card" style="background-color: {{note.noteColor}}">
 	<div style="float: right">
-		<span style="cursor: pointer"
-			ng-click="note.pin=false; updateNote(note)"> 
-			<img alt="pin" style="height: 17px" src="image/bluepin.svg"></img>
+		<span style="cursor: pointer" ng-click="note.pin=!note.pin">
+			<img ng-hide="note.pin" style="height: 17px" alt="pin" src="image/pin.svg">
+			<img ng-show="note.pin" style="height: 17px" alt="pin" src="image/bluepin.svg">
 		</span>
 	</div>
-	<input type="text" value="{{note.title}}">
-	<div ng-bind-html="note.title"></div>
-	<br>
-	<div ng-bind-html="note.description" contenteditable="true"></div>
-	<br>
-	<span ng-click="updateNote(note)">DONE</span> -->
 
+	<div ng-click="open(note)">
+		<img ng-src="{{note.image}}" />
+	</div>
 
+	<div contenteditable = "{{contentable}}" ng-bind-html = "note.title" data-ph = "Title" id = "modifiedtitle"></div> <br>
+	
+	<div contenteditable = "{{contentable}}" ng-bind-html = "note.description" data-ph = "Edit a note..." id = "modifieddescreption"></div> <br>
 
-<!-- 	<div id="moreOptions">
-
+	<div ng-hide={{contentable}}>
+	
 		<div class="dropdown" style="float: left">
-			<img alt="reminder" src="image/reminder.svg" height="15px"> <img
-				alt="colaburator" src="image/colaburator.png" height="25px">
-			<div class="btn-group dropup colorDiv" uib-dropdown>
-				<img id="dropdown" class="dropdown-toggle" data-toggle="dropdown"
-					alt="color" src="image/colorpallete.svg" uib-dropdown-toggle
-					height="20px">
-				<ul class="dropdown-menu" uib-dropdown-menu role="menu"
-					aria-labelledby="btn-append-to-body"
-					style="background-color: #f9fbff">
-					<a ng-repeat="color in colors" role="menuitem"> <img
-						ng-src="{{color.path}}" height="25px"
-						ng-click="note.noteColor =color.color;addNoteColorChange(color.color)">
+			<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
+				<span class="glyphicon glyphicon-option-vertical"></span>
+			</span>
+			
+			<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+				<li><a ng-click="deleteNoteForever(note.id)">Delete Forever</a></li>
+				<li><a ng-click="restoreNote(note)">Restore</a></li>
+			</ul>
+		</div>
+		
+	</div>
+
+	<div style="display: inline-flex" ng-show={{contentable}}>
+	
+		<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
+			<img alt="reminder" src="image/reminder.svg" height="15px">
+		</span>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+			<li><input type="text" ng-attr-id="datepicker{{note.id}}" class="reminder"></li>
+			<li><button ng-click="openReminder(note)">
+					<span class="glyphicon glyphicon-calendar"></span>
+				</button></li>
+		</ul>
+
+		<img alt="image" ng-click="openImageUploader(note)" src="image/image.svg" height="20px">
+
+		<div>
+			<img id="dropdown" class="dropdown-toggle" data-toggle="dropdown" alt="color" src="image/colorpallete.svg" uib-dropdown-toggle height="20px">
+				<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body" style="background-color: #000000">
+					<a ng-repeat="color in colors" role="menuitem">
+						<img ng-src="{{color.path}}" height="25px" ng-click="changeColorInModal(color.color)">
 					</a>
 				</ul>
-			</div>
-			<img alt="image" src="image/image.svg" height="20px"> <span
-				ng-click="archiveNote(note)"><img alt="archive"
-				src="image/archive.svg" height="20px"></span>
-			<div style="float: left">
-				<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
-					<span class="glyphicon glyphicon-option-vertical"></span>
-				</span>
-				<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-					<li><a ng-click="deleteNote(note)">Delete</a></li>
-					<li><a>Add Lable</a></li>
-					<li><a ng-click="copy(note)">Make a Copy</a></li>
-				</ul>
-			</div>
 		</div>
 
+		<span style="cursor: pointer" ng-click="UnarchiveandArchiveFromModal(note)">
+			<img ng-hide="note.archiveStatus" style="height: 17px" alt="pin" src="image/unarchive.png">
+			<img ng-show="note.archiveStatus" style="height: 17px" alt="pin" src="image/archive.svg">
+		</span> 
+		
+		<span ng-click="updateNoteModal(note)">DONE</span>
+	
+	</div>
+	
 </div>
-	</div> -->

@@ -1,94 +1,58 @@
-
- <!-- <script type="text/javascript">
-$(document).ready(function() {
-        $(function () {
-            $('#datetimepicker6').datetimepicker();
-    });
-});
-</script>  -->  
-
-
 <div>
+	
 	<top-navigation-bar></top-navigation-bar>
+	
 	<div class="row">
+		
 		<div class="col-sm-2" id="sidebarWrapper" ng-show="showSideBar">
 			<side-navigation-bar></side-navigation-bar>
 		</div>
+		
 		<div id="mainHome">
 			<div class="col-sm-10" id="mainWrapper">
 				<br> <br>
+				
 				<add-notes></add-notes>
+				
 				<div ng-click="AddNoteBox=false; AddNoteColor='#ffffff'">
 					<br> <br>
 					<h4 ng-show="pinnedAll.length">Pinned</h4>
+					
 					<div class="card" style="background-color: {{note.noteColor}}" 
 						ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'true', archiveStatus:'false' , noteStatus:'true' , deleteStatus:'false'} as pinnedAll">
-						<div style="float: right">
-							<span style="cursor: pointer" ng-click="note.pin=false; updateNote(note)"> 
-								<img alt="pin" style="height: 17px" src="image/bluepin.svg"></img>
+					
+							<span class="glyphicon glyphicon-pushpin" style="cursor: pointer;float: right" ng-click="note.pin=false; updateNote(note)"> 
 							</span>
-						</div>
 						
+						<br>
+						<div ng-if="note.title!=''" style="padding-left:15px" ng-bind-html="note.title" ng-click="open(note)">
 						
-						
-						<div ng-click="open(note)">
-						<img ng-src="{{note.image}}"/>
 						</div>
 						<br>
-						<div ng-bind-html="note.title" ng-click="open(note)"></div>
+						<div ng-if="note.description!=''" ng-bind-html="note.description" ng-click="open(note)"></div>
 						<br>
-						<div ng-bind-html="note.description" ng-click="open(note)"></div>
-						<br>
-						<div ng-bind="note.reminderStatus"></div>
-						<div id="moreOptions">
-
-							<div class="dropdown" style="float: left">
-							
-									<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
-										<img alt="reminder" src="image/reminder.svg" height="15px">
-									</span>
-									
-									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-									<li><input type="text" ng-attr-id="datepicker{{note.id}}" class="reminder"></li>
-									<li><button ng-click="openReminder(note)"><span  class="glyphicon glyphicon-calendar"></span></button></li>
-									</ul>
-									
+						<img ng-if="note.image!=''" ng-click="open(note)" style="height: 258px;" ng-src="{{note.image}}"/>
+						
+						<div ng-if="note.reminderStatus!=''">{{note.reminderStatus}}<span ng-click="removeReminder(note)">&#10006;</span></div>
+						<div>
+						<ul id="remenderList" ng-repeat="lab in note.labels">
+						<li>{{lab.labelName}}<span ng-click="ToggleLabel(note,lab)">&#10006;</span></li>
+						</ul>
+						
+						</div>
+						<div id="moreOptions" style="margin-top: 20px">
+							<div class="dropdown" style="float: left; display: inline-flex;">
+								<more-option></more-option>
+								<reminder></reminder>
 								<img alt="colaburator" src="image/colaburator.png" ng-click="openCollaborator(note)" height="25px">
-								
-								<div class="btn-group dropup colorDiv" uib-dropdown>
-									<img id="dropdown" class="dropdown-toggle" data-toggle="dropdown" alt="color" src="image/colorpallete.svg" uib-dropdown-toggle height="20px">
-									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
-										aria-labelledby="btn-append-to-body" style="background-color: #f9fbff">
-										<a ng-repeat="color in colors" role="menuitem"> <img
-											ng-src="{{color.path}}" height="25px"
-											ng-click="note.noteColor =color.color;addNoteColorChange(color.color)">
-										</a>
-									</ul>
-								</div>
-								
-								
+								<color-palet></color-palet>
 								<img alt="image" ng-click="openImageUploader(note)" src="image/image.svg" height="20px">
-								
-								
-								
 								<span ng-click="archiveNote(note)">
 									<img alt="archive" src="image/archive.svg" height="20px">
 								</span>
-								
-								<div style="float: left">
-									<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
-										<span class="glyphicon glyphicon-option-vertical"></span>
-									</span>
-									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-										<li><a ng-click="deleteNote(note)">Delete</a></li>
-										<li><a>Add Lable</a></li>
-										<li><a ng-click="copy(note)">Make a Copy</a></li>
-									</ul>
-								</div>
 							</div>
-
-
 						</div>
+						
 					</div>
 
 
@@ -96,63 +60,29 @@ $(document).ready(function() {
 					<div class="card" ng-click="popup(note)" style="background-color: {{note.noteColor}}"
 						ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'false',archiveStatus:'false' , noteStatus: 'true' , deleteStatus:'false'} as OtherNotes">
 						<div id="moreOptions" style="float: right">
-							<span style="cursor: pointer"
-								ng-click="note.pin='true'; updateNote(note)"> <img
-								alt="pin" style="height: 17px" src="image/pin.svg"></img>
+							<span style="cursor: pointer" ng-click="note.pin='true'; updateNote(note)">
+								<img alt="pin" style="height: 17px" src="image/pin.svg"/>
 							</span>
 						</div>
-						<div ng-click="open(note)">
-							<img ng-src="{{note.image}}"/>
-						</div>
-						<div ng-bind-html="note.title" ng-click="open(note)"></div>
+						
+						<div ng-if="note.title!=''" ng-bind-html="note.title" ng-click="open(note)"></div>
 						<br>
-						<div ng-bind-html="note.description" ng-click="open(note)"></div>
+						<div ng-if="note.description!=''" ng-bind-html="note.description" ng-click="open(note)"></div>
 						<br>
-						<div ng-bind="note.reminderStatus"></div>
-						<div id="moreOptions">
-
-							<div class="dropdown" style="float: left">
-								
-								<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
-										<img alt="reminder" src="image/reminder.svg" height="15px">
-									</span>
-									
-									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-									<li><input type="text" ng-attr-id="datepicker{{note.id}}" class="reminder" ng-click="openReminder(note)"></li>
-									<li><button ng-click="openReminder(note)"><span  class="glyphicon glyphicon-calendar"></span></button></li>
-									</ul>
-								
-								<img alt="colaburator" src="image/colaburator.png" height="25px">
-								<div class="btn-group dropup colorDiv" uib-dropdown>
-									<img id="dropdown" class="dropdown-toggle"
-										data-toggle="dropdown" alt="color"
-										src="image/colorpallete.svg" uib-dropdown-toggle height="20px">
-									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
-										aria-labelledby="btn-append-to-body"
-										style="background-color: #f9fbff">
-										<a ng-repeat="color in colors" role="menuitem"> <img
-											ng-src="{{color.path}}" height="25px"
-											ng-click="note.noteColor =color.color;addNoteColorChange(color.color)">
-										</a>
-									</ul>
-								</div>
-								
+						<img ng-if="note.image!=''" ng-click="open(note)" style="height: 258px;" ng-src="{{note.image}}"/>
+						
+						<div ng-if="note.reminderStatus!=''">{{note.reminderStatus}}<span ng-click="removeReminder(note)">&#10006;</span></div>
+						
+						<div id="moreOptions" style="margin-top: 20px">
+							<div class="dropdown" style="float: left ;display: inline-flex;">
+								<more-option></more-option>
+								<reminder></reminder>
+								<img alt="colaburator" src="image/colaburator.png" ng-click="openCollaborator(note)" height="25px">
+								<color-palet></color-palet>
 								<img alt="image" ng-click="openImageUploader(note)" src="image/image.svg" height="20px">
-								
 								<span ng-click="archiveNote(note)">
-								 <img alt="archive" src="image/archive.svg" height="20px">
+									 <img alt="archive" src="image/archive.svg" height="20px">
 								</span>
-								<div style="float: left">
-									<span class="btn dropdown-toggle" id="menu1"
-										data-toggle="dropdown"> <span
-										class="glyphicon glyphicon-option-vertical"></span>
-									</span>
-									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-										<li><a ng-click="deleteNote(note)">Delete</a></li>
-										<li><a ng-click="socialShare(note)">Share Note</a></li>
-										<li><a ng-click="copy(note)">Make a Copy</a></li>
-									</ul>
-								</div>
 							</div>
 						</div>
 					</div>

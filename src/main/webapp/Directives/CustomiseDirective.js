@@ -18,7 +18,23 @@ app.directive("addNotes", function() {
     };
 });
 
+app.directive("reminder", function() {
+    return {
+    	templateUrl :'template/reminderIcon.html'
+    };
+});
 
+app.directive("colorPalet", function() {
+    return {
+    	templateUrl :'template/colorIcon.html'
+    };
+});
+
+app.directive("moreOption", function() {
+    return {
+    	templateUrl :'template/MoreOptionIcon.html'
+    };
+});
 
 app.directive("ngFileSelect", function(fileReader, $timeout) {
     return {

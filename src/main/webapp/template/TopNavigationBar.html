@@ -9,36 +9,39 @@
 			<li><span style="padding-top: 10px" class="glyphicon glyphicon-search"></span></li>
 			<li>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search">
+					<input type="text" id="srch" ng-show="searching" class="form-control" placeholder="Search" ng-model="searchText">
+						<button id="srch" ng-hide="searching" ng-click="gotoSearch()">Search</button>
 				</div>
 			</li>
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
-		<li ng-click="ListViewToggle()"><img ng-if="!ListView" height="30px" alt="gride" src="image/gridePxart.png"><img ng-if="ListView" height="30px" alt="list" src="image/list1.png"></li>
+		<li ng-click="ListViewToggle()"><img ng-if="!ListView" height="40px" alt="gride" src="image/notesGride.png"><img ng-if="ListView" height="40px" alt="list" src="image/notesList.png"></li>
 			<li>
 				<div class="imagedropdown">
 					<span class="btn dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">
 						
-						<img alt="{{User.firstName.charAt(0)}}" class="img-circle" ng-src="{{User.profile}}" height="35px">
+						<img alt='{{User.firstName.charAt(0)}}' class="img-circle" ng-src="{{User.profile}}" height="37px" width="38" style="margin-top: -6px">
 					</span>
 					
-					<ul class="dropdown-menu" role="menu" style="background-color: white; padding-left: 10px" aria-labelledby="menu1">
+					<ul class="dropdown-menu" id="logoutDroupdown" role="menu" style="background-color: white; padding-left: 10px" aria-labelledby="menu1">
 						<li     style="height: 150px;width: 200px;">
+						<div>
+						<span><img alt='{{User.firstName.charAt(0)}}' title="{{User.firstName.charAt(0)}}" class="img-circle" ng-src="{{User.profile}}" height="100px" style="margin-left:-103px; "width="100px">
 						
-						<img alt="{{User.firstName.charAt(0)}}" title="{{User.firstName.charAt(0)}}" class="img-circle" ng-src="{{User.profile}}" height="100px" width="100px">
 						
-						<img alt="ChangeProfile" ng-click="openImageUploader('user')" src="" height="20px">
 						
-						 <input id="imageuploader" ng-show="false"  type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc">
+						 <input id="imageuploader" ng-show="false" style="margin-right: 10px" type="file" ng-file-select="onFileSelect($files)" ng-model="imageSrc">
 						
-						{{User.firstName}}
-						{{User.email}}
-						
+						<h4 style="margin-left: 138px;margin-top: -74px;">{{User.firstName}}</h4>
+						<h5 style="margin-left: 150px;margin-top: 15px;">{{User.email}}</h5>
+						</span>
+						</div>
 						</li>
-						<button style="float: right">
-						<li ng-click="logout()">logout</li>
-						</button>
+						
+						<button ng-click="openImageUploader('user')">change profile</button>
+						<button ng-click="logout()">logout</button>
+						
 						
 					</ul>
 				</div>

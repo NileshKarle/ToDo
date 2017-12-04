@@ -170,6 +170,8 @@ public class UserLoginController {
 		
 		int userId = verifyToken.parseJWT(request.getHeader("token"));
 		User user = userService.userValidated(userId);
+		System.out.println("inside the current user");
+		System.out.println(user);
 		return ResponseEntity.ok(user);
 	}
 	
@@ -181,7 +183,9 @@ public class UserLoginController {
 		if(userId==0){
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
 		}
-		userService.saveUserData(user);
+		User olduser = userService.userValidated(userId);
+		olduser.setProfile(user.getProfile());
+		userService.saveUserData(olduser);
 		return ResponseEntity.ok("");
 	}
 	
@@ -217,6 +221,7 @@ public class UserLoginController {
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(value = Exception.class)
 	public String handleException(Exception e) {
+		e.printStackTrace();
 		return "Exception" + e;
 	}
 }

@@ -1,11 +1,16 @@
 package com.bridgelab.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -15,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgelab.model.Collaborator;
 import com.bridgelab.model.ErrorMessage;
+import com.bridgelab.model.Label;
 import com.bridgelab.model.Notes;
 import com.bridgelab.model.User;
 import com.bridgelab.service.NotesService;
@@ -53,6 +60,7 @@ public class NotesController {
 	public ResponseEntity<ErrorMessage> addNotes(@RequestBody Notes notes,
 			@RequestAttribute("loginedUser") User user) {
 		
+
 		// Collect the token(headers) from the local storage and verify the
 		// token.
 
@@ -81,6 +89,7 @@ public class NotesController {
 	 *              user who is logged in. when ever the /DeleteNotes/{id} API
 	 *              is called.
 	 */
+	
 	@RequestMapping(value = "/DeleteNotes/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ErrorMessage> deleteNotes(@PathVariable("id") int id,
 			@RequestAttribute("loginedUser") User user) {
@@ -108,12 +117,19 @@ public class NotesController {
 
 		ErrorMessage errorMessage = new ErrorMessage();
 		
-		note.setUser(user);
-		notesService.updateNote(note);
+		Notes oldNote = notesService.getNote(note);
+		
+		if (oldNote != null) {
+			
+			note.setUser(oldNote.getUser());
+			notesService.updateNote(note);
 
-		errorMessage.setResponseMessage("note updated.");
-		errorMessage.setAllNotes(null);
-		return ResponseEntity.ok(errorMessage);
+			errorMessage.setResponseMessage("note updated.");
+			errorMessage.setAllNotes(null);
+			return ResponseEntity.ok(errorMessage);
+		}
+		errorMessage.setResponseMessage("The note you are trying to update dose not exist's.");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
 		}	
 	
 	
@@ -130,9 +146,10 @@ public class NotesController {
 	@RequestMapping(value = "/noteUpdate", method = RequestMethod.POST)
 	public ResponseEntity<ErrorMessage> updateNote(@RequestBody Notes note,
 			@RequestAttribute("loginedUser") User user) {
-		
-		System.out.println("its entered in the update field");
 
+		System.out.println(note);
+		System.out.println("line 1");
+		System.out.println(note.getLabels().size());
 		ErrorMessage errorMessage = new ErrorMessage();
 
 		Notes oldNote = notesService.getNote(note);
@@ -141,7 +158,7 @@ public class NotesController {
 			Date date = new Date();
 			note.setModifiedDate(date);
 			note.setCreatedDate(oldNote.getCreatedDate());
-			note.setUser(user);
+			note.setUser(oldNote.getUser());
 			notesService.updateNote(note);
 
 			errorMessage.setResponseMessage("note updated.");
@@ -165,12 +182,14 @@ public class NotesController {
 	 */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/AllNodes", method = RequestMethod.GET)
-	public ResponseEntity<List> listAllUsers(@RequestAttribute("loginedUser") User user) {
+	public ResponseEntity<Set> listAllUsers(@RequestAttribute("loginedUser") User user) {
 
 		ErrorMessage errorMessage = new ErrorMessage();
 
-		List<Notes> allNotes = notesService.listAllNotes(user);
-
+		Set<Notes> collaboratedNote = notesService.getCollboratedNotes(user.getId());
+		Set<Notes> allNotes = notesService.listAllNotes(user);
+		allNotes.addAll(collaboratedNote);
+		
 		errorMessage.setResponseMessage("note found.");
 		errorMessage.setAllNotes(allNotes);
 
@@ -178,9 +197,113 @@ public class NotesController {
 	}
 
 	
+	@RequestMapping(value = "/collaborate", method = RequestMethod.POST)
+	public ResponseEntity<List<User>> getNotes(@RequestBody Collaborator collborator, HttpServletRequest request,@RequestAttribute("loginedUser") User ownerUser){
+		List<User> users=new ArrayList<User>();
+		System.out.println("inside the collaborate"+collborator);
+		Collaborator collaborate =new Collaborator();
+		Notes note= (Notes) collborator.getNote();
+		User shareWith = (User) collborator.getShareWithId();
+		shareWith=userService.emailValidation(shareWith.getEmail());
+		User owner= (User) collborator.getOwnerId();
+		users=	notesService.getListOfUser(note.getId());
+//		User user=userService.getUserById(tokenService.verifyToken(token));
+		
+				if(shareWith!=null && shareWith.getId()!=owner.getId()) {
+					int i=0;
+					int flag=0;
+					while(users.size()>i) {
+						if(users.get(i).getId()==shareWith.getId()) {
+							flag=1;
+						}
+						i++;
+					}
+					if(flag==0) {
+						collaborate.setNote(note);
+						collaborate.setOwnerId(owner);
+						collaborate.setShareWithId(shareWith);
+						if(notesService.saveCollborator(collaborate)>0) {
+						  	users.add(shareWith);
+						}else {
+							 ResponseEntity.ok(users);
+						}
+					}
+		}
+		
+		return ResponseEntity.ok(users);
+	}
+	
+	@RequestMapping(value = "/getOwner", method = RequestMethod.POST)
+	public ResponseEntity<User> getOwner(@RequestBody Notes note, HttpServletRequest request,@RequestAttribute("loginedUser") User user){
+		
+		System.out.println("inside the get owner");
+		Notes noteComplete=notesService.getNote(note);
+		User owner=noteComplete.getUser();
+		return ResponseEntity.ok(owner);
+		
+	}
+	
+	@RequestMapping(value = "/removeCollborator", method = RequestMethod.POST)
+	public ResponseEntity<ErrorMessage> removeCollborator(@RequestBody Collaborator collborator, HttpServletRequest request){
+		ErrorMessage response=new ErrorMessage();
+		int shareWith=collborator.getShareWithId().getId();
+		Notes note=notesService.getNote(collborator.getNote());
+		User owner=note.getUser();
+		
+				if(owner.getId()!=shareWith){
+					if(notesService.removeCollborator(shareWith, note.getId())>0){
+						response.setResponseMessage("Collborator removed");
+						
+						return ResponseEntity.ok(response);
+					}else{
+						response.setResponseMessage("database problem");
+						return ResponseEntity.ok(response);
+					}
+				}else{
+					response.setResponseMessage("Can't remove owner");
+					return ResponseEntity.ok(response);
+				}
+		
+	}
+	
+	
+	@RequestMapping(value = "/AddLabel", method = RequestMethod.POST)
+	public ResponseEntity<ErrorMessage> Addlabel(@RequestAttribute("loginedUser") User user,@RequestBody Label label) {
+		System.out.println(label);
+		ErrorMessage errorMessage = new ErrorMessage();
+		label.setUserId(user);
+		label.setNoteId(null);
+		notesService.addLabel(label);
+		return ResponseEntity.ok(errorMessage);
+	}
+
+	@RequestMapping(value = "/currentUserLabel", method = RequestMethod.POST)
+	public ResponseEntity<Set<Label>> getOwnerLabels(@RequestAttribute("loginedUser") User user){
+		System.out.println(user);
+		System.out.println("inside the send label class");
+		Set<Label> labelNames = user.getLabels();
+		System.out.println(labelNames);
+		return ResponseEntity.ok(labelNames);
+		
+	}
+	
+	@RequestMapping(value = "/AddNoteLabel", method = RequestMethod.POST)
+	public ResponseEntity<String> AddNoteToLabel(@RequestAttribute("loginedUser") User user,@RequestBody Label label) {
+		
+		System.out.println(label);
+		System.out.println(label.getId());
+		System.out.println(label.getNoteId().isEmpty());
+		
+		notesService.updateLabel(label);
+		return ResponseEntity.ok("");
+	}
+	
+	
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(value = Exception.class)
 	public String handleException(Exception e) {
+		e.printStackTrace();
+		System.out.println();
 		return "Exception" + e;
 	}
 

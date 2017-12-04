@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +16,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name = "TODO_USER")
@@ -31,16 +34,19 @@ public class User {
 
 	@Column(name = "FIRST_NAME")
 	private String firstName;
-
+	
+	@JsonProperty(access=Access.WRITE_ONLY)
 	@Column(name = "LAST_NAME")
 	private String lastName;
 
 	@Column(unique = true, name = "EMAIL")
 	private String email;
-
+	
+	@JsonProperty(access=Access.WRITE_ONLY)
 	@Column(name = "PASSWORD")
 	private String password;
-
+	
+	@JsonProperty(access=Access.WRITE_ONLY)
 	@Column(name = "CONTACT")
 	private String contact;
 	
@@ -48,7 +54,11 @@ public class User {
 	@Column(name="PROFILE",columnDefinition="LONGBLOB")
 	private String profile;
 
-	@OneToMany(mappedBy = "user")
+	@JsonIgnore
+	@OneToMany(mappedBy="userLabel",fetch=FetchType.EAGER)
+	private Set<Label> labels;
+	
+	@OneToMany(mappedBy = "user",fetch=FetchType.EAGER)
 	@JsonIgnore
 	private Set<Notes> notes = new HashSet<Notes>();
 
@@ -149,4 +159,12 @@ public class User {
 
 	}
 
+	public Set<Label> getLabels() {
+		return labels;
+	}
+
+	public void setLabels(Set<Label> labels) {
+		this.labels = labels;
+	}
+	
 }

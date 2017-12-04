@@ -7,32 +7,109 @@ toDo
 						fileReader, $state) {
 
 					getUser();
-
+					getUserLabel();
+					getAllNotes();
+					checktime();
+					
+					/*get the current user details*/
 					function getUser() {
-						var a = homePageService.getUser();
+						var a = homePageService.getData('currentUser','POST');
 						a.then(function(response) {
 							$scope.User = response.data;
+							console.log("user data");
+							console.log($scope.User);
 						}, function(response) {
 
 						});
 					}
+					
+					
+					/*get the current user labels*/
+					function getUserLabel() {
+						var a = homePageService.getData('note/currentUserLabel','POST');
+						a.then(function(response) {
+							$scope.UserLabels = response.data;
+							console.log($scope.UserLabels);
+						}, function(response) {
 
+						});
+					}
+					
+					
+					/*Add a label*/
+					/*$scope.LabelNote=function(note,label){
+//						var label= document.getElementById("labelName").value;
+						note.labels.push(label);
+					var a=homePageService.service('note/noteUpdate','POST',note);
+					a.then(function(response) {
+					},function(response){
+					});
+					}*/
+					
+					/*remove and add a label*/
+					$scope.ToggleLabel=function(note,label){
+						var index=-1;
+						for(var i=0;i<note.labels.length;i++){
+							if(note.labels[i].labelName == label.labelName){
+								index=i;
+							}
+						}
+						if(index == -1){
+							note.labels.push(label);
+						}
+						else{
+						note.labels.splice(index,1);
+						}
+						var a=homePageService.service('note/noteUpdate','POST',note);
+						a.then(function(response) {
+						},function(response){
+						});
+					}
+					
+					$scope.checkStatus=function(note,label){
+						for(var i=0;i<note.labels.length;i++){
+							if(note.labels[i].labelName===label.labelName){
+								return true;
+							}
+						}
+						return false;
+					}
+					
+					
+					
+					/*Add a label*/
+					$scope.addLabel=function(){
+						var label= document.getElementById("labelName").value;
+						if(label!=""){
+							var obj={};
+							obj.labelName=label;
+							
+					var a=homePageService.service('note/AddLabel','POST',obj);
+					a.then(function(response) {
+						document.getElementById("labelName").value="";
+					},function(response){
+					});
+					}
+					}
+					
+
+					/*image upload*/
 					$scope.imageSrc = "";
 
 					$scope.$on("fileProgress", function(e, progress) {
 						$scope.progress = progress.loaded / progress.total;
 					});
 
+					/*check from image upload type(add note, present note, user profile)*/
 					$scope.openImageUploader = function(type) {
 						$scope.type = type;
 						$('#imageuploader').trigger('click');
 					}
 					
 					
-
+					/*update the note with new color*/
 					$scope.changeColor = function(note) {
-
-						var a = homePageService.changeColor(note);
+						var a = homePageService.service('note/changeColor','POST',note);
 						a.then(function(response) {
 							getAllNotes();
 						}, function(response) {
@@ -40,44 +117,52 @@ toDo
 						});
 					}
 
+					/*default color while adding a new note*/
 					$scope.AddNoteColor = "#ffffff";
 
+					/*set the color for the new note*/
 					$scope.addNoteColorChange = function(color) {
 						$scope.AddNoteColor = color;
 					}
 
-					$scope.ListView = true;
-
+					
+					read();
+					function read(){
+						$scope.ListView = localStorage.getItem('view');
+					}
+					
 					$scope.ListViewToggle = function() {
-						if ($scope.ListView == true) {
+						if ($scope.ListView === true) {
 							$scope.ListView = false;
-							listGrideView();
+							localStorage.setItem('view',false);
+							var element = document
+							.getElementsByClassName('card');
+					for (var i = 0; i < element.length; i++) {
+						element[i].style.width = "900px";
+						
+					}
 						} else {
 							$scope.ListView = true;
-							listGrideView();
+							localStorage.setItem('view',true);
+								var element = document
+										.getElementsByClassName('card');
+								for (var i = 0; i < element.length; i++) {
+									element[i].style.width = "300px";
+								}
 						}
 					}
-
-					listGrideView();
-
-					function listGrideView() {
-						if ($scope.ListView) {
-							var element = document
-									.getElementsByClassName('card');
-							for (var i = 0; i < element.length; i++) {
-								element[i].style.width = "900px";
-							}
-						} else {
-							var element = document
-									.getElementsByClassName('card');
-							for (var i = 0; i < element.length; i++) {
-								element[i].style.width = "300px";
-							}
-						}
+					
+					
+					$scope.removeReminder=function(note){
+						note.reminderStatus="";
+						var a=homePageService.service('note/noteUpdate','POST',note);
+						a.then(function(response) {
+						},function(response){
+						});
 					}
 
-					$scope.colors = [/* "#fff","#f1c40f","#280275" */
-
+					/*Add color and */
+					$scope.colors = [
 					{
 						"color" : '#ffffff',
 						"path" : 'image/white.png'
@@ -116,26 +201,40 @@ toDo
 						"path" : 'image/grey.png'
 					} ];
 
+					/*change the navbar color and content*/
 					if ($state.current.name == "home") {
 						$scope.navBarColor = "#ffbb33";
 						$scope.contentable = true;
+						$scope.searching=false;
 						$scope.navBarHeading = "Google Keep";
 					} else if ($state.current.name == "reminder") {
 						$scope.navBarColor = "#607D8B";
 						$scope.contentable = true;
+						$scope.searching=false;
 						$scope.navBarHeading = "Reminder";
 					} else if ($state.current.name == "trash") {
 						$scope.navBarHeading = "Trash";
 						$scope.contentable = false;
+						$scope.searching=false;
 						$scope.navBarColor = "#636363";
 					} else if ($state.current.name == "archive") {
 						$scope.navBarColor = "#607D8B";
 						$scope.contentable = true;
+						$scope.searching=false;
 						$scope.navBarHeading = "Archive";
+					}else if ($state.current.name == "searchPage") {
+						$scope.navBarColor = "#3e50b4";
+						$scope.contentable = true;
+						$scope.searching=true;
+						$scope.navBarHeading = "Search";
 					}
-
+					
+					/*go to search page*/
+					$scope.gotoSearch=function(){
+						$location.path("/searchPage");
+					}
+					
 					/* Edit a note in modal */
-
 					$scope.EditNoteColor = "#ffffff";
 
 					/* open a model */
@@ -148,6 +247,7 @@ toDo
 						});
 					};
 
+					/*share the note on facebook*/
 					$scope.socialShare = function(note) {
 						FB.init({
 						appId : '132217884131949',
@@ -175,16 +275,8 @@ toDo
 						});
 						};
 					
-					/* open collaborator modal */
-					$scope.openCollaborator = function(note) {
-						$scope.noteUser = $scope.User;
-						console.log($scope.noteUser);
-						modalInstance = $uibModal.open({
-							templateUrl : 'template/collaboratorNote.html',
-							scope : $scope
-						});
-					}
-
+					
+					/*change the note color*/
 					$scope.changeColorInModal = function(color) {
 						$scope.EditNoteColor = color;
 					}
@@ -207,23 +299,19 @@ toDo
 						$scope.AddNoteBox = true;
 					}
 
-					
-					
+					/*add a reminder to new note*/
 					$scope.AddReminder='';
 					$scope.openAddReminder=function(){
 					   	$('#datepicker').datetimepicker();
 					   	$scope.AddReminder= $('#datepicker').val();
 				}
 					
-					
-					
-					
+					/*Add a reminder to existing note*/
 					$scope.reminder ="";
 					$scope.openReminder=function(note){
 						   	$('.reminder').datetimepicker();
 						   	 var id = '#datepicker' + note.id;
 						   	$scope.reminder = $(id).val();
-						   	//note.reminderStatus=$scope.reminder;
 						   	if($scope.reminder === "" || $scope.reminder === undefined){
 						   		console.log(note);
 						   		console.log($scope.reminder);
@@ -236,19 +324,60 @@ toDo
 						   }
 					}
 					
+					/*set tomorrows reminder*/
+					$scope.tomorrowsReminder=function(notes){
+						$scope.currentTime=$filter('date')(new Date().getTime() + 24 * 60 * 60 * 1000,'MM/dd/yyyy');
+						notes.reminderStatus=$scope.currentTime+" 8:00 AM";
+						$scope.updateNote(notes);
+					}
+					
+					/*set next week reminder*/
+					$scope.NextweekReminder=function(notes){
+						$scope.currentTime=$filter('date')(new Date().getTime() + 7 * 24 * 60 * 60 * 1000,'MM/dd/yyyy');
+						notes.reminderStatus=$scope.currentTime+" 8:00 AM";
+						$scope.updateNote(notes);
+					}
+					
+					/*set later todays reminder*/
+					$scope.todaysReminder=function(notes){
+						$scope.currentTime=$filter('date')(new Date(), 'MM/dd/yyyy');
+						var currentDate=new Date().getHours();
+						if(currentDate >= 7){
+							notes.reminderStatus=$scope.currentTime+" 8:00 PM";	
+						}
+						if(currentDate < 7){
+							notes.reminderStatus=$scope.currentTime+" 8:00 AM";
+						}
+						
+						$scope.updateNote(notes);
+					}
+					
+
+					$scope.TodaylaterReminder=true;
+					
+					/*check weather to display later todays reminder or not*/
+					function checktime(){
+						var currentDate=new Date().getHours();
+						if(currentDate > 19){
+							$scope.TodaylaterReminder=false;
+						}
+						if(currentDate > 1){
+							$scope.TodaylaterReminder=true;
+						}
+					}
 					
 					
-					getAllNotes();
 
 					/* display notes */
 					function getAllNotes() {
-						var b = homePageService.allNotes();
+						var b = homePageService.getData('note/AllNodes','GET');
 						b.then(function(response) {
 							$scope.userNotes = response.data;
+							console.log($scope.userNotes);
 							$interval(function(){
 								var i=0;
 								for(i;i<$scope.userNotes.length;i++){
-									if($scope.userNotes[i].reminderStatus!='false'){
+									if($scope.userNotes[i].reminderStatus!='false'||$scope.userNotes[i].reminderStatus!=''){
 										
 										var currentDate=$filter('date')(new Date(),'MM/dd/yyyy h:mm a');
 										
@@ -260,8 +389,6 @@ toDo
 									
 								}
 							},9000);
-							
-							
 						}, function(response) {
 							$scope.logout();
 						});
@@ -272,7 +399,7 @@ toDo
 						note.archiveStatus = "true";
 						note.noteStatus = "false";
 						note.pin = "false";
-						var a = homePageService.updateNote(note);
+						var a = homePageService.service('note/noteUpdate','POST',note);
 						a.then(function(response) {
 							getAllNotes();
 						}, function(response) {
@@ -284,7 +411,7 @@ toDo
 						note.noteStatus = "true";
 						note.archiveStatus = "false";
 						note.pin = "false";
-						var a = homePageService.updateNote(note);
+						var a = homePageService.service('note/noteUpdate','POST',note);
 						a.then(function(response) {
 							getAllNotes();
 						}, function(response) {
@@ -295,7 +422,7 @@ toDo
 					$scope.restoreNote = function(note) {
 						note.pin = "false";
 						note.deleteStatus = "false";
-						var a = homePageService.updateNote(note);
+						var a = homePageService.service('note/noteUpdate','POST',note);
 						a.then(function(response) {
 							modalInstance.close('resetmodel');
 							getAllNotes();
@@ -307,8 +434,8 @@ toDo
 					$scope.deleteNote = function(note) {
 						note.pin = "false";
 						note.deleteStatus = "true";
-						note.reminderStatus = "false";
-						var a = homePageService.updateNote(note);
+						note.reminderStatus = "";
+						var a = homePageService.service('note/noteUpdate','POST',note);
 						a.then(function(response) {
 							getAllNotes();
 						}, function(response) {
@@ -318,9 +445,9 @@ toDo
 					/* delete note forever */
 					$scope.deleteNoteForever = function(id) {
 						console.log("id is ..." + id);
-						var a = homePageService.deleteNoteForever(id);
+						var a = homePageService.getData('note/DeleteNotes/'+id,'DELETE');
 						a.then(function(response) {
-							modalInstance.close('resetmodel');
+							
 							getAllNotes();
 						}, function(response) {
 						});
@@ -329,7 +456,7 @@ toDo
 					/* update the note */
 					$scope.updateNote = function(note) {
 
-						var a = homePageService.updateNote(note);
+						var a = homePageService.service('note/noteUpdate','POST',note);
 						a.then(function(response) {
 							getAllNotes();
 						}, function(response) {
@@ -347,7 +474,7 @@ toDo
 						}
 					}
 
-					$scope.Reminder = false;
+					$scope.Reminder = '';
 
 					/*$scope.addReminder = function() {
 						if ($scope.Reminder == false) {
@@ -385,7 +512,7 @@ toDo
 							$scope.imageSrc = "";
 							$scope.notes.noteColor = $scope.AddNoteColor;
 
-							var a = homePageService.addNote($scope.notes);
+							var a = homePageService.service('note/AddNotes','POST',$scope.notes);
 							a
 									.then(
 											function(response) {
@@ -395,25 +522,24 @@ toDo
 														.getElementById("noteDescription").innerHTML = "";
 												$scope.pinStatus = false;
 												$scope.AddReminder='';
-												$scope.AddNoteColor = "#ffffff";s
+												$scope.AddNoteColor = "#ffffff";
 												$scope.removeImage();
-												 toastr.success('Note added', 'successfully');
 												getAllNotes();
+												 toastr.success('Note added', 'successfully');
 											}, function(response) {
 											});
 						}
 					}
 
+					/*change user profile picture*/
 					$scope.changeProfile=function(user){
-					var a=homePageService.changeProfile(user);
+					var a=homePageService.service('profileChange','POST',user);
 					a.then(function(response) {
-					
 					},function(response){
-						
 					});
-					
 					}
 					
+					/*remove the image after adding the new note*/
 					$scope.removeImage = function() {
 						$scope.AddNoteBox = false;
 						$scope.addimg = undefined;
@@ -467,8 +593,7 @@ toDo
 							$scope.notes.noteStatus = "false";
 							$scope.notes.reminderStatus = $scope.AddReminder;
 							$scope.notes.deleteStatus = "false";
-							$scope.notes.reminderStatus = "false";
-							var a = homePageService.addNote($scope.notes);
+							var a = homePageService.service('note/AddNotes','POST',$scope.notes);
 							a
 									.then(
 											function(response) {
@@ -480,6 +605,7 @@ toDo
 												$scope.AddNoteColor = "#ffffff";
 												$scope.AddReminder='';
 												getAllNotes();
+												toastr.success('Note added to Archive', 'success');
 											}, function(response) {
 											});
 						}
@@ -491,9 +617,8 @@ toDo
 						note.noteStatus = "true";
 						note.archiveStatus = "false";
 						note.deleteStatus = "false";
-						note.reminderStatus = "false";
 						note.pin = "false";
-						var a = homePageService.addNote(note);
+						var a = homePageService.service('note/AddNotes','POST',note);
 						a.then(function(response) {
 							getAllNotes();
 						}, function(response) {
@@ -535,5 +660,111 @@ toDo
 						}
 
 					});
+					
+					
+					$scope.openCollaborator=function(note){
+						$scope.note = note;
+						$scope.user=$scope.User;
+						modalInstance = $uibModal.open({
+							templateUrl : 'template/collaboratorNote.html',
+							scope : $scope,
+							
+						});
+					}
+					var collborators=[];
+					
+					$scope.getUserlist=function(note){
+						var obj={};
+						console.log(note);
+						obj.note=note;
+						$scope.User.lastName='';
+						obj.ownerId=$scope.User;
+						obj.shareWithId={'email':''};
+						console.log(obj);
+						var url='note/collaborate';
+						
+						var users=homePageService.service(url,'POST',obj);
+				        users.then(function(response) {
+							
+							console.log("Inside collborator");
+							console.log(response.data);
+							$scope.users= response.data; 
+							/*$scope.notes[index].collabratorUsers = response.data; */
+							
+						}, function(response) {
+							$scope.users={};
+							console.log(response);
 
+						});
+						console.log("Returned");
+						console.log(collborators);
+						console.log(users);
+						return collborators;
+					}
+					
+					$scope.collborate=function(note){
+						var obj={};
+						console.log(note);
+						obj.note=note;
+						console.log($scope.User);
+						obj.ownerId=$scope.User;
+						obj.shareWithId=$scope.shareWith;
+						
+						var url='note/collaborate';
+						
+						var users=homePageService.service(url,'POST',obj);
+				        users.then(function(response) {
+							
+							console.log("Inside collborator");
+							console.log(response.data);
+							$scope.users= response.data; 
+							$scope.notes[index].collabratorUsers = response.data; 
+							modalInstance.close('resetmodel');
+						}, function(response) {
+							console.log(response);
+							$scope.users={};
+							
+							
+
+						});
+						console.log("Returned");
+						console.log(collborators);
+						console.log(users);
+						
+					}
+
+					$scope.getOwner = function(note) {
+						var url = 'note/getOwner';
+						var users = homePageService.service(url, 'POST', note);
+						users.then(function(response) {
+
+							$scope.owner = response.data;
+
+						}, function(response) {
+							concole.log("this is error")
+							$scope.users = {};
+						});
+					}
+
+					$scope.removeCollborator = function(note, user) {
+						var obj = {};
+						var url = 'note/removeCollborator';
+						obj.note = note;
+						obj.ownerId = {
+							'email' : ''
+						};
+						obj.shareWithId = user;
+						var token = localStorage.getItem('token');
+						var users = homePageService.service(url, 'POST', obj);
+						users.then(function(response) {
+							$scope.collborate(note, $scope.owner);
+
+							console.log(response.data);
+
+						}, function(response) {
+							console.log(response.data);
+
+						});
+					}
+					
 				});

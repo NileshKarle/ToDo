@@ -12,14 +12,15 @@
 			<div class="card" style=" width:27% ; background-color: {{note.noteColor}}"
 				ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{deleteStatus:'true'}">
 				
-				<div ng-click="open(note)">
-					<img ng-src="{{note.image}}"/>
-				</div>
-				<div ng-bind-html="note.title"></div>
-				<br>
-				<div ng-bind-html="note.description"></div>
-				<br>
-				<div id="moreOptions">
+			<div ng-if="note.title!=''" ng-bind-html="note.title" ng-click="open(note)"></div>
+			<br>
+			<div ng-if="note.description!=''" ng-bind-html="note.description" ng-click="open(note)"></div>
+			<br>
+			<img ng-if="note.image!=''" ng-click="open(note)" style="height: 258px;" ng-src="{{note.image}}"/>
+			<br>
+			<div ng-bind="note.reminderStatus"></div>
+						
+			<div id="moreOptions" style="margin-top: 20px">
 					<div class="dropdown" style="float: left">
 						<span class="btn dropdown-toggle" id="menu1" data-toggle="dropdown">
 							<span class="glyphicon glyphicon-option-vertical"></span>

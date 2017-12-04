@@ -1,18 +1,18 @@
 package com.bridgelab.model;
 
-import java.util.List;
+import java.util.Set;
 
 public class ErrorMessage {
 	
 	private String responseMessage;
 
-	private List<Notes> allNotes;
+	private Set<Notes> allNotes;
 
-	public List<Notes> getAllNotes() {
+	public Set<Notes> getAllNotes() {
 		return allNotes;
 	}
 	
-	public void setAllNotes(List<Notes> allNotes) {
+	public void setAllNotes(Set<Notes> allNotes) {
 		this.allNotes = allNotes;
 	}
 	
