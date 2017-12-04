@@ -2,7 +2,8 @@
 #addNoteForm{
 	margin-top: 10px;
 	margin-bottom: 25px;
-	margin-left: 20%;
+	float:none;
+	
 }
 #noteDescription{
 	outline:none;

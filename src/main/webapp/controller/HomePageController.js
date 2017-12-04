@@ -1,10 +1,6 @@
 var toDo = angular.module('toDo');
 
-toDo
-		.controller(
-				'homeController',
-				function($scope, homePageService, $uibModal, toastr, $location, $filter, $interval,
-						fileReader, $state) {
+toDo.controller('homeController', function($scope, homePageService, $uibModal, toastr, $location, $filter, $interval, fileReader, $state) {
 
 					getUser();
 					getUserLabel();
@@ -92,6 +88,14 @@ toDo
 					}
 					}
 					
+					$scope.removeImage=function(note){
+						note.image="";
+						var a=homePageService.service('note/noteUpdate','POST',note);
+						a.then(function(response) {
+						},function(response){
+						});
+					}
+					
 
 					/*image upload*/
 					$scope.imageSrc = "";
@@ -129,6 +133,7 @@ toDo
 					read();
 					function read(){
 						$scope.ListView = localStorage.getItem('view');
+						
 					}
 					
 					$scope.ListViewToggle = function() {
@@ -689,7 +694,7 @@ toDo
 							console.log("Inside collborator");
 							console.log(response.data);
 							$scope.users= response.data; 
-							/*$scope.notes[index].collabratorUsers = response.data; */
+							$scope.note.collabratorUsers = response.data;
 							
 						}, function(response) {
 							$scope.users={};

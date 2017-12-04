@@ -12,14 +12,15 @@
 		<div id="mainHome">
 			<div id="mainWrapper">
 				<br> <br>
-				
+				<div class="col-sm-10 col-xs-10 col-md-5 col-lg-8">
 				<add-notes></add-notes>
+				</div>
 				
-				<div ng-click="AddNoteBox=false; AddNoteColor='#ffffff'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
+				<div ng-click="AddNoteBox=false; AddNoteColor='#ffffff'">
 					<br> <br>
 					<h4 ng-show="pinnedAll.length">Pinned</h4>
 					
-					<div class="card" style="background-color: {{note.noteColor}}" 
+					<div class="card col-sm-10 col-xs-10 col-md-5 col-lg-8" align="left" style="background-color: {{note.noteColor}}" 
 						ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'true', archiveStatus:'false' , noteStatus:'true' , deleteStatus:'false'} as pinnedAll">
 					
 							<span class="glyphicon glyphicon-pushpin" style="cursor: pointer;float: right" ng-click="note.pin=false; updateNote(note)"> 
@@ -35,11 +36,16 @@
 						<img ng-if="note.image!=''" ng-click="open(note)" style="height: 258px;" ng-src="{{note.image}}"/>
 						
 						<div ng-if="note.reminderStatus!=''">{{note.reminderStatus}}<span ng-click="removeReminder(note)">&#10006;</span></div>
+						
 						<div>
 						<ul id="remenderList" ng-repeat="lab in note.labels">
 						<li>{{lab.labelName}}<span ng-click="ToggleLabel(note,lab)">&#10006;</span></li>
 						</ul>
-						
+						</div>
+						<div ng-init=getUserlist(note)>
+						<div ng-repeat="note.collabratorUsers">
+						<img ng-src="{{note.collabratorUsers.profile}}" height="20px" width="20px">
+						</div>
 						</div>
 						<div id="moreOptions" style="margin-top: 20px">
 							<div class="dropdown" style="float: left; display: inline-flex;">
@@ -57,8 +63,8 @@
 					</div>
 
 
-					<h4 ng-show="pinnedAll.length">Others</h4>
-					<div class="card" ng-click="popup(note)" style="background-color: {{note.noteColor}}"
+					<h4 class="col-xs-12 col-sm-9 col-md- " align="left" ng-show="pinnedAll.length">Others</h4>
+					<div class="card col-sm-10 col-xs-10 col-md-5 col-lg-8" align="left" ng-click="popup(note)" style="background-color: {{note.noteColor}}"
 						ng-repeat="note in userNotes | orderBy : '-modifiedDate' | filter :{pin:'false',archiveStatus:'false' , noteStatus: 'true' , deleteStatus:'false'} as OtherNotes">
 						<div id="moreOptions" style="float: right">
 							<span style="cursor: pointer" ng-click="note.pin='true'; updateNote(note)">
