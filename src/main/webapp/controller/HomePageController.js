@@ -92,6 +92,17 @@ toDo
 					}
 					}
 					
+					
+					/*Add a label*/
+					$scope.removeLabel=function(label){
+					var a=homePageService.service('note/RemoveLabel','POST',label);
+					a.then(function(response) {
+						document.getElementById("labelName").value="";
+					},function(response){
+					});		
+					
+					}
+					
 
 					/*image upload*/
 					$scope.imageSrc = "";
