@@ -30,6 +30,8 @@ public interface NotesService {
 	
 	public void addLabel(Label label);
 	
+	public void removeLabel(Label label);
+	
 	public void updateLabel(Label label);
 	
 }
