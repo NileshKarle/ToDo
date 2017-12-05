@@ -266,10 +266,13 @@ public class NotesController {
 		
 	}
 	
+	@RequestMapping(value="/RemoveLabel", method = RequestMethod.POST)
+	public void removeLabel(@RequestAttribute("loginedUser") User user,@RequestBody Label label){
+			notesService.removeLabel(label);
+	}
 	
 	@RequestMapping(value = "/AddLabel", method = RequestMethod.POST)
-	public ResponseEntity<ErrorMessage> Addlabel(@RequestAttribute("loginedUser") User user,@RequestBody Label label) {
-		System.out.println(label);
+	public ResponseEntity<ErrorMessage> addlabel(@RequestAttribute("loginedUser") User user,@RequestBody Label label) {
 		ErrorMessage errorMessage = new ErrorMessage();
 		label.setUserId(user);
 		label.setNoteId(null);
