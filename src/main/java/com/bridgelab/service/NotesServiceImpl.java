@@ -76,5 +76,10 @@ public class NotesServiceImpl implements NotesService{
 	public void updateLabel(Label label) {
 		notesDao.updateLabel(label);
 	}
+	
+	@Override
+	public void deleteLabel(Label label){
+		notesDao.deleteLabel(label);
+	}
 
 }

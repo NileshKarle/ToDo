@@ -7,7 +7,8 @@
 		</span>
 	</div>
 
-	<div ng-click="open(note)">
+	<div ng-if="note.image!=''" >
+		<span style="float: right;cursor: pointer;" ng-click="removeImageFromEdit(note)">&#10006;</span>
 		<img ng-src="{{note.image}}" />
 	</div>
 
@@ -58,7 +59,7 @@
 			<img ng-show="note.archiveStatus" style="height: 17px" alt="pin" src="image/archive.svg">
 		</span> 
 		
-		<span ng-click="updateNoteModal(note)">DONE</span>
+		<span ng-click="updateNoteModal(note)" style="cursor: pointer;">DONE</span>
 	
 	</div>
 	

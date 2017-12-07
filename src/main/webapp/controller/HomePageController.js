@@ -17,7 +17,7 @@ toDo
 						a.then(function(response) {
 							$scope.User = response.data;
 							console.log("user data");
-							console.log($scope.User);
+							console.log(response.data);
 						}, function(response) {
 
 						});
@@ -29,6 +29,7 @@ toDo
 						var a = homePageService.getData('note/currentUserLabel','POST');
 						a.then(function(response) {
 							$scope.UserLabels = response.data;
+							console.log("inside the get user label");
 							console.log($scope.UserLabels);
 						}, function(response) {
 
@@ -87,11 +88,20 @@ toDo
 					var a=homePageService.service('note/AddLabel','POST',obj);
 					a.then(function(response) {
 						document.getElementById("labelName").value="";
+						getUserLabel();
 					},function(response){
 					});
 					}
 					}
 					
+					$scope.deleteLabel=function(label){
+						var a=homePageService.service('note/DeleteLabel','POST',label);
+						a.then(function(response) {
+							getUserLabel();
+							getAllNotes();
+						},function(response){
+						});
+					}
 
 					/*image upload*/
 					$scope.imageSrc = "";
@@ -453,6 +463,18 @@ toDo
 						});
 					}
 
+					$scope.removeImageFromEdit=function(note){
+						console.log("in removeImageFromEdit");
+						console.log(note);
+						note.image="";
+						var a = homePageService.service('note/noteUpdate','POST',note);
+						a.then(function(response) {
+							getAllNotes();
+						}, function(response) {
+						});
+					}
+					
+					
 					/* update the note */
 					$scope.updateNote = function(note) {
 
@@ -668,9 +690,19 @@ toDo
 						modalInstance = $uibModal.open({
 							templateUrl : 'template/collaboratorNote.html',
 							scope : $scope,
-							
 						});
 					}
+					
+					/*open a add label*/
+					$scope.openAddLabel=function(){
+						/*$scope.userlab=$scope.UserLabels;*/
+					
+						modalInstance = $uibModal.open({
+							templateUrl : 'template/AddNewLabel.html',
+							scope : $scope
+						});
+					}
+					
 					var collborators=[];
 					
 					$scope.getUserlist=function(note){
@@ -685,28 +717,17 @@ toDo
 						
 						var users=homePageService.service(url,'POST',obj);
 				        users.then(function(response) {
-							
-							console.log("Inside collborator");
-							console.log(response.data);
 							$scope.users= response.data; 
-							/*$scope.notes[index].collabratorUsers = response.data; */
-							
+							note.collabratorUsers = response.data;
 						}, function(response) {
 							$scope.users={};
-							console.log(response);
-
 						});
-						console.log("Returned");
-						console.log(collborators);
-						console.log(users);
 						return collborators;
 					}
 					
 					$scope.collborate=function(note){
 						var obj={};
-						console.log(note);
 						obj.note=note;
-						console.log($scope.User);
 						obj.ownerId=$scope.User;
 						obj.shareWithId=$scope.shareWith;
 						
@@ -714,34 +735,21 @@ toDo
 						
 						var users=homePageService.service(url,'POST',obj);
 				        users.then(function(response) {
-							
-							console.log("Inside collborator");
-							console.log(response.data);
 							$scope.users= response.data; 
-							$scope.notes[index].collabratorUsers = response.data; 
+							note.collabratorUsers = response.data; 
+							$scope.shareWith=null;
 							modalInstance.close('resetmodel');
 						}, function(response) {
-							console.log(response);
-							$scope.users={};
-							
-							
-
+							$scope.users=response.data;
 						});
-						console.log("Returned");
-						console.log(collborators);
-						console.log(users);
-						
 					}
 
 					$scope.getOwner = function(note) {
 						var url = 'note/getOwner';
 						var users = homePageService.service(url, 'POST', note);
 						users.then(function(response) {
-
 							$scope.owner = response.data;
-
 						}, function(response) {
-							concole.log("this is error")
 							$scope.users = {};
 						});
 					}
@@ -758,13 +766,9 @@ toDo
 						var users = homePageService.service(url, 'POST', obj);
 						users.then(function(response) {
 							$scope.collborate(note, $scope.owner);
-
-							console.log(response.data);
-
+							modalInstance.close('resetmodel');
+							getAllNotes();
 						}, function(response) {
-							console.log(response.data);
-
 						});
 					}
-					
 				});

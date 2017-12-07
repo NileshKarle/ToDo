@@ -9,7 +9,9 @@
 
 		<li ng-repeat="label in UserLabels">{{label.labelName}}</li>
 
-		<li><input type="text" id="labelName"><button ng-click="addLabel()">done</button> </li>
+		<li ng-click="openAddLabel()">CreateLabel</li>	
+			
+		<!-- <li><input type="text" id="labelName"><button ng-click="addLabel()">done</button> </li> -->
 
 		<li><a href="#!/trash">Trash</a></li>
 		

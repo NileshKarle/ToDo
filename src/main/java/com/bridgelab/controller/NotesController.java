@@ -228,7 +228,9 @@ public class NotesController {
 							 ResponseEntity.ok(users);
 						}
 					}
-		}
+		}/*else{
+		 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(users);
+		}*/
 		
 		return ResponseEntity.ok(users);
 	}
@@ -289,15 +291,16 @@ public class NotesController {
 	
 	@RequestMapping(value = "/AddNoteLabel", method = RequestMethod.POST)
 	public ResponseEntity<String> AddNoteToLabel(@RequestAttribute("loginedUser") User user,@RequestBody Label label) {
-		
-		System.out.println(label);
-		System.out.println(label.getId());
-		System.out.println(label.getNoteId().isEmpty());
-		
 		notesService.updateLabel(label);
 		return ResponseEntity.ok("");
 	}
 	
+	@RequestMapping(value = "/DeleteLabel", method = RequestMethod.POST)
+	public ResponseEntity<String> removeNoteToLabel(@RequestBody Label label) {
+		System.out.println("it arrived in the remove label controller");
+		notesService.deleteLabel(label);
+		return ResponseEntity.ok("");
+	}
 	
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(value = Exception.class)

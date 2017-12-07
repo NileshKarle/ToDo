@@ -20,19 +20,19 @@ app.directive("addNotes", function() {
 
 app.directive("reminder", function() {
     return {
-    	templateUrl :'template/reminderIcon.html'
+    	templateUrl :'template/icons/reminderIcon.html'
     };
 });
 
 app.directive("colorPalet", function() {
     return {
-    	templateUrl :'template/colorIcon.html'
+    	templateUrl :'template/icons/colorIcon.html'
     };
 });
 
 app.directive("moreOption", function() {
     return {
-    	templateUrl :'template/MoreOptionIcon.html'
+    	templateUrl :'template/icons/MoreOptionIcon.html'
     };
 });
 

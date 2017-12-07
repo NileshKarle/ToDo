@@ -1,0 +1,17 @@
+<div>
+
+<div class="modal-header">
+		<input type="text" id="labelName"><button ng-click="addLabel()">&#10004;</button>
+	</div>
+
+<div class="modal-body">
+
+<ul ng-repeat="label in UserLabels">
+<li style="list-style: none;"> 
+	<img src="image/delete.svg" ng-click="deleteLabel(label)" style="cursor: pointer;">
+	{{label.labelName}}
+</li>
+
+</ul>
+</div>
+</div>

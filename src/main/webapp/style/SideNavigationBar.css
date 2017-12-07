@@ -10,17 +10,11 @@
 
 #SideNavigation li{
 	 list-style-type:none;
-     margin-right: 20px;
-     margin-top: 10px;
      display: block;
-     padding: 20px;
+     padding: 10px;
 }
 
 #SideNavigation a{
 	color: black;
     display: block;
-}
-
-#SideNavigation li:hover{
-	background-color: #bfbfbf;
 }
